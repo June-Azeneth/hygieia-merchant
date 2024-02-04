@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.hygieiamerchant.ui.dashboard.DashboardFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/requestListFragment"
+        android:name="com.example.hygieiamerchant.ui.requestpickup.RequestListFragment"
+        android:label="fragment_request_list"
+        tools:layout="@layout/fragment_request_list" >
+        <action
+            android:id="@+id/action_requestListFragment_to_navigation_requestPickUp"
+            app:destination="@id/navigation_requestPickUp" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.hygieiamerchant.ui.transactions.TransactionsFragment"
+        android:label="@string/transactions"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_qrCode"
+        android:name="com.example.hygieiamerchant.ui.scanQR.ScanQRFragment"
+        android:label="@string/scan"
+        tools:layout="@layout/fragment_scan_q_r">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_rewards"
+        android:name="com.example.hygieiamerchant.ui.rewards.RewardFragment"
+        tools:layout="@layout/fragment_reward" />
+
+    <fragment
+        android:id="@+id/navigation_promos"
+        android:name="com.example.hygieiamerchant.ui.promos.PromosFragment"
+        tools:layout="@layout/fragment_promos" />
+
+    <fragment
+        android:id="@+id/navigation_requestPickUp"
+        android:name="com.example.hygieiamerchant.ui.requestpickup.RequestPickUpFragment"
+        tools:layout="@layout/fragment_request_pick_up" >
+        <action
+            android:id="@+id/action_navigation_requestPickUp_to_requestListFragment"
+            app:destination="@id/requestListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.hygieiamerchant.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_rewards_to_add_rewards"
+        android:name="com.example.hygieiamerchant.ui.rewards.AddRewardFragment"
+        tools:layout="@layout/fragment_add_reward" />
+
+    <fragment
+        android:id="@+id/navigation_promo_to_create_promo"
+        android:name="com.example.hygieiamerchant.ui.promos.CreatePromoFragment"
+        tools:layout="@layout/fragment_create_promo" />
+
+    <fragment
+        android:id="@+id/navigation_qr_scanning_success"
+        android:name="com.example.hygieiamerchant.ui.scanQR.ScanQRFragment"
+        tools:layout="@layout/fragment_scan_q_r" />
+
+    <action
+        android:id="@+id/action_dashboard_to_home"
+        app:destination="@+id/navigation_home"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_dashboard_to_requestpickup"
+        app:destination="@+id/navigation_requestPickUp"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_dashboard_to_profile"
+        app:destination="@+id/navigation_profile"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_rewards_to_add_rewards"
+        app:destination="@+id/navigation_rewards_to_add_rewards"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_promo_to_create_promo"
+        app:destination="@+id/navigation_promo_to_create_promo"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+    />
+
+    <action
+        android:id="@+id/to_qr_scan"
+        app:destination="@+id/navigation_qrCode"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_pickup_request_list"
+        app:destination="@+id/requestListFragment"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+
+<!--    GENERIC ACTIONS-->
+    <action
+        android:id="@+id/action_to_dashboard"
+        app:destination="@+id/navigation_home"
+        app:popUpTo="@+id/navigation_home"
+        app:popUpToInclusive="true" />
+</navigation>

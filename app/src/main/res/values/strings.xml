@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">HGMerchant</string>
+    <string name="home">Home</string>
+    <string name="transactions">Transaction List</string>
+    <string name="profile">Profile</string>
+    <string name="scan">Scan QR Code</string>
+    <string name="add_reward">Add Reward Item</string>
+    <string name="add_promo">Add Promo Item</string>
+
+    //for promo items
+    <string name="product_template">Product: %1$s</string>
+    <string name="disc_price_template">Discounted Price: ₱%1$s</string>
+    <string name="discount_template">Discount: %1$s%%</string>
+    <string name="points_req_template">Points Required: %1$s</string>
+    <string name="date_start_template">Starts on: %1$s</string>
+    <string name="date_end_template">Ends on: %1$s</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="edit_accepted_recyclable_materials">Edit Accepted Recyclable Materials</string>
+    <string name="email_store_gmail_com">Email: store@gmail.com</string>
+    <string name="phone_63900_000_0000">Phone: +63900-000-0000</string>
+    <string name="id_jnefoehr983kjbsdf9n2i2ov9">ID: jnefoehr983kjbsdf9n2i2ov9</string>
+    <string name="shop_name">Shop name</string>
+    <string name="address_banilad_cebu_city">Address: Banilad Cebu City</string>
+    <string name="edit_profile">Edit Profile</string>
+</resources>

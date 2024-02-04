@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="60dp"
+    android:paddingVertical="30dp"
+    tools:context=".ui.popups.OptionsPopUp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:gravity="center"
+        android:text="Choose an Action"
+        android:textColor="@color/text_color" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/grant_points"
+        android:layout_width="@dimen/XXL"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/tiniest"
+        android:background="@drawable/buttons"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:text="Grant Points"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/redeem"
+        android:layout_width="@dimen/XXL"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:text="Redeem Product"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</LinearLayout>

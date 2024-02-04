@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "824643133220",
+    "project_id": "hygieiadb-44a6b",
+    "storage_bucket": "hygieiadb-44a6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824643133220:android:641efe7e39810235099db1",
+        "android_client_info": {
+          "package_name": "com.example.hygieiamerchant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2krZyK7WPULdJMTwCzEVOt1N_LMDvuzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824643133220:android:417a871c9dea0041099db1",
+        "android_client_info": {
+          "package_name": "com.example.hygieia_merchant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2krZyK7WPULdJMTwCzEVOt1N_LMDvuzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824643133220:android:562337e887b51764099db1",
+        "android_client_info": {
+          "package_name": "com.example.hygieia_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2krZyK7WPULdJMTwCzEVOt1N_LMDvuzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

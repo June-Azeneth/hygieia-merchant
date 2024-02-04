@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    tools:context=".ui.scanQR.ScanQRFragment">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/custom_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/green"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/scanQRPromt"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/scanqrpromt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Success"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/regular"
+        android:textColor="@color/sub_text"
+        android:textSize="@dimen/text_regular"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/scanQRPromt"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/layout_relative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/regular"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/trans_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tiny"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:gravity="center"
+            android:text="Transaction Details"
+            android:textColor="@color/sub_text" />
+
+        <TextView
+            android:id="@+id/transactionCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tiniest"
+            android:layout_marginBottom="@dimen/tiny"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:gravity="center"
+            android:textColor="@color/sub_text" />
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editBTN"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/large"
+            android:layout_marginTop="@dimen/regular"
+            android:background="@drawable/buttons"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textAllCaps="false"
+            android:layout_marginHorizontal="@dimen/large"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submitBTN"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/large"
+            android:layout_marginHorizontal="@dimen/large"
+            android:layout_marginTop="@dimen/small"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/scanNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/XL"
+        android:layout_marginBottom="@dimen/tiny"
+        android:background="@drawable/button"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="Scan Now"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

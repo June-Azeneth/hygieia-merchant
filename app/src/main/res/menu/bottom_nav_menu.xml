@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@drawable/history"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_qrCode"
+        android:icon="@drawable/qr_code"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_rewards"
+        android:icon="@drawable/rew"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_promos"
+        android:icon="@drawable/discount"
+        android:title="" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_dashboard"-->
+<!--        android:icon="@drawable/ic_dashboard_black_24dp"-->
+<!--        android:title="@string/title_dashboard" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:icon="@drawable/ic_notifications_black_24dp"-->
+<!--        android:title="@string/title_notifications" />-->
+
+</menu>

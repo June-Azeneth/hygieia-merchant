@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context=".ui.promos.CreatePromoFragment">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/custom_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/medium"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/photoPicker"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/XXL"
+                android:background="@drawable/dotted_container">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/large"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/outline_add_photo_alternate_24" />
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:hint="Promo Name"
+                android:textColorHint="@color/main_green"
+                tools:layout_editor_absoluteX="25dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/promo_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_container"
+                    android:drawablePadding="7dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiniest"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:hint="Product"
+                android:textColorHint="@color/main_green"
+                tools:layout_editor_absoluteX="25dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_container"
+                    android:drawablePadding="7dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiniest"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:hint="Store Price"
+                android:textColorHint="@color/main_green"
+                tools:layout_editor_absoluteX="25dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/store_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_container"
+                    android:drawablePadding="7dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiniest"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:hint="Discount Rate"
+                android:textColorHint="@color/main_green"
+                tools:layout_editor_absoluteX="25dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/discount_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_container"
+                    android:drawablePadding="7dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiniest"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:hint="Points Required"
+                android:textColorHint="@color/main_green"
+                tools:layout_editor_absoluteX="25dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/points_req"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_container"
+                    android:drawablePadding="7dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Discounted Price"
+                android:layout_marginTop="@dimen/small"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:textColor="@color/sub_text"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/disc_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/medium"
+                    android:text="₱ 0.00"
+                    android:fontFamily="@font/nunito_sans_regular"
+                    android:textSize="@dimen/large"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/calculateBtn"
+                    android:layout_width="@dimen/XXL"
+                    android:layout_height="@dimen/large"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="@dimen/small"
+                    android:layout_toEndOf="@+id/disc_price"
+                    android:background="@drawable/button"
+                    android:fontFamily="@font/nunito_sans_regular"
+                    android:text="Calculate"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addReward"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/large"
+                android:layout_below="@id/spinner"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="@dimen/large"
+                android:layout_marginTop="@dimen/large"
+                android:layout_marginBottom="@dimen/small"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

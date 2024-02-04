@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color"
+    tools:context=".ui.promos.PromoDetailsFragment">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/custom_header" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/small"
+        app:cardCornerRadius="@dimen/regular">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/happy_earth_day" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:gravity="right"
+        android:paddingRight="@dimen/regular"
+        android:text="Change Photo"
+        android:textColor="@color/accent_orange" />
+
+    <TextView
+        android:id="@+id/promo_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/medium"
+        android:layout_marginTop="@dimen/medium"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="Promo Name"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/medium" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/medium">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Product:" />
+
+        <TextView
+            android:id="@+id/prod_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text1"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text1"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Store Price:" />
+
+        <TextView
+            android:id="@+id/store_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text2"
+            android:layout_below="@id/prod_name"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text2"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Discount:" />
+
+        <TextView
+            android:id="@+id/disc_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text3"
+            android:layout_below="@id/store_price"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text3"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Discounted Price:" />
+
+        <TextView
+            android:id="@+id/disc_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text4"
+            android:layout_below="@id/disc_rate"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text4"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Points required:" />
+
+        <TextView
+            android:id="@+id/points_req"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text5"
+            android:layout_below="@id/disc_price"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text6"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text5"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Promo Start:" />
+
+        <TextView
+            android:id="@+id/start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text6"
+            android:layout_below="@id/points_req"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text7"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text6"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Promo End:" />
+
+        <TextView
+            android:id="@+id/end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text7"
+            android:layout_below="@id/start_date"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <TextView
+            android:id="@+id/text8"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small"
+            android:layout_below="@id/text7"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:text="Status:" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text8"
+            android:layout_below="@id/end_date"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textColor="@color/text_color"
+            android:text="Loading..." />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit"
+            android:layout_width="@dimen/XL"
+            android:layout_height="@dimen/large"
+            android:layout_below="@id/text8"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/tiniest"
+            android:layout_marginHorizontal="@dimen/large"
+            android:layout_marginTop="@dimen/small"
+            android:background="@color/main_green"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/large"
+            android:layout_below="@id/text8"
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginBottom="@dimen/small"
+            android:layout_toEndOf="@+id/edit"
+            android:layout_toRightOf="@id/edit"
+            android:background="@color/accent_orange"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Pause"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/large"
+            android:layout_below="@id/text8"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginBottom="@dimen/small"
+            android:layout_toEndOf="@+id/pause"
+            android:layout_toRightOf="@id/pause"
+            android:background="@color/red"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

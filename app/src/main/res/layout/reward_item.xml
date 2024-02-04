@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/text_tiny"
+    android:layout_marginBottom="@dimen/small">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/photo"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/coke"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/details"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/details"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/small"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/photo"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/prod_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="Product Name"
+                android:layout_marginBottom="@dimen/tiny"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/prod_name"
+                android:text="Discount:"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/prod_name"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@id/text2"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="0%"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text2"
+                android:text="Discounted Price:"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/disc_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/discount"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@id/text3"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="0"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text3"
+                android:text="Points Required:"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/points_required"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/disc_price"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@id/text4"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="0"
+                android:textColor="@color/sub_text"
+                android:textSize="@dimen/text_tiny" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

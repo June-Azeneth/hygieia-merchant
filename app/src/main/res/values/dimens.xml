@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="XXL">150dp</dimen>
+    <dimen name="XL">95dp</dimen>
+    <dimen name="huge">50dp</dimen>
+    <dimen name="large">40dp</dimen>
+    <dimen name="medium">30dp</dimen>
+    <dimen name="regular">20dp</dimen>
+    <dimen name="small">14dp</dimen>
+    <dimen name="tiny">12dp</dimen>
+    <dimen name="tiniest">8dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_huge">50sp</dimen>
+    <dimen name="text_large">40sp</dimen>
+    <dimen name="text_medium">30sp</dimen>
+    <dimen name="text_regular">20sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_tiny">12sp</dimen>
+    <dimen name="text_tiniest">8sp</dimen>
+</resources>

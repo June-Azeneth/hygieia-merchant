@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="7 Eleven"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile"
+            android:layout_width="@dimen/medium"
+            android:layout_height="@dimen/medium"
+            android:src="@drawable/person"
+            android:layout_marginTop="@dimen/small"
+            app:layout_constraintBottom_toTopOf="@+id/address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.954"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Banilad, Cebu City"
+            android:textSize="@dimen/text_small"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/sub_text"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <LinearLayout
+            android:id="@+id/call_to_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/address"
+            android:gravity="center"
+            android:layout_marginVertical="@dimen/medium">
+
+            <ImageView
+                android:id="@+id/rewards"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/rewards"
+                android:layout_marginEnd="@dimen/small"
+                android:layout_marginStart="@dimen/small"/>
+
+            <ImageView
+                android:id="@+id/promos"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/promo"
+                android:layout_marginEnd="@dimen/small"/>
+
+            <ImageView
+                android:id="@+id/scanQR"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/qr"
+                android:layout_marginEnd="@dimen/small"/>
+
+            <ImageView
+                android:id="@+id/requestPickUp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/calendar"
+                android:layout_marginEnd="@dimen/small"/>
+
+            <ImageView
+                android:id="@+id/transactionHistory"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/historyy"
+                android:layout_marginEnd="@dimen/small"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Top Claimed Products"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            app:layout_goneMarginTop="@dimen/medium"
+            app:layout_constraintTop_toBottomOf="@+id/call_to_actions" />
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent_orange">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:padding="8dp"
+                    android:text="Product"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="No. of items sold"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textSize="@dimen/text_small"/>
+
+                <!-- Add more TextViews for additional headings -->
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Active Promos"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            android:layout_marginTop="@dimen/small"
+            app:layout_constraintTop_toBottomOf="@id/tableLayout" />
+
+        <TableLayout
+            android:id="@+id/active_promos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent_orange">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="Promo"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textSize="@dimen/text_small"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="Sold"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textSize="@dimen/text_small"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Top Recyclers"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            android:layout_marginTop="@dimen/small"
+            app:layout_constraintTop_toBottomOf="@+id/active_promos" />
+
+        <TableLayout
+            android:id="@+id/top_recyclers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent_orange">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textSize="@dimen/text_small"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="Total Points"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textSize="@dimen/text_small"/>
+
+                <!-- Add more TextViews for additional headings -->
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Recent Transactions"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            android:layout_marginTop="@dimen/small"
+            app:layout_constraintTop_toBottomOf="@id/top_recyclers"
+            tools:layout_editor_absoluteX="15dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/textView6"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

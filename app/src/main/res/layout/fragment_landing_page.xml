@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/landing"
+    tools:context=".MainActivity">
+
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
+    <!--        android:id="@+id/get_started"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:background="@drawable/rounded_button"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:text="Get Started"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:layout_marginHorizontal="@dimen/XL"-->
+    <!--        android:layout_marginBottom="35dp"-->
+    <!--        android:textSize="@dimen/text_regular"/>-->
+
+    <RelativeLayout
+        android:id="@+id/get_started"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="@dimen/XL"
+        android:layout_marginBottom="@dimen/large"
+        android:orientation="vertical"
+        android:padding="@dimen/tiniest"
+        android:background="@drawable/rounded_button">
+
+        <TextView
+            android:id="@+id/getStartedText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Get Started"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textSize="@dimen/text_regular"
+            android:visibility="invisible"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/white"
+            android:layout_gravity="center"/>
+    </RelativeLayout>
+
+</RelativeLayout>

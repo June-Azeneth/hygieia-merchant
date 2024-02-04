@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="accent_orange">#F77E08</color> //this is also being used as an indicator for promo status, upcoming
+    <color name="accent_light_green">#CDD7B2</color>
+    <color name="main_green">#627C47</color>
+    <color name="secondary_green">#85A367</color>
+    <color name="bg_color">#ECE5D4</color>
+    <color name="text_color">#314021</color>
+    <color name="sub_text">#54683E</color>
+
+    //color indicators
+    <color name="red">#D40707</color> //Danger
+    <color name="green">#5E8704</color> //Positive
+    <color name="gray">#969794</color> //Disabled
+    <color name="blue">#0D7CD5</color> //Idle or Hold
+</resources>
