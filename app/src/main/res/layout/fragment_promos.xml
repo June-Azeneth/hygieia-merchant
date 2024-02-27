@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    tools:context=".ui.promos.PromosFragment">
+    tools:context=".pages.promos.PromosFragment">
 
     <include
         android:id="@+id/header"
@@ -37,16 +37,9 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/XXL"
+                android:layout_height="@dimen/XXL"
                 android:layout_centerInParent="true" />
-
-            <TextView
-                android:id="@+id/message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/imageMessage"
-                android:layout_marginTop="@dimen/small"/>
 
             <Spinner
                 android:id="@+id/spinner"

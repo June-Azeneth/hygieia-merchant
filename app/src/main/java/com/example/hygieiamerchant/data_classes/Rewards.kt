@@ -7,4 +7,5 @@ class Rewards(
     var discountRate: Double,
     var discountedPrice: Double,
     var pointsRequired: Double,
+    val storeId: String = ""
 )

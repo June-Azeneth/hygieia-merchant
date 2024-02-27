@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.hygieiamerchant.ui.dashboard.DashboardFragment"
+        android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/requestListFragment"
-        android:name="com.example.hygieiamerchant.ui.requestpickup.RequestListFragment"
+        android:name="com.example.hygieiamerchant.pages.requestpickup.RequestListFragment"
         android:label="fragment_request_list"
         tools:layout="@layout/fragment_request_list" >
         <action
@@ -23,30 +23,30 @@
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.example.hygieiamerchant.ui.transactions.TransactionsFragment"
+        android:name="com.example.hygieiamerchant.pages.transactions.TransactionsFragment"
         android:label="@string/transactions"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_qrCode"
-        android:name="com.example.hygieiamerchant.ui.scanQR.ScanQRFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRFragment"
         android:label="@string/scan"
         tools:layout="@layout/fragment_scan_q_r">
     </fragment>
 
     <fragment
         android:id="@+id/navigation_rewards"
-        android:name="com.example.hygieiamerchant.ui.rewards.RewardFragment"
+        android:name="com.example.hygieiamerchant.pages.rewards.RewardFragment"
         tools:layout="@layout/fragment_reward" />
 
     <fragment
         android:id="@+id/navigation_promos"
-        android:name="com.example.hygieiamerchant.ui.promos.PromosFragment"
+        android:name="com.example.hygieiamerchant.pages.promos.PromosFragment"
         tools:layout="@layout/fragment_promos" />
 
     <fragment
         android:id="@+id/navigation_requestPickUp"
-        android:name="com.example.hygieiamerchant.ui.requestpickup.RequestPickUpFragment"
+        android:name="com.example.hygieiamerchant.pages.requestpickup.RequestPickUpFragment"
         tools:layout="@layout/fragment_request_pick_up" >
         <action
             android:id="@+id/action_navigation_requestPickUp_to_requestListFragment"
@@ -55,22 +55,22 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.hygieiamerchant.ui.profile.ProfileFragment"
+        android:name="com.example.hygieiamerchant.pages.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_rewards_to_add_rewards"
-        android:name="com.example.hygieiamerchant.ui.rewards.AddRewardFragment"
+        android:name="com.example.hygieiamerchant.pages.rewards.AddRewardFragment"
         tools:layout="@layout/fragment_add_reward" />
 
     <fragment
         android:id="@+id/navigation_promo_to_create_promo"
-        android:name="com.example.hygieiamerchant.ui.promos.CreatePromoFragment"
+        android:name="com.example.hygieiamerchant.pages.promos.CreatePromoFragment"
         tools:layout="@layout/fragment_create_promo" />
 
     <fragment
         android:id="@+id/navigation_qr_scanning_success"
-        android:name="com.example.hygieiamerchant.ui.scanQR.ScanQRFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRFragment"
         tools:layout="@layout/fragment_scan_q_r" />
 
     <action

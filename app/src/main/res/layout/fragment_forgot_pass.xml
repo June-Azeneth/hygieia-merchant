@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_vertical"
     android:background="@drawable/backgroundddd"
-    tools:context=".ForgotPassFragment"
+    tools:context=".pages.password_reset.ForgotPassFragment"
     >
 
     <TextView

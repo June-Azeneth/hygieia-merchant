@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/landingPageFragment"
-        android:name="com.example.hygieiamerchant.LandingPageFragment"
+        android:name="com.example.hygieiamerchant.pages.landing.LandingPageFragment"
         android:label="fragment_landing_page"
         tools:layout="@layout/fragment_landing_page" >
         <action
@@ -16,29 +16,32 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.hygieiamerchant.LoginFragment"
+        android:name="com.example.hygieiamerchant.pages.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_setNewPassFragment"
             app:destination="@id/setNewPassFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/setNewPassFragment"
-        android:name="com.example.hygieiamerchant.SetNewPassFragment"
+        android:name="com.example.hygieiamerchant.pages.password_reset.SetNewPassFragment"
         android:label="fragment_set_new_pass"
         tools:layout="@layout/fragment_set_new_pass" >
         <action
-            android:id="@+id/action_setNewPassFragment_to_forgotPassFragment"
-            app:destination="@id/forgotPassFragment" />
+            android:id="@+id/action_setNewPassFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/forgotPassFragment"
-        android:name="com.example.hygieiamerchant.ForgotPassFragment"
-        android:label="fragment_forgot_pass"
-        tools:layout="@layout/fragment_forgot_pass" >
+        android:id="@+id/signUpFragment"
+        android:name="com.example.hygieiamerchant.pages.signup.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
         <action
-            android:id="@+id/action_forgotPassFragment_to_loginFragment"
+            android:id="@+id/action_signUpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/swipeRefreshLayout"
     android:background="@color/bg_color"
-    tools:context=".ui.transactions.TransactionsFragment">
+    tools:context=".pages.transactions.TransactionsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

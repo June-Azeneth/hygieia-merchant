@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    android:background="@drawable/backgroundddd"
-    tools:context=".SetNewPassFragment"
+    tools:context=".pages.password_reset.SetNewPassFragment"
     >
 
     <TextView
@@ -15,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Forgot Password"
+        android:text="@string/forgot_password"
         android:textColor="@color/main_green"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toTopOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,8 +38,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_fields"
-            android:hint="Email"
+            android:hint="@string/email"
             android:drawableStart="@drawable/custom_email_focused"
             android:drawablePadding="7dp"
             />
@@ -50,25 +48,25 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/large"
+        android:layout_height="60dp"
         android:layout_marginHorizontal="@dimen/XL"
         android:layout_marginTop="25dp"
         android:background="@drawable/buttons"
-        android:text="Submit"
+        android:text="@string/send"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="15dp"
+        android:textSize="@dimen/_15sp"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
         tools:layout_editor_absoluteX="40dp" />
 
     <TextView
-        android:id="@+id/to_forgot_pass"
+        android:id="@+id/to_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="back to login"
+        android:text="@string/back_to_login"
         android:textColor="@color/accent_orange"
-        android:textSize="15dp"
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 </LinearLayout>

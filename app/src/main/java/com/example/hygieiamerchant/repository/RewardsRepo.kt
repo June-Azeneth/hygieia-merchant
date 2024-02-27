@@ -14,13 +14,13 @@ class RewardsRepo {
 
     companion object {
         private const val COLLECTION_NAME = "reward"
-        private const val STORE_ID = "store_id"
+        private const val STORE_ID = "storeId"
         private const val ID = "id"
-        private const val PHOTO = "image_url"
+        private const val PHOTO = "photo"
         private const val NAME = "name"
-        private const val PRICE = "discounted_price"
-        private const val DISCOUNT_RATE = "discount_rate"
-        private const val POINTS_REQUIRED = "points_required"
+        private const val PRICE = "discountedPrice"
+        private const val DISCOUNT_RATE = "discount"
+        private const val POINTS_REQUIRED = "pointsRequired"
     }
 
     fun fetchAllRewards(category: String?, callback: (List<Rewards>?) -> Unit) {
@@ -45,7 +45,7 @@ class RewardsRepo {
                                 document.getString(NAME) ?: "",
                                 document.getDouble(DISCOUNT_RATE) ?: 0.0,
                                 document.getDouble(PRICE) ?: 0.0,
-                                document.getDouble(POINTS_REQUIRED) ?: 0.0,
+                                document.getDouble(POINTS_REQUIRED) ?: 0.0
                             )
                             rewardsList.add(rewards)
                         } catch (e: Exception) {

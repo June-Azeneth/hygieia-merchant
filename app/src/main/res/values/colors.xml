@@ -9,6 +9,7 @@
     <color name="bg_color">#ECE5D4</color>
     <color name="text_color">#314021</color>
     <color name="sub_text">#54683E</color>
+    <color name="lightGray">#CFCFCF</color> //Disabled
 
     //color indicators
     <color name="red">#D40707</color> //Danger

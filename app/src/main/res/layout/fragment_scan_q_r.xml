@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    tools:context=".ui.scanQR.ScanQRFragment">
+    tools:context=".pages.scanQR.ScanQRFragment">
 
     <include
         android:id="@+id/header"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".ui.promos.CreatePromoFragment">
+    tools:context=".pages.promos.CreatePromoFragment">
 
     <include
         android:id="@+id/header"
