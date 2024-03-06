@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginVertical="@dimen/medium"
+    android:padding="@dimen/tiny">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text="@string/terms_and_conditions" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nwelcome_to_hygieia_a_point_based_reward_system_application_by_using_hygieia_you_agree_to_abide_by_the_following_terms_and_conditions" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n1_acceptance_of_terms_by_accessing_or_using_the_hygieia_application_you_agree_to_be_bound_by_these_terms_and_conditions_our_privacy_policy_and_all_applicable_laws_and_regulations_if_you_do_not_agree_with_any_of_these_terms_you_are_prohibited_from_using_or_accessing_this_application" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n2_use_license_permission_is_granted_to_download_one_copy_of_the_hygieia_application_on_a_single_device_for_personal_non_commercial_use_only_this_is_the_grant_of_a_license_not_a_transfer_of_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n3_account_registration_to_access_certain_features_of_hygieia_you_may_be_required_to_register_for_an_account_you_are_responsible_for_maintaining_the_confidentiality_of_your_account_and_password_and_for_restricting_access_to_your_device_you_agree_to_accept_responsibility_for_all_activities_that_occur_under_your_account_or_password" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n4_point_system_hygieia_operates_a_point_based_reward_system_points_are_awarded_based_on_user_activities_within_the_application_hygieia_reserves_the_right_to_modify_suspend_or_terminate_the_point_system_at_any_time_without_prior_notice" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n5_prohibited_activities_you_agree_not_to_engage_in_any_of_the_following_prohibited_activities_n_violating_any_applicable_laws_or_regulations_n_impersonating_any_person_or_entity_or_falsely_stating_or_otherwise_misrepresenting_your_affiliation_with_a_person_or_entity_n_interfering_with_or_disrupting_the_operation_of_hygieia_or_servers_or_networks_connected_to_hygieia" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n6_disclaimer_hygieia_is_provided_on_an_as_is_and_as_available_basis_with_all_faults_and_without_warranty_of_any_kind_we_make_no_warranties_express_or_implied_regarding_the_accuracy_adequacy_timeliness_completeness_reliability_or_usefulness_of_any_information_provided_by_hygieia' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n7_limitations_in_no_event_shall_hygieia_or_its_suppliers_be_liable_for_any_damages_arising_out_of_the_use_or_inability_to_use_hygieia_even_if_hygieia_or_a_hygieia_authorized_representative_has_been_notified_orally_or_in_writing_of_the_possibility_of_such_damage' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n8_modifications_hygieia_may_revise_these_terms_of_service_for_its_application_at_any_time_without_notice_by_using_hygieia_you_are_agreeing_to_be_bound_by_the_then_current_version_of_these_terms_and_conditions_linearlayout_scrollview' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text='\nPrivacy Policy' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/your_privacy_is_important_to_us_this_privacy_policy_outlines_the_types_of_personal_information_that_hygieia_collects_and_how_we_use_it' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n1_information_collection_hygieia_collects_personal_information_such_as_your_name_and_email_address_when_you_register_for_an_account_we_may_also_collect_non_personal_information_such_as_your_device_type_and_ip_address' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n2_use_of_information_the_information_we_collect_is_used_to_operate_and_improve_hygieia_and_to_personalize_your_experience_we_may_also_use_your_information_to_communicate_with_you_such_as_to_send_you_updates_or_respond_to_inquiries' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n3_data_security_hygieia_takes_reasonable_precautions_to_protect_your_personal_information_from_unauthorized_access_use_or_disclosure_however_no_method_of_transmission_over_the_internet_or_electronic_storage_is_100_secure' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n4_changes_to_privacy_policy_hygieia_reserves_the_right_to_update_or_change_this_privacy_policy_at_any_time_any_changes_will_be_effective_immediately_upon_posting_the_updated_privacy_policy_on_the_hygieia_application' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/n5_contact_us_if_you_have_any_questions_or_concerns_about_this_privacy_policy_please_contact_us_at_hygieia_gmail_com' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/by_using_hygieia_you_consent_to_the_terms_of_this_privacy_policy' />
+
+    </LinearLayout>
+
+</ScrollView>

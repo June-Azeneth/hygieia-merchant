@@ -1,19 +1,18 @@
 package com.example.hygieiamerchant.repository
 
 import android.util.Log
-import com.example.hygieiamerchant.data_classes.Rewards
+import com.example.hygieiamerchant.data_classes.Reward
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 
-class RewardsRepo {
+class RewardRepo {
     private val tag = "REWARDSREPO"
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
 
     companion object {
-        private const val COLLECTION_NAME = "reward"
+        private const val COLLECTION = "reward"
         private const val STORE_ID = "storeId"
         private const val ID = "id"
         private const val PHOTO = "photo"
@@ -23,9 +22,9 @@ class RewardsRepo {
         private const val POINTS_REQUIRED = "pointsRequired"
     }
 
-    fun fetchAllRewards(category: String?, callback: (List<Rewards>?) -> Unit) {
+    fun fetchAllRewards(category: String?, callback: (List<Reward>?) -> Unit) {
         currentUser?.let { user ->
-            val baseQuery = firestore.collection(COLLECTION_NAME)
+            val baseQuery = firestore.collection(COLLECTION)
                 .whereEqualTo(STORE_ID, user.uid)
 
             val query = if (category.isNullOrEmpty() || category == "All") {
@@ -36,10 +35,10 @@ class RewardsRepo {
 
             query.get()
                 .addOnSuccessListener { result ->
-                    val rewardsList = mutableListOf<Rewards>()
+                    val rewardList = mutableListOf<Reward>()
                     for (document in result) {
                         try {
-                            val rewards = Rewards(
+                            val reward = Reward(
                                 document.getString(ID) ?: "",
                                 document.getString(PHOTO) ?: "",
                                 document.getString(NAME) ?: "",
@@ -47,17 +46,15 @@ class RewardsRepo {
                                 document.getDouble(PRICE) ?: 0.0,
                                 document.getDouble(POINTS_REQUIRED) ?: 0.0
                             )
-                            rewardsList.add(rewards)
+                            rewardList.add(reward)
                         } catch (e: Exception) {
                             Log.d(tag, "Error creating Rewards object: ${e.message}")
-                            // Handle the error or skip this document
                         }
                     }
-                    callback(rewardsList)
+                    callback(rewardList)
                 }
                 .addOnFailureListener { exception ->
                     Log.w(tag, "Error getting rewards: ", exception)
-                    // Handle the failure
                     callback(null)
                 }
         }

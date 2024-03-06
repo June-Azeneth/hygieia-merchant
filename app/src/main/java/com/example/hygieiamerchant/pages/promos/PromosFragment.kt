@@ -14,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Promos
+import com.example.hygieiamerchant.data_classes.Promo
 import com.example.hygieiamerchant.databinding.FragmentPromosBinding
 import com.example.hygieiamerchant.utils.Commons
 import com.example.hygieiamerchant.utils.NetworkManager
@@ -26,7 +26,7 @@ class PromosFragment : Fragment() {
     val _tag = "PROMOSFRAGMENT"
     private var _binding: FragmentPromosBinding? = null
     private val binding get() = _binding!!
-    private lateinit var promoList: ArrayList<Promos>
+    private lateinit var promoList: ArrayList<Promo>
     private var selectedCategory: String = ""
     private lateinit var dialog: AlertDialog
     private lateinit var networkManager: NetworkManager

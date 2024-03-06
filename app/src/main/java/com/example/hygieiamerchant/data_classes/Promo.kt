@@ -2,7 +2,7 @@ package com.example.hygieiamerchant.data_classes
 
 import java.util.Date
 
-class Promos(
+class Promo(
     var storeID: String,
     var id: String,
     var product: String,

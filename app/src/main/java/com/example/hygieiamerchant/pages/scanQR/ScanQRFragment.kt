@@ -25,6 +25,9 @@ import com.example.hygieiamerchant.utils.QRCodeScan
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.utils.SharedViewModel
 import com.example.hygieiamerchant.databinding.FragmentScanQRBinding
+import com.example.hygieiamerchant.utils.cameraPermissionRequest
+import com.example.hygieiamerchant.utils.isCameraPermissionGranted
+import com.example.hygieiamerchant.utils.openPermissionSetting
 import com.example.hygieiamerchant.utils.popups.GrantPointsPopUp
 import com.example.hygieiamerchant.utils.popups.OptionsPopUp
 import com.example.hygieiamerchant.utils.popups.RedeemProductPopUp
@@ -37,7 +40,7 @@ import java.util.Date
 import kotlin.random.Random
 
 class ScanQRFragment : Fragment() {
-    private var TAG = "SCANQR"
+    private var logTag = "SCANQR"
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
@@ -130,7 +133,7 @@ class ScanQRFragment : Fragment() {
             passedType?.let { revealElements(it) }
 
         } catch (e: Exception) {
-            Log.e(TAG, e.toString())
+            Log.e(logTag, e.toString())
         }
     }
 
@@ -204,7 +207,7 @@ class ScanQRFragment : Fragment() {
                 currentBalanceString.toDouble()
             } catch (e: NumberFormatException) {
                 Log.e(
-                    TAG,
+                    logTag,
                     "Error converting currentBalance to Int: $currentBalanceString"
                 )
                 0.0 // Default value or handle as needed
@@ -510,7 +513,7 @@ class ScanQRFragment : Fragment() {
     }
 
     private fun requestCameraAndStartScanner() {
-        if (requireContext().isPermissionGranted(cameraPermission)) {
+        if (requireContext().isCameraPermissionGranted(cameraPermission)) {
 
         } else {
             requestCameraPermission()

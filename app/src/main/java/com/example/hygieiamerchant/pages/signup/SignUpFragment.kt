@@ -2,7 +2,6 @@ package com.example.hygieiamerchant.pages.signup
 
 import android.content.ContentResolver
 import android.content.Context
-import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -11,33 +10,40 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.R
+import com.example.hygieiamerchant.data_classes.Lgu
 import com.example.hygieiamerchant.databinding.FragmentSignUpBinding
+import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import java.util.Date
-import java.util.Locale
 
 class SignUpFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
+    private val fireStore = FirebaseFirestore.getInstance()
     private lateinit var contentResolver: ContentResolver
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var uploadBtn: AppCompatButton
+    private lateinit var uploadFront: AppCompatButton
+    private lateinit var uploadBack: AppCompatButton
     private lateinit var submit: ConstraintLayout
-    private lateinit var selectedImg: TextView
+    private lateinit var front: TextView
+    private lateinit var back: TextView
     private lateinit var storeName: TextView
     private lateinit var storeEmail: TextView
     private lateinit var storeOwner: TextView
@@ -45,34 +51,62 @@ class SignUpFragment : Fragment() {
     private lateinit var barangay: TextView
     private lateinit var city: TextView
     private lateinit var province: TextView
-    private lateinit var imageUri: Uri
-    private var downloadUrl: String = ""
-    private val fireStore = FirebaseFirestore.getInstance()
+    private lateinit var imageUriFront: Uri
+    private lateinit var imageUriBack: Uri
+    private lateinit var lisOfIds: Spinner
+    private lateinit var lguList: Spinner
+    private lateinit var termsAndConditions: TextView
+    private var list: ArrayList<Lgu> = arrayListOf()
+    private var downloadUrlFront: String = ""
+    private var downloadUrlBack: String = ""
+    private val signUpViewModel: SignUpViewModel = SignUpViewModel()
+    private val common: Commons = Commons()
+    private var cityString: String = ""
 
-    private val getContent =
+    private val getBackPhotoName =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { imageUri ->
                 val imageTitle = getImageTitle(imageUri)
-                this.imageUri = imageUri
-                binding.selectedImg.text = imageTitle
+                this.imageUriFront = imageUri
+                binding.backImage.text = imageTitle
+            }
+        }
+
+    private val getFrontPhotoName =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { imageUri ->
+                val imageTitle = getImageTitle(imageUri)
+                this.imageUriBack = imageUri
+                binding.frontImage.text = imageTitle
             }
         }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         initializeVariables()
         setUpOnClickListeners()
+        setUpSpinners()
+        showTermsAndConditions()
+        observeDataSetChange()
+        setUpRefreshListener()
+        onInputChange()
+
+        signUpViewModel.fetchLguBasedOnUserCity(cityString)
 
         return binding.root
     }
 
     private fun setUpOnClickListeners() {
-        uploadBtn.setOnClickListener {
-            getContent.launch("image/*")
+        uploadFront.setOnClickListener {
+            getFrontPhotoName.launch("image/*")
+        }
+
+        uploadBack.setOnClickListener {
+            getBackPhotoName.launch("image/*")
         }
 
         submit.setOnClickListener {
@@ -81,18 +115,21 @@ class SignUpFragment : Fragment() {
             saveAccountRegistrationRequest()
         }
 
-        binding.toLogin.setOnClickListener{
+        binding.toLogin.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }
 
     private fun initializeVariables() {
+        lisOfIds = binding.listOfValidIDs
+        lguList = binding.lguList
         storage = Firebase.storage
         contentResolver = requireContext().contentResolver
-        uploadBtn = binding.uploadValidId
-        selectedImg = binding.selectedImg
+        uploadFront = binding.uploadFront
+        uploadBack = binding.uploadBack
+        front = binding.frontImage
+        back = binding.backImage
         submit = binding.submit
-
         storeName = binding.storeNameEditText
         storeEmail = binding.storeEmailEditText
         storeOwner = binding.storeOwnerEditText
@@ -100,11 +137,58 @@ class SignUpFragment : Fragment() {
         barangay = binding.storeBrgyEditText
         city = binding.storeCityEditText
         province = binding.storeProvinceEditText
+
+        cityString = city.text.toString()
+    }
+
+    private fun setUpRefreshListener() {
+        common.setOnRefreshListener(binding.swipeRefreshLayout) {
+            signUpViewModel.fetchLguBasedOnUserCity(cityString)
+        }
+    }
+
+    private fun onInputChange() {
+        city.doOnTextChanged { text, _, _, _ ->
+            text?.let {
+                val cityName = it.toString()
+                signUpViewModel.fetchLguBasedOnUserCity(cityName)
+            }
+        }
+    }
+
+    private fun observeDataSetChange() {
+        signUpViewModel.lguDetails.observe(viewLifecycleOwner) { lgu ->
+            if (lgu != null) {
+                // Update the list and notify the adapter of the Spinner
+                list.clear()
+                list.addAll(lgu)
+
+                common.log("LGU", lgu.toString())
+
+                // Get a reference to the Spinner
+                val lguListAdapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    list.map { it.name }
+                )
+                lguListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                lguList.adapter = lguListAdapter
+            }
+        }
+    }
+
+    private fun setUpSpinners() {
+        val validIdsAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.valid_ids_array, android.R.layout.simple_spinner_item
+        )
+        validIdsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        lisOfIds.adapter = validIdsAdapter
     }
 
 
     private fun saveAccountRegistrationRequest() {
-        var isValid: Boolean = validateFields()
+        val isValid: Boolean = validateFields()
 
         if (isValid) {
             createRequest()
@@ -144,19 +228,20 @@ class SignUpFragment : Fragment() {
 
         val address = listOf(sitio, barangay, city, province)
 
-        uploadImageToFirebaseStorage(imageUri) {
+        uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
             // Once you have the downloadUrl (validId), make the Firestore request
             val data = hashMapOf(
                 "storeName" to storeName,
                 "storeEmail" to storeEmail,
                 "storeOwner" to storeOwner,
                 "address" to address,
-                "validId" to downloadUrl,
+                "validIdFront" to frontUrl,
+                "validIdBack" to backUrl,
                 "dateSubmitted" to getDateAndTime(),
                 "status" to "pending"
             )
 
-            fireStore.collection("store_account_requests")
+            fireStore.collection("store")
                 .add(data)
                 .addOnSuccessListener {
                     // Document added successfully
@@ -184,7 +269,18 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun showAlertDialog(context: Context, title: String, message: String){
+    private fun showTermsAndConditions() {
+        termsAndConditions = binding.termsAndConditions
+        termsAndConditions.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            val dialogView = layoutInflater.inflate(R.layout.terms_and_conditions, null)
+            builder.setView(dialogView)
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+
+    private fun showAlertDialog(context: Context, title: String, message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
             .setMessage(message)
@@ -204,7 +300,7 @@ class SignUpFragment : Fragment() {
         val barangay = barangay.text.toString()
         val city = city.text.toString()
         val province = province.text.toString()
-        val validId = selectedImg.text.toString()
+        val validId = front.text.toString()
 
         if (storeName.isBlank() ||
             storeEmail.isBlank() ||
@@ -230,34 +326,50 @@ class SignUpFragment : Fragment() {
         return emailRegex.matches(email)
     }
 
-    private fun uploadImageToFirebaseStorage(imageUri: Uri, callback: (String) -> Unit) {
-        // Get a reference to the Firebase Storage location where you want to upload the image
-        val currentDate = getCurrentDate().toDate() // Convert Timestamp to Date
-        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
-        val dateString = dateFormat.format(currentDate)
+    private fun uploadImageToFirebaseStorage(
+        imageUriFront: Uri,
+        imageUriBack: Uri,
+        callback: (String, String) -> Unit
+    ) {
 
-        val storageRef =
-            storage.reference.child("store_valid_ids/${storeName.text}_${storeOwner.text}_${dateString}")
+        val date = common.dateFormatMMMDDYYYY()
+
+        val storageRefFront =
+            storage.reference.child("store_valid_ids/${storeName.text}_${storeOwner.text}_FRONT_${date}")
+
+        val storageRefBack =
+            storage.reference.child("store_valid_ids/${storeName.text}_${storeOwner.text}_BACK_${date}")
 
         // Upload the image file to Firebase Storage
-        val uploadTask = storageRef.putFile(imageUri)
+        val uploadTaskFront = storageRefFront.putFile(imageUriFront)
+        val uploadTaskBack = storageRefBack.putFile(imageUriBack)
 
         // Register observers to listen for when the upload is successful or fails
-        uploadTask.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                downloadUrl = uri.toString()
-                callback(downloadUrl)
+        uploadTaskFront.addOnSuccessListener {
+            storageRefFront.downloadUrl.addOnSuccessListener { frontUri ->
+                downloadUrlFront = frontUri.toString()
+                uploadTaskBack.addOnSuccessListener { backSnapshot ->
+                    storageRefBack.downloadUrl.addOnSuccessListener { backUri ->
+                        downloadUrlBack = backUri.toString()
+                        // Call the callback function once both images have been uploaded successfully
+                        callback(downloadUrlFront, downloadUrlBack)
+                    }.addOnFailureListener { exception ->
+                        Toast.makeText(
+                            requireContext(),
+                            "Failed to get download URL for back image: $exception",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        callback("", "")
+                    }
+                }
             }.addOnFailureListener { exception ->
                 Toast.makeText(
                     requireContext(),
-                    "Failed to get download URL: $exception",
+                    "Upload Failed for front image: $exception",
                     Toast.LENGTH_SHORT
                 ).show()
-                callback(null.toString())
+                callback("", "")
             }
-        }.addOnFailureListener { exception ->
-            callback(null.toString())
-            Toast.makeText(requireContext(), "Upload Failed$exception", Toast.LENGTH_SHORT).show()
         }
     }
 

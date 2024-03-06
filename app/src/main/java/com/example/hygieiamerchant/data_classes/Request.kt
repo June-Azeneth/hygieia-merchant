@@ -1,6 +1,6 @@
 package com.example.hygieiamerchant.data_classes
 
-class Requests(
+class Request(
     var id: String,
     var storeId: String,
     var photo: String,

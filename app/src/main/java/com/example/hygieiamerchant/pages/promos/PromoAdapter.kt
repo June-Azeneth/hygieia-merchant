@@ -11,11 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Promos
+import com.example.hygieiamerchant.data_classes.Promo
 import com.google.android.material.imageview.ShapeableImageView
 import java.util.Date
 
-class PromoAdapter(private val promosList: ArrayList<Promos>) :
+class PromoAdapter(private val promoList: ArrayList<Promo>) :
     RecyclerView.Adapter<PromoAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
@@ -24,11 +24,11 @@ class PromoAdapter(private val promosList: ArrayList<Promos>) :
     }
 
     override fun getItemCount(): Int {
-        return promosList.size
+        return promoList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = promosList[position]
+        val currentItem = promoList[position]
         val context = holder.itemView.context
 
         //format the dates before passing it to the designated TextViews

@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hygieiamerchant.data_classes.Rewards
-import com.example.hygieiamerchant.repository.RewardsRepo
+import com.example.hygieiamerchant.data_classes.Reward
+import com.example.hygieiamerchant.repository.RewardRepo
 import kotlinx.coroutines.launch
 
 class RewardsViewModel : ViewModel() {
-    private val _rewardDetails = MutableLiveData<List<Rewards>>()
-    val rewardDetails: LiveData<List<Rewards>> get() = _rewardDetails
-    private val rewardRepo: RewardsRepo = RewardsRepo()
+    private val _rewardDetails = MutableLiveData<List<Reward>>()
+    val rewardDetails: LiveData<List<Reward>> get() = _rewardDetails
+    private val rewardRepo: RewardRepo = RewardRepo()
 
     fun fetchAllRewards(category: String){
         viewModelScope.launch {

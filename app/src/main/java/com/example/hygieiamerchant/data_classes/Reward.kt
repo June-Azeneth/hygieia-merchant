@@ -1,6 +1,6 @@
 package com.example.hygieiamerchant.data_classes
 
-class Rewards(
+class Reward(
     var id: String,
     var photo: String,
     var name: String,

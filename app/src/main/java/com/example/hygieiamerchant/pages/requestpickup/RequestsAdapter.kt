@@ -6,21 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Requests
+import com.example.hygieiamerchant.data_classes.Request
 import com.google.android.material.imageview.ShapeableImageView
 
 class RequestsAdapter(
-    private val requestList: ArrayList<Requests>,
+    private val requestList: ArrayList<Request>,
     private val onItemClickListener: OnItemClickListener,
     private val onDeleteClickListener: OnDeleteClickListener
 ) : RecyclerView.Adapter<RequestsAdapter.MyViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(request: Requests)
+        fun onItemClick(request: Request)
     }
 
     interface OnDeleteClickListener {
-        fun onDeleteClick(request: Requests)
+        fun onDeleteClick(request: Request)
     }
 
 

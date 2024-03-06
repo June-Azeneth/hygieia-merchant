@@ -1,18 +1,18 @@
 package com.example.hygieiamerchant.repository
 
 import android.util.Log
-import com.example.hygieiamerchant.data_classes.Promos
+import com.example.hygieiamerchant.data_classes.Promo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class PromosRepo {
+class PromoRepo {
     private val tag = "PROMOSREPO"
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
 
     companion object {
-        private const val COLLECTION_NAME = "promo"
+        private const val COLLECTION = "promo"
         private const val STORE_ID = "store_id"
         private const val ID = "id"
         private const val PRODUCT = "product"
@@ -27,16 +27,16 @@ class PromosRepo {
         private const val DATE_RESUME = "date_resume"
     }
 
-    fun fetchAllPromosFromDb(statusFilter: String, callback: (List<Promos>?) -> Unit) {
+    fun fetchAllPromos(statusFilter: String, callback: (List<Promo>?) -> Unit) {
         currentUser?.let { user ->
             val currentDate = System.currentTimeMillis()
 
-            val baseQuery = firestore.collection(COLLECTION_NAME)
+            val query = firestore.collection(COLLECTION)
                 .whereEqualTo(STORE_ID, user.uid)
 
-            baseQuery.get()
+            query.get()
                 .addOnSuccessListener { result ->
-                    val promosList = mutableListOf<Promos>()
+                    val promoList = mutableListOf<Promo>()
                     for (document in result) {
                         try {
                             val startDate = document.getTimestamp(PROMO_START)?.toDate()?.time ?: 0
@@ -55,7 +55,7 @@ class PromosRepo {
 
                             // Filter based on promo status (e.g., show only active promos)
                             if (statusFilter == "All" || promoStatus == statusFilter) {
-                                val promos = Promos(
+                                val promo = Promo(
                                     document.getString(STORE_ID) ?: "",
                                     document.getString(ID) ?: "",
                                     document.getString(PRODUCT) ?: "",
@@ -68,14 +68,14 @@ class PromosRepo {
                                     document.getTimestamp(PROMO_END)?.toDate(),
                                     promoStatus
                                 )
-                                promosList.add(promos)
+                                promoList.add(promo)
                             }
                         } catch (e: Exception) {
                             Log.d(tag, "Error creating Promos object: ${e.message}")
                             // Handle the error or skip this document
                         }
                     }
-                    callback(promosList)
+                    callback(promoList)
                 }
                 .addOnFailureListener { exception ->
                     Log.w(tag, "Error getting promos: ", exception)

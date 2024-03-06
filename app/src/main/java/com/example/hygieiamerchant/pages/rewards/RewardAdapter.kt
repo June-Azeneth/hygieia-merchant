@@ -9,11 +9,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Rewards
+import com.example.hygieiamerchant.data_classes.Reward
 import com.google.android.material.imageview.ShapeableImageView
 
 class RewardAdapter(
-    private val rewardsList: ArrayList<Rewards>,
+    private val rewardList: ArrayList<Reward>,
 //    private val onItemClickListener: RequestsAdapter.OnItemClickListener,
 //    private val onDeleteClickListener: RequestsAdapter.OnDeleteClickListener
 ) : RecyclerView.Adapter<RewardAdapter.MyViewHolder>() {
@@ -33,11 +33,11 @@ class RewardAdapter(
     }
 
     override fun getItemCount(): Int {
-        return rewardsList.size
+        return rewardList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = rewardsList[position]
+        val currentItem = rewardList[position]
 
         Glide.with(holder.itemView)
             .load(currentItem.photo)

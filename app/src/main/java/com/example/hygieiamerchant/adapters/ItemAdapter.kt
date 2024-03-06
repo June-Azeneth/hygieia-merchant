@@ -6,20 +6,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Items
+import com.example.hygieiamerchant.data_classes.Item
 
-class ItemAdapter(private val itemsList : ArrayList<Items>) : RecyclerView.Adapter<ItemAdapter.MyViewHolder>() {
+class ItemAdapter(private val itemList : ArrayList<Item>) : RecyclerView.Adapter<ItemAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.transactions_list,parent,false)
         return MyViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        return itemsList.size
+        return itemList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = itemsList[position]
+        val currentItem = itemList[position]
         holder.type.text = currentItem.type
         holder.date.text = currentItem.date
         holder.amount.text = currentItem.amount

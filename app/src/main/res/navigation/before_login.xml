@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/setNewPassFragment"
-        android:name="com.example.hygieiamerchant.pages.password_reset.SetNewPassFragment"
+        android:name="com.example.hygieiamerchant.pages.password_reset.ForgotPasswordFragment"
         android:label="fragment_set_new_pass"
         tools:layout="@layout/fragment_set_new_pass" >
         <action

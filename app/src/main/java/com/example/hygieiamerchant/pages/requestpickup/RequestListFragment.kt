@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.utils.Commons
-import com.example.hygieiamerchant.data_classes.Requests
+import com.example.hygieiamerchant.data_classes.Request
 import com.example.hygieiamerchant.databinding.FragmentRequestListBinding
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,7 +36,7 @@ class RequestListFragment : Fragment() {
     private lateinit var message: TextView
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var newArrayList: ArrayList<Requests>
+    private lateinit var newArrayList: ArrayList<Request>
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private lateinit var firestore: FirebaseFirestore
@@ -113,12 +113,12 @@ class RequestListFragment : Fragment() {
         adapter = RequestsAdapter(
             newArrayList,
             object : RequestsAdapter.OnItemClickListener {
-                override fun onItemClick(request: Requests) {
+                override fun onItemClick(request: Request) {
                     // Handle item click
                 }
             },
             object : RequestsAdapter.OnDeleteClickListener {
-                override fun onDeleteClick(request: Requests) {
+                override fun onDeleteClick(request: Request) {
                     deleteDocument(request.id)
                     refreshData()
                     Toast.makeText(requireContext(), request.id, Toast.LENGTH_SHORT).show()

@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".pages.signup.SignUpFragment">
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingHorizontal="@dimen/regular"
             android:paddingTop="@dimen/large"
-            android:paddingBottom="@dimen/large"
-            android:paddingHorizontal="@dimen/regular">
+            android:paddingBottom="@dimen/large">
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,11 +26,18 @@
                 android:text="@string/create_an_account"
                 android:textSize="@dimen/text_regular" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/regular"
+                android:text="Please fill in all the necessary details"
+                android:textSize="@dimen/text_small" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/storeNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="@dimen/small"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -169,40 +173,104 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:text="@string/select_the_lgu_unit_nearest_to_your_location" />
+
+            <Spinner
+                android:id="@+id/lguList"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/small"
+                android:background="@drawable/white_round_container" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:text="@string/upload_a_valid_id" />
+
+            <Spinner
+                android:id="@+id/listOfValidIDs"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/small"
+                android:background="@drawable/white_round_container" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
-                android:gravity="end"
+                android:background="@drawable/white_round_container"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/selectedImg"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/no_image_selected" />
-
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/uploadValidId"
+                    android:id="@+id/uploadFront"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tiny"
                     android:background="@color/secondary_green"
                     android:padding="@dimen/small"
-                    android:text="@string/upload_valid_id"
+                    android:text="@string/select_photo"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/frontImage"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/upload_front_of_id" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:background="@drawable/white_round_container"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/uploadBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/secondary_green"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="@dimen/small"
+                    android:text="@string/select_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/backImage"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/upload_back_of_id" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/termsAndConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium"
+                android:gravity="center"
+                android:text="@string/by_clicking_submit_you_agree_to_out_terms_and_conditions_and_privacy_policy" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/submit"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="@dimen/XL"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/large"
                 android:layout_marginTop="@dimen/large"
                 android:background="@drawable/buttons">
 
@@ -233,10 +301,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large"
-                android:gravity="center"
-                android:textSize="@dimen/text_small"
                 android:layout_marginBottom="@dimen/small"
-                android:text="@string/already_have_an_account" />
+                android:gravity="center"
+                android:text="@string/already_have_an_account"
+                android:textSize="@dimen/text_small" />
 
             <TextView
                 android:id="@+id/toLogin"
@@ -244,8 +312,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/sign_in"
-                android:textSize="@dimen/text_small"
-                android:textColor="@color/accent_orange" />
+                android:textColor="@color/accent_orange"
+                android:textSize="@dimen/text_small" />
         </LinearLayout>
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

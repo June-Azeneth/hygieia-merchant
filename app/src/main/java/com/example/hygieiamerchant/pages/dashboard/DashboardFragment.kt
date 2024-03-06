@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.adapters.ItemAdapter
-import com.example.hygieiamerchant.data_classes.Items
+import com.example.hygieiamerchant.data_classes.Item
 import com.example.hygieiamerchant.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,7 +29,7 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private lateinit var newRecyclerView: RecyclerView
-    private lateinit var newArrayList: ArrayList<Items>
+    private lateinit var newArrayList: ArrayList<Item>
     lateinit var type : Array<String>
     lateinit var date : Array<String>
     lateinit var amount : Array<String>
@@ -86,7 +86,7 @@ class DashboardFragment : Fragment() {
         newRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         newRecyclerView.setHasFixedSize(true)
 
-        newArrayList = arrayListOf<Items>()
+        newArrayList = arrayListOf<Item>()
         getItemData()
 
         setNavigationOnClickListener(R.id.requestPickUp, R.id.action_to_pickup_request_list)
@@ -109,7 +109,7 @@ class DashboardFragment : Fragment() {
 
     private fun getItemData() {
         for (i in type.indices){
-            val transaction = Items(type[i], date[i], amount[i])
+            val transaction = Item(type[i], date[i], amount[i])
             newArrayList.add(transaction)
         }
 

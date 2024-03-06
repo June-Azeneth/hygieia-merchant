@@ -15,7 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Rewards
+import com.example.hygieiamerchant.data_classes.Reward
 import com.example.hygieiamerchant.databinding.FragmentRewardBinding
 import com.example.hygieiamerchant.utils.Commons
 import com.example.hygieiamerchant.utils.NetworkManager
@@ -28,7 +28,7 @@ class RewardFragment : Fragment() {
     private var _binding: FragmentRewardBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var rewardList: ArrayList<Rewards>
+    private lateinit var rewardList: ArrayList<Reward>
     private val rewardsViewModel: RewardsViewModel by activityViewModels()
     private lateinit var recyclerViewAdapter: RewardAdapter
     private lateinit var commons: Commons
