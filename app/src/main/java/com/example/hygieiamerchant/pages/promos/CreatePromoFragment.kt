@@ -1,18 +1,17 @@
 package com.example.hygieiamerchant.pages.promos
 
-import android.app.DatePickerDialog
 import android.content.ContentResolver
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.util.Pair
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,13 +24,13 @@ import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.PromoRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import java.util.Date
-import java.util.Locale
 
 class CreatePromoFragment : Fragment() {
     private var _binding: FragmentCreatePromoBinding? = null
@@ -55,15 +54,15 @@ class CreatePromoFragment : Fragment() {
     private lateinit var photoPicker: ConstraintLayout
     private lateinit var promoImage: ShapeableImageView
     private lateinit var contentResolver: ContentResolver
+    private lateinit var discPrice: TextView
+    private lateinit var datePicker: AppCompatButton
 
     private var image: Uri? = null
     private var storeName: String = ""
-    private var downloadUrl: String = ""
     private var discountedPrice: Double = 0.0
     private var id: String = ""
     private var imageUrl: String? = null
-    private var startDateString: String? = ""
-    private var endDateString: String? = ""
+    private var downloadUrl: String = ""
     private var timestampStartDate: Date? = null
     private var timestampEndDate: Date? = null
 
@@ -104,7 +103,7 @@ class CreatePromoFragment : Fragment() {
             if (promoViewModel.action.value == "create") {
                 createPromo()
             } else {
-//                updatePromo()
+                updatePromo()
             }
         }
     }
@@ -120,8 +119,11 @@ class CreatePromoFragment : Fragment() {
                 storePrice.setText(commons.formatDecimalNumber(promo.price))
                 discountRate.setText(commons.formatDecimalNumber(promo.discountRate))
                 pointsRequired.setText(commons.formatDecimalNumber(promo.pointsRequired))
-                startDate.setText(promo.dateStart.toString())
-                endDate.setText(promo.dateEnd.toString())
+                discPrice.text = commons.formatDecimalNumber(promo.discountedPrice)
+                startDate.setText(promo.dateStart?.let { commons.dateFormatMMMDDYYYY(it) })
+                endDate.setText(promo.dateEnd?.let { commons.dateFormatMMMDDYYYY(it) })
+                timestampStartDate = promo.dateStart
+                timestampEndDate = promo.dateEnd
                 Glide.with(this).load(promo.photo).into(promoImage)
             }
         }
@@ -172,7 +174,7 @@ class CreatePromoFragment : Fragment() {
         if (validateFields()) {
             var path = "stores/${userRepo.getCurrentUserId()}/promos/${promoName.text.toString()}"
             image?.let {
-                commons.uploadImage(it, path) { img ->
+                uploadImage(it) { img ->
                     val data = Promo(
                         promoName = promoName.text.toString(),
                         product = productName.text.toString(),
@@ -208,12 +210,115 @@ class CreatePromoFragment : Fragment() {
         }
     }
 
+    private fun uploadImage(
+        imageUri: Uri,
+        callback: (String) -> Unit
+    ) {
+        val storageRef =
+            storage.reference.child("stores/${userRepo.getCurrentUserId()}/promos/${promoName.text.toString()}")
+
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                downloadUrl = imageUrl.toString()
+                callback(downloadUrl)
+            }.addOnFailureListener {
+                callback("")
+            }
+
+        }.addOnFailureListener {
+            callback("")
+        }
+    }
+
     private fun updatePromo() {
-        TODO("Not yet implemented")
+        if (validateFields()) {
+            promoViewModel.singlePromo.value?.let { currentPromo ->
+                val updatedPromoName = promoName.text.toString()
+                val updatedName = productName.text.toString()
+                val updatedPrice = storePrice.text.toString().toDouble()
+                val updatedDiscount = discountRate.text.toString().toDouble()
+                val updatedPointsRequired = pointsRequired.text.toString().toDouble()
+                val updatedPhoto = imageUrl ?: ""
+                val updatedDiscountedPrice = calculateDiscountedPrice(updatedPrice, updatedDiscount)
+                val updatedStart = startDate.text.toString()
+                val updatedEnd = endDate.text.toString()
+
+                if (currentPromo.promoName != updatedPromoName ||
+                    currentPromo.product != updatedName ||
+                    currentPromo.price != updatedPrice ||
+                    currentPromo.discountRate != updatedDiscount ||
+                    currentPromo.pointsRequired != updatedPointsRequired ||
+                    currentPromo.photo != updatedPhoto ||
+                    currentPromo.discountedPrice != updatedDiscountedPrice ||
+                    currentPromo.dateStart.toString().equals(timestampStartDate) ||
+                    currentPromo.dateEnd.toString().equals(timestampEndDate)
+                ) {
+                    // Data has changed, proceed to update
+                    if (image != null) {
+                        uploadImage(image!!) { img ->
+                            updateRewardWithData(img)
+                        }
+                    } else {
+                        updateRewardWithData(updatedPhoto)
+                    }
+                } else {
+                    // No changes in data
+                    commons.showLoader(
+                        requireContext(),
+                        LayoutInflater.from(requireContext()),
+                        false
+                    )
+                    commons.showToast("No changes detected.", requireContext())
+                }
+            }
+        }
+    }
+
+    private fun updateRewardWithData(imageUrl: String) {
+        val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
+        val data = Promo(
+            promoName = promoName.text.toString(),
+            product = productName.text.toString(),
+            price = storePrice.text.toString().toDouble(),
+            discountRate = discountRate.text.toString().toDouble(),
+            pointsRequired = pointsRequired.text.toString().toDouble(),
+            photo = imageUrl,
+            storeId = userRepo.getCurrentUserId().toString(),
+            storeName = storeName,
+            updatedOn = commons.getDateAndTime(),
+            discountedPrice = formattedDiscountedPrice.toDouble(),
+            dateStart = timestampStartDate,
+            dateEnd = timestampEndDate
+        )
+
+        promosRepo.updatePromo(id, data) { success ->
+            if (success) {
+                // Handle success
+                commons.showLoader(
+                    requireContext(),
+                    LayoutInflater.from(requireContext()),
+                    false
+                )
+                commons.showToast("Promo item updated successfully", requireContext())
+                findNavController().navigate(R.id.action_createPromoFragment_to_nav_promos)
+            } else {
+                // Handle failure
+                commons.showLoader(
+                    requireContext(),
+                    LayoutInflater.from(requireContext()),
+                    false
+                )
+            }
+        }
     }
 
     private fun initializeVariables() {
         storage = Firebase.storage
+//        dateRange = binding.dateRange
+        datePicker = binding.datePicker
+        discPrice = binding.discountedPrice
         contentResolver = requireContext().contentResolver
         promoName = binding.promoName
         productName = binding.prodName
@@ -255,16 +360,30 @@ class CreatePromoFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        startDate.setOnClickListener {
-            showDatePickerDialog(true)
-        }
-
-        endDate.setOnClickListener {
-            showDatePickerDialog(false)
-        }
-
         cancel.setOnClickListener {
             findNavController().navigate(R.id.action_createPromoFragment_to_nav_promos)
+        }
+
+        datePicker.setOnClickListener {
+            showDateRangePickerDialog()
+        }
+    }
+
+    private fun showDateRangePickerDialog() {
+        val datePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTheme(R.style.ThemeMaterialCalendar)
+            .setSelection(Pair(null, null))
+            .build()
+
+        datePicker.show(childFragmentManager, "DatePicker")
+
+        datePicker.addOnPositiveButtonClickListener {
+            binding.startDate.setText(commons.dateFormatMMMDDYYYY(it.first))
+            binding.endDate.setText(commons.dateFormatMMMDDYYYY(it.second))
+
+            timestampStartDate = Date(it.first)
+            timestampEndDate = Date(it.second)
+
         }
     }
 
@@ -283,37 +402,6 @@ class CreatePromoFragment : Fragment() {
             }
         }
         return "Unknown Title"
-    }
-
-    private fun showDatePickerDialog(isStartDate: Boolean) {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(selectedYear, selectedMonth, selectedDay)
-                val dateFormat = SimpleDateFormat("MMMM-dd-yyyy", Locale.US)
-                val formattedDate = dateFormat.format(selectedDate.time)
-
-//                val date = Timestamp(selectedDate.timeInMillis)
-
-
-                if (isStartDate) {
-                    startDateString = formattedDate
-                    timestampStartDate = Date(selectedDate.timeInMillis)
-                } else {
-                    endDateString = formattedDate
-                    timestampEndDate = Date(selectedDate.timeInMillis)
-                }
-
-                // If both start date and end date are selected, you can perform further actions here
-                handleSelectedDates(startDateString!!, endDateString!!)
-            }, year, month, day
-        )
-        datePickerDialog.show()
     }
 
     private fun handleSelectedDates(start: String, end: String) {

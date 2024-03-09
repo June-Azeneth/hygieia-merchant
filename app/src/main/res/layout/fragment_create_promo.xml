@@ -152,6 +152,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/startDate"
+                android:editable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/baseline_calendar_month_24"
@@ -170,12 +171,26 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/endDate"
+                android:editable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/baseline_calendar_month_24"
                 android:drawablePadding="7dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/main_green"
+            android:text="Select Dates"
+            android:textAllCaps="false"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/small"
+            android:paddingHorizontal="@dimen/small"
+            android:textColor="@color/white"
+            />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/promoImage"

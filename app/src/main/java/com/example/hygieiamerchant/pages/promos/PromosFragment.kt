@@ -122,20 +122,21 @@ class PromosFragment : Fragment() {
             recyclerViewAdapter = PromoAdapter(
                 promoList,
                 object : PromoAdapter.OnItemClickListener {
-                    override fun onEditClick(reward: Promo) {
+                    override fun onEditClick(promo: Promo) {
                         promosViewModel.setAction("update")
-                        promosViewModel.fetchPromo(reward.id)
+                        promosViewModel.fetchPromo(promo.id)
                         findNavController().navigate(R.id.action_nav_promos_to_createPromoFragment)
                     }
                 },
                 object : PromoAdapter.OnDeleteClickListener {
-                    override fun onDeleteClick(reward: Promo) {
+                    override fun onDeleteClick(promo: Promo) {
+                        promosViewModel.setAction("update")
                         val builder = AlertDialog.Builder(requireContext())
                         builder.setTitle("Delete Promo")
                             .setMessage("Are you sure you want to delete this promo?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                promosViewModel.deletePromo(reward.id)
-                                promosViewModel.fetchPromo("All")
+                                promosViewModel.deletePromo(promo.id)
+                                promosViewModel.fetchAllPromos("All")
                                 dialog.dismiss()
                             }
                             .setNegativeButton("Cancel") { dialog, _ ->

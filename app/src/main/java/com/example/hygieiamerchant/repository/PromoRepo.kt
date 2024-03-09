@@ -2,6 +2,7 @@ package com.example.hygieiamerchant.repository
 
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Promo
+import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
@@ -18,7 +19,7 @@ class PromoRepo {
         private const val PRODUCT = "product"
         private const val PHOTO = "photo"
         private const val NAME = "name"
-        private const val PRICE = "discountedPrice"
+        private const val PRICE = "price"
         private const val DISCOUNT_RATE = "discountRate"
         private const val POINTS_REQUIRED = "pointsRequired"
         private const val PROMO_START = "promoStart"
@@ -65,6 +66,7 @@ class PromoRepo {
                                     document.getString(PHOTO) ?: "",
                                     document.getString(NAME) ?: "",
                                     document.getDouble(PRICE) ?: 0.0,
+                                    document.getDouble(DISCOUNTED_PRICE) ?: 0.0,
                                     document.getDouble(DISCOUNT_RATE) ?: 0.0,
                                     document.getDouble(POINTS_REQUIRED) ?: 0.0,
                                     document.getTimestamp(PROMO_START)?.toDate(),
@@ -88,11 +90,11 @@ class PromoRepo {
         }
     }
 
-    fun pausePromo(id:String, pause: Date?, end : Date? ){
+    fun pausePromo(id: String, pause: Date?, end: Date?) {
 
     }
 
-    fun addPromo(data: Promo, callback: (Boolean) -> Unit){
+    fun addPromo(data: Promo, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION)
         val addData = mapOf(
             NAME to data.promoName,
@@ -117,11 +119,67 @@ class PromoRepo {
             }
     }
 
-    fun getPromo(id: String, callback: (Promo?) -> Unit){
-
+    fun getPromo(id: String, callback: (Promo?) -> Unit) {
+        val docRef = fireStore.collection(COLLECTION).document(id)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val promo = Promo(
+                        document.getString(STORE_ID) ?: "",
+                        document.id,
+                        document.getString(PRODUCT) ?: "",
+                        document.getString(PHOTO) ?: "",
+                        document.getString(NAME) ?: "",
+                        document.getDouble(PRICE) ?: 0.0,
+                        document.getDouble(DISCOUNTED_PRICE) ?: 0.0,
+                        document.getDouble(DISCOUNT_RATE) ?: 0.0,
+                        document.getDouble(POINTS_REQUIRED) ?: 0.0,
+                        document.getTimestamp(PROMO_START)?.toDate(),
+                        document.getTimestamp(PROMO_END)?.toDate(),
+                    )
+                    callback(promo)
+                } else {
+                    callback(null)
+                }
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
     }
 
-    fun deletePromo(id: String, callback: (Boolean) -> Unit){
+    fun deletePromo(id: String, callback: (Boolean) -> Unit) {
+        val docRef = fireStore.collection(COLLECTION).document(id)
+        docRef.delete()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
 
+    fun updatePromo(id: String, data: Promo, callback: (Boolean) -> Unit) {
+        val docRef = fireStore.collection(COLLECTION).document(id)
+        val updateData = mapOf(
+            "name" to data.promoName,
+            "product" to data.product,
+            "updatedOn" to data.updatedOn?.toDate(),
+            "photo" to data.photo,
+            "pointsRequired" to data.pointsRequired,
+            "discountRate" to data.discountRate,
+            "discountedPrice" to data.discountedPrice,
+            "price" to data.price,
+            "storeName" to data.storeName,
+            "promoStart" to data.dateStart,
+            "promoEnd" to data.dateEnd
+        )
+        docRef.update(updateData)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {error ->
+                Log.e("UPDATE PROMO", error.toString())
+                callback(false)
+            }
     }
 }

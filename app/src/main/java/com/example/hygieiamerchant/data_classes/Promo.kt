@@ -9,13 +9,14 @@ class Promo(
     var product: String = "",
     var photo: String = "",
     var promoName: String = "",
+    var price: Double = 0.0,
     var discountedPrice: Double = 0.0,
     var discountRate: Double = 0.0,
     var pointsRequired: Double = 0.0,
     var dateStart: Date? = null,
     var dateEnd: Date? = null,
     var status: String = "",
-    var price: Double = 0.0,
     var storeName: String = "",
-    var addedOn: Timestamp? = null
+    var addedOn: Timestamp? = null,
+    var updatedOn : Timestamp? = null
 )

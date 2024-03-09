@@ -129,6 +129,16 @@ class Commons {
         return dateFormat.format(date)
     }
 
+    fun dateFormatMMMDDYYYY(calendar: Calendar): String {
+        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
+        return dateFormat.format(calendar)
+    }
+
+    fun dateFormatMMMDDYYYY(date: Long): String {
+        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
     fun showAlertDialog(context: Context, title: String, message: String, positiveButton: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
