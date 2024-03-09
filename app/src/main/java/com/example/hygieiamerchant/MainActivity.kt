@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            var intent = Intent(this, LoggedInActivity::class.java)
+            var intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
         }
 

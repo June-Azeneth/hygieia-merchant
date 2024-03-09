@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.HygieiaMerchant" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/main_green</item>
+        <item name="colorSecondary">@color/secondary_green</item>
         <item name="android:fontFamily">@font/nunito_sans_regular</item>
     </style>
 
@@ -25,5 +26,14 @@
         <item name="cornerSize">10dp</item>
         <item name="color">@color/white</item>
     </style>
+
+    <style name="Theme.HygieiaMerchant.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.HygieiaMerchant.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.HygieiaMerchant.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

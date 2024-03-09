@@ -4,28 +4,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Reward
+import com.example.hygieiamerchant.utils.Commons
 import com.google.android.material.imageview.ShapeableImageView
 
 class RewardAdapter(
     private val rewardList: ArrayList<Reward>,
-//    private val onItemClickListener: RequestsAdapter.OnItemClickListener,
-//    private val onDeleteClickListener: RequestsAdapter.OnDeleteClickListener
+    private val onEditClickListener: OnItemClickListener,
+    private val onDeleteClickListener: OnDeleteClickListener
 ) : RecyclerView.Adapter<RewardAdapter.MyViewHolder>() {
 
-//    interface OnItemClickListener {
-//        fun onItemClick(rewards: Rewards)
-//
-//    }
-//
-//    interface OnDeleteClickListener {
-//        fun onDeleteClick(rewards: Rewards)
-//    }
+    interface OnItemClickListener {
+        fun onEditClick(item: Reward)
+    }
+
+    interface OnDeleteClickListener {
+        fun onDeleteClick(rewards: Reward)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.reward_item, parent, false)
@@ -38,17 +40,33 @@ class RewardAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = rewardList[position]
+        val context = holder.itemView.context
 
         Glide.with(holder.itemView)
             .load(currentItem.photo)
             .apply(RequestOptions.centerCropTransform())
+            .placeholder(R.drawable.placeholder_image)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.prodPhoto)
 
         holder.name.text = currentItem.name
-        holder.discountRate.text = "${currentItem.discountRate.toString()}%"
-        holder.ptsRequired.text = currentItem.pointsRequired.toString()
-        holder.discountedPrice.text = "₱${currentItem.discountedPrice}"
+        holder.discountRate.text = context.getString(
+            R.string.discountRate,
+            "${Commons().formatDecimalNumber(currentItem.discount)}%"
+        )
+        holder.ptsRequired.text = Commons().formatDecimalNumber(currentItem.pointsRequired)
+        holder.discountedPrice.text = context.getString(
+            R.string.discountedPrice,
+            Commons().formatDecimalNumber(currentItem.discountedPrice)
+        )
+
+        holder.deleteItem.setOnClickListener {
+            onDeleteClickListener.onDeleteClick(currentItem)
+        }
+
+        holder.editItem.setOnClickListener {
+            onEditClickListener.onEditClick(currentItem)
+        }
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,5 +75,7 @@ class RewardAdapter(
         val discountRate: TextView = itemView.findViewById(R.id.discount)
         val discountedPrice: TextView = itemView.findViewById(R.id.disc_price)
         val ptsRequired: TextView = itemView.findViewById(R.id.points_required)
+        val deleteItem : AppCompatButton = itemView.findViewById(R.id.deleteItem)
+        val editItem : AppCompatButton = itemView.findViewById(R.id.editItem)
     }
 }

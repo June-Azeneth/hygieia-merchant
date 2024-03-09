@@ -109,10 +109,6 @@ class ScanQRFragment : Fragment() {
                     .setCancelable(true)
                     .create()
 
-            val customToolbar = requireView().findViewById<View>(R.id.header)
-            val titleTextView: TextView = customToolbar.findViewById(R.id.titleTextView)
-            titleTextView.text = "Scan QR Code"
-
             firestore = FirebaseFirestore.getInstance()
             storageReference = FirebaseStorage.getInstance().reference
 

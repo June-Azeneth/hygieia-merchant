@@ -13,23 +13,30 @@ class UserRepo {
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun getUserDetails(callback: (UserInfo?) -> Unit) {
-        val userRef = currentUser?.let { fireStore.collection("store").document(it.uid) }
-        userRef?.get()?.addOnSuccessListener { documentSnapshot ->
-            try {
-                if (documentSnapshot.exists()) {
-                    val user = documentSnapshot.toObject(UserInfo::class.java)
-                    callback(user)
-                } else {
-                    // User document not found
+        currentUser?.let {
+            val query = fireStore.collection("store")
+                .whereEqualTo("storeId", currentUser.uid)
+
+            query.get()
+                .addOnSuccessListener { querySnapshot ->
+                    try {
+                        if (!querySnapshot.isEmpty) {
+                            val document = querySnapshot.documents[0]
+                            val userInfo = document.toObject(UserInfo::class.java)
+                            callback(userInfo)
+                        } else {
+                            // User document not found
+                            callback(null)
+                        }
+                    } catch (error: Exception) {
+                        Log.e(logTAG, error.toString())
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener {
                     callback(null)
                 }
-            } catch (error: Exception) {
-                Log.e(logTAG, error.toString())
-            }
-        }?.addOnFailureListener {
-            callback(null)
         }
-
     }
 
     fun getCurrentUserId(): String? {

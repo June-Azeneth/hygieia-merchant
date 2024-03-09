@@ -4,37 +4,26 @@ import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.Navigation
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
-import com.google.android.material.imageview.ShapeableImageView
+import com.example.hygieiamerchant.pages.rewards.RewardsViewModel
 import com.google.firebase.Timestamp
 import java.util.Date
 import java.util.Locale
 
 class Commons {
-    fun setPageTitle(title: String, root: View) {
-        val customToolbar = root.findViewById<View>(R.id.header)
-        val titleTextView: TextView = customToolbar.findViewById(R.id.titleTextView)
-        titleTextView.text = title
-    }
 
-    fun setToolbarIcon(icon: Int, root: View) {
-        val customToolbar = root.findViewById<View>(R.id.header)
-        val iconRef: ShapeableImageView = customToolbar.findViewById(R.id.icon)
-        iconRef.setImageResource(icon)
-    }
-
-    fun setToolBarIconAction(root: View) {
-//        val customToolbar = root.findViewById<View>(R.id.header)
-//        val iconRef: ShapeableImageView = customToolbar.findViewById(R.id.icon)
-    }
+    private var loadingDialog: AlertDialog? = null
 
     fun setOnRefreshListener(refreshLayout: SwipeRefreshLayout, refreshAction: () -> Unit) {
         refreshLayout.setOnRefreshListener {
@@ -45,7 +34,7 @@ class Commons {
 
     fun setNavigationOnClickListener(view: View, actionId: Int) {
         view.setOnClickListener {
-            val navController = Navigation.findNavController(view)
+            val navController = findNavController(view)
             navController.navigate(actionId)
         }
     }
@@ -58,7 +47,33 @@ class Commons {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun getCurrentDate(): Timestamp {
+    fun formatAddress(address: Map<String, String>?, format: String): String {
+        val city = address?.get("city") ?: ""
+        val province = address?.get("province") ?: ""
+        val sitio = address?.get("sitio") ?: ""
+        val barangay = address?.get("barangay") ?: ""
+        return when (format) {
+            "full" -> {
+                "$sitio $barangay, $city, $province"
+            }
+            "short" -> {
+                "$city, $province"
+            }
+            else -> {
+                "Invalid Format"
+            }
+        }
+    }
+
+    fun formatDecimalNumber(number: Double): String {
+        return if (number % 1 == 0.0) {
+            String.format("%.0f", number)
+        } else {
+            String.format("%.1f", number)
+        }
+    }
+
+    private fun getCurrentDate(): Timestamp {
         val currentDate = Calendar.getInstance().time
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
@@ -80,12 +95,12 @@ class Commons {
         return dateFormat.format(currentDate)
     }
 
-    fun formatDateMMMDDYYYY(date: Date): String {
+    fun dateFormatMMMDDYYYY(date: Date): String {
         val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
         return dateFormat.format(date)
     }
 
-    fun showAlertDialog(context: Context, title: String, message: String, positiveButton : String) {
+    fun showAlertDialog(context: Context, title: String, message: String, positiveButton: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
             .setMessage(message)
@@ -94,5 +109,44 @@ class Commons {
             }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun showLoader(context: Context, layoutInflater: LayoutInflater, show: Boolean) {
+        if (loadingDialog == null) {
+            val builder = AlertDialog.Builder(context)
+            val dialogView = layoutInflater.inflate(R.layout.loading, null)
+            builder.setView(dialogView)
+            loadingDialog = builder.create()
+            loadingDialog!!.setCancelable(false)
+        }
+
+        if (show) {
+            loadingDialog!!.show()
+        } else {
+            loadingDialog!!.dismiss()
+        }
+    }
+
+    fun showAlertDialogWithDestination(
+        fragment: Fragment,
+        title: String,
+        message: String,
+        positiveButton: String,
+        destination: Int
+    ) {
+        val builder = AlertDialog.Builder(fragment.requireContext())
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveButton) { dialog, _ ->
+                dialog.dismiss()
+                fragment.findNavController().navigate(destination)
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    fun validateEmail(email: String): Boolean {
+        val emailRegex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,})+$")
+        return emailRegex.matches(email)
     }
 }

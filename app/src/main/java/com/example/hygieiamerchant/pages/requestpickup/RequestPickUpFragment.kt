@@ -31,8 +31,6 @@ class RequestPickUpFragment : Fragment() {
         _binding = FragmentRequestPickUpBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        Commons().setPageTitle("Send Request", binding.root)
-
         editTextDate = root.findViewById(R.id.editTextDate)
 
         editTextDate.setOnClickListener {

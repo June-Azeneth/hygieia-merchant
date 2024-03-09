@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/text_tiny"
-    android:layout_marginBottom="@dimen/small">
+    android:layout_marginBottom="@dimen/tiniest">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/photo"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
             android:layout_height="130dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/coke"
+            android:background="@color/lightGray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/details"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,9 +41,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="Product Name"
-                android:layout_marginBottom="@dimen/tiny"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/text_small" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/text2"
@@ -107,6 +106,52 @@
                 android:text="0"
                 android:textColor="@color/sub_text"
                 android:textSize="@dimen/text_tiny" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/editItem"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/main_green"
+                android:background="@drawable/simple_button"
+                android:drawableStart="@drawable/edit_item"
+                android:paddingStart="8dp"
+                android:text="Edit"
+                android:textAllCaps="false" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/deleteItem"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@id/editItem"
+                android:background="@drawable/danger_button"
+                android:paddingStart="3dp"
+                android:textColor="@color/red"
+                android:drawableStart="@drawable/delete"
+                android:text="Delete"
+                android:textAllCaps="false" />
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:id="@+id/deleteItem"-->
+<!--                android:layout_width="28dp"-->
+<!--                android:layout_height="28dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:src="@drawable/delete" />-->
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:id="@+id/editItem"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_toLeftOf="@id/deleteItem"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:src="@drawable/edit_item" />-->
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

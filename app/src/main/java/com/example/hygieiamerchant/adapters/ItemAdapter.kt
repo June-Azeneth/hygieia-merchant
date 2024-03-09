@@ -10,7 +10,7 @@ import com.example.hygieiamerchant.data_classes.Item
 
 class ItemAdapter(private val itemList : ArrayList<Item>) : RecyclerView.Adapter<ItemAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.transactions_list,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.transactions_item,parent,false)
         return MyViewHolder(itemView)
     }
 

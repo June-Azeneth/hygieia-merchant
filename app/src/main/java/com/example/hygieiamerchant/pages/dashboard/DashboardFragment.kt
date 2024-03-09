@@ -1,103 +1,67 @@
 package com.example.hygieiamerchant.pages.dashboard
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.adapters.ItemAdapter
-import com.example.hygieiamerchant.data_classes.Item
 import com.example.hygieiamerchant.databinding.FragmentHomeBinding
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.hygieiamerchant.utils.Commons
 
 class DashboardFragment : Fragment() {
 
-    val db = Firebase.firestore
-
-    val TAG = "Hygieia:"
-
+    private val logTag = "Dashboard"
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var newRecyclerView: RecyclerView
-    private lateinit var newArrayList: ArrayList<Item>
-    lateinit var type : Array<String>
-    lateinit var date : Array<String>
-    lateinit var amount : Array<String>
-
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private var dashboardViewModel: DashboardViewModel = DashboardViewModel()
+    private val commons: Commons = Commons()
+    lateinit var type: Array<String>
+    lateinit var date: Array<String>
+    lateinit var amount: Array<String>
 
+    private lateinit var storeName: TextView
+    private lateinit var storeAddress: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-//        val dashboardViewModel =
-//            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val tableLayout: TableLayout = root.findViewById(R.id.tableLayout)
-        addDataRow(tableLayout, "Coke", "25")
-        addDataRow(tableLayout, "Cheese Cake", "15")
-        addDataRow(tableLayout, "Siomai 3pcs", "9")
-        addDataRow(tableLayout, "Meat Burger", "5")
+        setOnClickListeners()
+        observeDataChange()
+        loadUi()
+        initializeVariables()
 
-        // active promos
-        val active_promos: TableLayout = root.findViewById(R.id.active_promos)
-        addDataRow(active_promos, "Earth Day Celebration", "25")
-        addDataRow(active_promos, "Christmas Special", "15")
-
-        // top recyclers
-        val top_recylers: TableLayout = root.findViewById(R.id.top_recyclers)
-        addDataRow(top_recylers, "Elias Ainsworth", "250")
-        addDataRow(top_recylers, "Chise Hatori", "150")
-
-        type = arrayOf(
-            "Recieve Points",
-            "Redeem Reward",
-        )
-
-        date = arrayOf(
-            "09-10-2023",
-            "09-10-2023"
-        )
-
-        amount = arrayOf(
-            "20",
-            "20"
-        )
-
-        newRecyclerView = binding.recyclerView
-        newRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        newRecyclerView.setHasFixedSize(true)
-
-        newArrayList = arrayListOf<Item>()
-        getItemData()
-
-        setNavigationOnClickListener(R.id.requestPickUp, R.id.action_to_pickup_request_list)
-        setNavigationOnClickListener(R.id.profile, R.id.action_dashboard_to_profile)
-
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun initializeVariables() {
+        storeName = binding.shopName
+        storeAddress = binding.address
+    }
+
+    private fun loadUi() {
+        dashboardViewModel.fetchUserInfo()
+    }
+
+    private fun onRefresh() {
+//        commons.setOnRefreshListener()
+    }
+
+    private fun observeDataChange() {
+        dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
+            storeName.text = details.name
+            storeAddress.text = commons.formatAddress(details.address,"short")
+        }
+    }
+
+    private fun setOnClickListeners() {
+        setNavigationOnClickListener(R.id.requestPickUp, R.id.action_to_pickup_request_list)
     }
 
     private fun setNavigationOnClickListener(viewId: Int, actionId: Int) {
@@ -107,39 +71,9 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun getItemData() {
-        for (i in type.indices){
-            val transaction = Item(type[i], date[i], amount[i])
-            newArrayList.add(transaction)
-        }
-
-        newRecyclerView.adapter = ItemAdapter(newArrayList)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun addDataRow(tableLayout: TableLayout, prod_name: String, sold: String) {
-        val tableRow = TableRow(requireContext())
-
-        val product_name = createTextView(prod_name, R.color.white)
-        tableRow.addView(product_name)
-
-        val quantity_sold = createTextView(sold, R.color.white)
-        tableRow.addView(quantity_sold)
-
-        tableLayout.addView(tableRow)
-    }
-
-    private fun createTextView(text: String, backgroundColor: Int): TextView {
-        val textView = TextView(requireContext())
-        textView.text = text
-        textView.layoutParams = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT,
-            TableRow.LayoutParams.WRAP_CONTENT
-        )
-        textView.setPadding(8, 8, 8, 8)
-        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color))
-        textView.setBackgroundColor(ContextCompat.getColor(requireContext(), backgroundColor))
-        textView.textSize = resources.getDimension(R.dimen.text_tiniest)
-        textView.typeface = ResourcesCompat.getFont(requireContext(), R.font.nunito_sans_semibold)
-        return textView
-    }
 }

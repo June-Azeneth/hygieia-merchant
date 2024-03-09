@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.LoggedInActivity
+import com.example.hygieiamerchant.MainActivity2
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentLoginBinding
 import com.example.hygieiamerchant.utils.Commons
@@ -80,7 +81,7 @@ class LoginFragment : Fragment() {
 
                             if (task.isSuccessful) {
                                 val intent =
-                                    Intent(requireView().context, LoggedInActivity::class.java)
+                                    Intent(requireView().context, MainActivity2::class.java)
                                 startActivity(intent)
                                 binding.email.text = Editable.Factory.getInstance().newEditable("")
                                 binding.password.text =

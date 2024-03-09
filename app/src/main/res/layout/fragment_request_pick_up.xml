@@ -7,16 +7,10 @@
     android:background="@color/bg_color"
     tools:context=".pages.requestpickup.RequestPickUpFragment">
 
-
-    <include
-        android:id="@+id/header"
-        layout="@layout/custom_header" />
-
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
         android:layout_marginTop="@dimen/regular"
         android:layout_marginHorizontal="@dimen/small"
         android:fontFamily="@font/nunito_sans_semibold"
@@ -131,7 +125,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/send"
         android:layout_width="@dimen/XXL"
-        android:layout_height="@dimen/large"
+        android:layout_height="50dp"
         android:layout_below="@id/notes"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"

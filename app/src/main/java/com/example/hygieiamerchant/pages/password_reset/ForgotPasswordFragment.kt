@@ -52,18 +52,13 @@ class ForgotPasswordFragment : Fragment() {
             if (emailString.isNotEmpty()) {
                 resetPassword(emailString)
             } else {
-                commons.showToast("Email field can't be empty", requireContext())
+                commons.showToast("Email field can not be empty", requireContext())
             }
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        val emailRegex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,})+$")
-        return emailRegex.matches(email)
-    }
-
     private fun resetPassword(email: String) {
-        if (!isEmailValid(emailString)) {
+        if (!commons.validateEmail(emailString)) {
             commons.showToast("Invalid email", requireContext())
         } else {
             auth.sendPasswordResetEmail(email)
@@ -84,11 +79,11 @@ class ForgotPasswordFragment : Fragment() {
                         )
                     }
                 }
-                .addOnFailureListener {
+                .addOnFailureListener {error ->
                     commons.showAlertDialog(
                         requireContext(),
                         "Reset Failed",
-                        "Something went wrong. Try again later.",
+                        "An error occurred: $error",
                         "Okay"
                     )
                 }

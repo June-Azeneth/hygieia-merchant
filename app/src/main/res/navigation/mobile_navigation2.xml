@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/nav_dashboard">
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
+        android:label="@string/dashboard"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_scan_qr_code"
+        android:label="@string/scan_qr_code"
+        android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRCodeFragment"
+        tools:layout="@layout/fragment_scan_q_r_code" />
+    <fragment
+        android:id="@+id/nav_promos"
+        android:name="com.example.hygieiamerchant.pages.promos.PromosFragment"
+        android:label="Promos"
+        tools:layout="@layout/fragment_promos" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_rewards"
+        android:name="com.example.hygieiamerchant.pages.rewards.RewardFragment"
+        android:label="Rewards"
+        tools:layout="@layout/fragment_reward" >
+        <action
+            android:id="@+id/rewardsTab_to_addReward"
+            app:destination="@id/addRewardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.hygieiamerchant.pages.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/addRewardFragment"
+        android:name="com.example.hygieiamerchant.pages.rewards.AddRewardFragment"
+        android:label="Add Reward"
+        tools:layout="@layout/fragment_add_reward" >
+        <action
+            android:id="@+id/from_add_rewards_to_rewards"
+            app:destination="@id/nav_rewards" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPromoFragment"
+        android:name="com.example.hygieiamerchant.pages.promos.CreatePromoFragment"
+        android:label="Create Promo"
+        tools:layout="@layout/fragment_create_promo" />
+    <fragment
+        android:id="@+id/requestListFragment2"
+        android:name="com.example.hygieiamerchant.pages.requestpickup.RequestListFragment"
+        android:label="Requests"
+        tools:layout="@layout/fragment_request_list" />
+    <fragment
+        android:id="@+id/requestPickUpFragment"
+        android:name="com.example.hygieiamerchant.pages.requestpickup.RequestPickUpFragment"
+        android:label="Create Request"
+        tools:layout="@layout/fragment_request_pick_up" />
+    <fragment
+        android:id="@+id/nav_transactions"
+        android:name="com.example.hygieiamerchant.pages.transactions.TransactionsFragment"
+        android:label="Transactions"
+        tools:layout="@layout/fragment_transactions" />
+</navigation>

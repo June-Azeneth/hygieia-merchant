@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Reward
@@ -30,13 +31,13 @@ class RewardFragment : Fragment() {
 
     private lateinit var rewardList: ArrayList<Reward>
     private val rewardsViewModel: RewardsViewModel by activityViewModels()
-    private lateinit var recyclerViewAdapter: RewardAdapter
+    private lateinit var recyclerViewAdapter : RewardAdapter
+
     private lateinit var commons: Commons
 
     private var selectedCategory: String = ""
     private lateinit var dialog: AlertDialog
     private lateinit var networkManager: NetworkManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,26 +50,34 @@ class RewardFragment : Fragment() {
     ): View? {
         _binding = FragmentRewardBinding.inflate(inflater, container, false)
 
-        //Initializing
+        initializeVariables()
+        dropDown(binding.root)
+        setUpNetworkObservation()
+        commonActions()
+
+        return binding.root
+    }
+
+    private fun initializeVariables() {
         commons = Commons()
         rewardList = ArrayList()
         dialog = MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded)
             .setView(R.layout.connectivity_dialog_box)
             .setCancelable(true)
             .create()
+    }
 
-        //common operations
-        commons.setPageTitle("Rewards List", binding.root)
-        commons.setNavigationOnClickListener(binding.addReward, R.id.action_rewards_to_add_rewards)
+    private fun commonActions() {
+        commons.setNavigationOnClickListener(binding.addReward, R.id.rewardsTab_to_addReward)
+
+        binding.addReward.setOnClickListener{
+            rewardsViewModel.setAction("create")
+            findNavController().navigate(R.id.rewardsTab_to_addReward)
+        }
+
         commons.setOnRefreshListener(binding.swipeRefreshLayout) {
             refreshRewards()
         }
-
-        //method calls
-        dropDown(binding.root)
-        setUpNetworkObservation()
-
-        return binding.root
     }
 
     private fun setUpNetworkObservation() {
@@ -96,6 +105,15 @@ class RewardFragment : Fragment() {
         }
     }
 
+    private fun showMessage(show : Boolean){
+        if(show){
+            binding.imageMessage.visibility = View.VISIBLE
+        }
+        else{
+            binding.imageMessage.visibility = View.INVISIBLE
+        }
+    }
+
     private fun observeRewardDetails() {
         rewardsViewModel.rewardDetails.observe(viewLifecycleOwner) { rewards ->
             val imgMessage: ShapeableImageView = binding.imageMessage
@@ -106,8 +124,13 @@ class RewardFragment : Fragment() {
                 rewardList.addAll(rewards)
                 recyclerViewAdapter.notifyDataSetChanged()
                 binding.progressBar.visibility = View.GONE
-                imgMessage.visibility = INVISIBLE
-                commons.log(logTag, rewards.toString())
+
+                if(rewardList.isEmpty()){
+                    showMessage(true)
+                }
+                else{
+                    showMessage(false)
+                }
             }
         }
     }
@@ -126,7 +149,7 @@ class RewardFragment : Fragment() {
             val spinnerData = arrayOf("All", "Meal", "Snack", "Beverage", "Dessert")
 
             val spinner: Spinner = root.findViewById(R.id.spinner)
-            val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerData)
+            val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_dark, spinnerData)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
 
@@ -159,9 +182,35 @@ class RewardFragment : Fragment() {
             recyclerView.setHasFixedSize(true)
 
             rewardList = arrayListOf()
-            recyclerViewAdapter = RewardAdapter(rewardList)
-            recyclerView.adapter = recyclerViewAdapter
+            recyclerViewAdapter = RewardAdapter(
+                rewardList,
+                object : RewardAdapter.OnItemClickListener {
+                    override fun onEditClick(reward: Reward) {
+                        rewardsViewModel.setAction("update")
+                        rewardsViewModel.fetchReward(reward.id)
+                        findNavController().navigate(R.id.rewardsTab_to_addReward)
+                    }
+                },
+                object : RewardAdapter.OnDeleteClickListener {
+                    override fun onDeleteClick(reward: Reward) {
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setTitle("Delete Reward")
+                            .setMessage("Are you sure you want to delete this reward?")
+                            .setPositiveButton("Yes") { dialog, _ ->
+                                rewardsViewModel.deleteReward(reward.id)
+                                rewardsViewModel.fetchAllRewards("All")
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    }
+                }
+            )
 
+            recyclerView.adapter = recyclerViewAdapter
             binding.progressBar.visibility = VISIBLE
             rewardsViewModel.fetchAllRewards(selectedCategory)
         } catch (error: Exception) {

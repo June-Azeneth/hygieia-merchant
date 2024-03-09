@@ -86,7 +86,7 @@ class RequestListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         try {
-            Commons().setPageTitle("Pickup Requests", binding.root)
+
             displayData(binding.root)
         } catch (error: Exception) {
             Log.e("Error", error.toString())

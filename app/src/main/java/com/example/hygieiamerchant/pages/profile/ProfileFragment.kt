@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.utils.Commons
 import com.example.hygieiamerchant.databinding.FragmentProfileBinding
 
@@ -18,9 +17,6 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        Commons().setPageTitle("Profile", root)
-        Commons().setToolbarIcon(R.drawable.logout, root)
-        return root
+        return binding.root
     }
 }

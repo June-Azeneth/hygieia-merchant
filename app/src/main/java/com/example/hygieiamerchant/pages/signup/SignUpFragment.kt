@@ -1,7 +1,6 @@
 package com.example.hygieiamerchant.pages.signup
 
 import android.content.ContentResolver
-import android.content.Context
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -62,6 +62,8 @@ class SignUpFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel = SignUpViewModel()
     private val common: Commons = Commons()
     private var cityString: String = ""
+    private var selectedLgu: String = ""
+    private var selectedIdType: String = ""
 
     private val getBackPhotoName =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -82,8 +84,7 @@ class SignUpFragment : Fragment() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
@@ -94,10 +95,30 @@ class SignUpFragment : Fragment() {
         observeDataSetChange()
         setUpRefreshListener()
         onInputChange()
+        getSelectedCity()
+        getSelectedIdType()
 
         signUpViewModel.fetchLguBasedOnUserCity(cityString)
 
         return binding.root
+    }
+
+    private fun getSelectedIdType() {
+        lisOfIds.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                // Extract the selected value
+                selectedIdType = parent?.getItemAtPosition(position).toString()
+
+                // Use the selected value as needed
+                Log.d("Spinner", "Selected item: $selectedIdType")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing if nothing is selected
+            }
+        }
     }
 
     private fun setUpOnClickListeners() {
@@ -110,8 +131,7 @@ class SignUpFragment : Fragment() {
         }
 
         submit.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
-            binding.text.visibility = View.INVISIBLE
+            showLoader(true)
             saveAccountRegistrationRequest()
         }
 
@@ -156,6 +176,25 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun getSelectedCity() {
+        lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                // Extract the selected value
+                selectedLgu = parent?.getItemAtPosition(position).toString()
+
+                // Use the selected value as needed
+                Log.d("Spinner", "Selected item: $selectedLgu")
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing if nothing is selected
+            }
+        }
+    }
+
     private fun observeDataSetChange() {
         signUpViewModel.lguDetails.observe(viewLifecycleOwner) { lgu ->
             if (lgu != null) {
@@ -166,11 +205,9 @@ class SignUpFragment : Fragment() {
                 common.log("LGU", lgu.toString())
 
                 // Get a reference to the Spinner
-                val lguListAdapter = ArrayAdapter(
-                    requireContext(),
+                val lguListAdapter = ArrayAdapter(requireContext(),
                     android.R.layout.simple_spinner_item,
-                    list.map { it.name }
-                )
+                    list.map { it.name })
                 lguListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 lguList.adapter = lguListAdapter
             }
@@ -179,8 +216,7 @@ class SignUpFragment : Fragment() {
 
     private fun setUpSpinners() {
         val validIdsAdapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.valid_ids_array, android.R.layout.simple_spinner_item
+            requireContext(), R.array.valid_ids_array, android.R.layout.simple_spinner_item
         )
         validIdsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         lisOfIds.adapter = validIdsAdapter
@@ -189,32 +225,26 @@ class SignUpFragment : Fragment() {
 
     private fun saveAccountRegistrationRequest() {
         val isValid: Boolean = validateFields()
-
         if (isValid) {
             createRequest()
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Something went wrong. Please try again!",
-                Toast.LENGTH_SHORT
-            ).show()
+            showLoader(false)
+        }
+    }
+
+    private fun showLoader(loading: Boolean) {
+        if (loading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.text.visibility = View.INVISIBLE
+        } else {
+            binding.progressBar.visibility = View.INVISIBLE
+            binding.text.visibility = View.VISIBLE
         }
     }
 
     private fun getDateAndTime(): Timestamp {
         val currentDateTime = Calendar.getInstance().time
         return Timestamp(Date(currentDateTime.time))
-    }
-
-    private fun getCurrentDate(): Timestamp {
-        val currentDate = Calendar.getInstance().time
-        val calendar = Calendar.getInstance()
-        calendar.time = currentDate
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return Timestamp(Date(calendar.timeInMillis))
     }
 
     private fun createRequest() {
@@ -226,46 +256,43 @@ class SignUpFragment : Fragment() {
         val city = city.text.toString()
         val province = province.text.toString()
 
-        val address = listOf(sitio, barangay, city, province)
+        val address = mapOf(
+            "sitio" to sitio, "barangay" to barangay, "city" to city, "province" to province
+        )
 
         uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
             // Once you have the downloadUrl (validId), make the Firestore request
             val data = hashMapOf(
-                "storeName" to storeName,
-                "storeEmail" to storeEmail,
-                "storeOwner" to storeOwner,
+                "name" to storeName,
+                "email" to storeEmail,
+                "owner" to storeOwner,
                 "address" to address,
                 "validIdFront" to frontUrl,
                 "validIdBack" to backUrl,
                 "dateSubmitted" to getDateAndTime(),
+                "idType" to selectedIdType,
+                "lgu" to selectedLgu,
                 "status" to "pending"
             )
 
-            fireStore.collection("store")
-                .add(data)
-                .addOnSuccessListener {
-                    // Document added successfully
-                    binding.progressBar.visibility = View.INVISIBLE
-                    binding.text.visibility = View.VISIBLE
-                    val title = "Account Request Sent"
-                    val message = "Thank you for your interest in opening an account with us. " +
-                            "Your request has been successfully submitted to the Hygieia Admin team for review. " +
-                            "\n\nPlease allow us some time to process your application. " +
-                            "We will notify you via email once your application has been reviewed and processed." +
-                            "\n\nThank You!"
-                    showAlertDialog(requireContext(), title, message)
-                }
-                .addOnFailureListener { e ->
-                    // Error occurred while adding document
-                    binding.progressBar.visibility = View.INVISIBLE
-                    binding.text.visibility = View.VISIBLE
-                    Log.e("UPLOADING", "Error adding document", e)
-                    Toast.makeText(
-                        requireContext(),
-                        "Error saving data to Firestore",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            fireStore.collection("store").add(data).addOnSuccessListener {
+                // Document added successfully
+                showLoader(false)
+                val title = "Account Request Sent"
+                val message =
+                    "Thank you for your interest in opening an account with us. " + "Your request has been successfully submitted to the Hygieia Admin team for review. " + "\n\nPlease allow us some time to process your application. " + "We will notify you via email once your application has been reviewed and processed." + "\n\nThank You!"
+                common.showAlertDialogWithDestination(
+                    this, title, message, "Got it!", R.id.action_signUpFragment_to_loginFragment
+                )
+
+            }.addOnFailureListener { e ->
+                // Error occurred while adding document
+                showLoader(false)
+                Log.e("UPLOADING", "Error adding document", e)
+                Toast.makeText(
+                    requireContext(), "Error saving data to Firestore", Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -280,18 +307,6 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun showAlertDialog(context: Context, title: String, message: String) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("Got it!") { dialog, _ ->
-                findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-                dialog.dismiss()
-            }
-        val dialog = builder.create()
-        dialog.show()
-    }
-
     private fun validateFields(): Boolean {
         val storeName = storeName.text.toString()
         val storeEmail = storeEmail.text.toString()
@@ -300,36 +315,33 @@ class SignUpFragment : Fragment() {
         val barangay = barangay.text.toString()
         val city = city.text.toString()
         val province = province.text.toString()
-        val validId = front.text.toString()
+        val validIdFront = front.text.toString()
+        val validIdBack = back.text.toString()
 
-        if (storeName.isBlank() ||
-            storeEmail.isBlank() ||
-            storeOwner.isBlank() ||
-            sitio.isBlank() ||
-            barangay.isBlank() ||
-            city.isBlank() ||
-            province.isBlank() ||
-            validId.contentEquals("No Image Selected")
+        if (storeName.isBlank() || storeEmail.isBlank() || storeOwner.isBlank() || sitio.isBlank() || barangay.isBlank() || city.isBlank() || province.isBlank() || validIdFront.contentEquals(
+                "Upload Front of ID"
+            ) || validIdBack.contentEquals("Upload Back of ID")
         ) {
-            Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
+            common.showToast("Please fill in all required fields", requireContext())
             return false
-        } else if (!isEmailValid(storeEmail)) {
-            Toast.makeText(requireContext(), "Email is not valid", Toast.LENGTH_SHORT).show()
+        } else if (!common.validateEmail(storeEmail)) {
+            common.showToast("Email is not valid", requireContext())
+            return false
+        } else if (selectedIdType == "Select ID" || selectedIdType.isEmpty()) {
+            common.showToast("Please select a valid ID type", requireContext())
+            return false
+        } else if (imageUriFront == null || imageUriBack == null) {
+            common.showToast(
+                "Please upload both front and back pictures of your valid ID", requireContext()
+            )
             return false
         } else {
             return true
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        val emailRegex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,})+$")
-        return emailRegex.matches(email)
-    }
-
     private fun uploadImageToFirebaseStorage(
-        imageUriFront: Uri,
-        imageUriBack: Uri,
-        callback: (String, String) -> Unit
+        imageUriFront: Uri, imageUriBack: Uri, callback: (String, String) -> Unit
     ) {
 
         val date = common.dateFormatMMMDDYYYY()
@@ -375,8 +387,7 @@ class SignUpFragment : Fragment() {
 
     private fun getImageTitle(imageUri: Uri?): String {
         val projection = arrayOf(
-            MediaStore.Images.Media.TITLE,
-            MediaStore.Images.Media.DISPLAY_NAME
+            MediaStore.Images.Media.TITLE, MediaStore.Images.Media.DISPLAY_NAME
         )
         val cursor = imageUri?.let { contentResolver.query(it, projection, null, null, null) }
         cursor?.use {

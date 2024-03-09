@@ -3,9 +3,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.hygieiamerchant.data_classes.Lgu
 import com.example.hygieiamerchant.data_classes.Promo
+import com.example.hygieiamerchant.data_classes.UserInfo
 import com.example.hygieiamerchant.repository.PromoRepo
+import com.example.hygieiamerchant.repository.UserRepo
+import kotlinx.coroutines.launch
 
 class SharedViewModel : ViewModel() {
     private val _promoDetails = MutableLiveData<List<Promo>>()

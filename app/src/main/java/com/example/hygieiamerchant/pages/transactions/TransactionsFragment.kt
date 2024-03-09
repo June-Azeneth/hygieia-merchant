@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.adapters.ItemAdapter
 import com.example.hygieiamerchant.data_classes.Item
-import com.example.hygieiamerchant.databinding.FragmentDashboardBinding
+import com.example.hygieiamerchant.databinding.FragmentTransactionsBinding
 
 class TransactionsFragment : Fragment() {
 
@@ -21,7 +21,7 @@ class TransactionsFragment : Fragment() {
     lateinit var date : Array<String>
     lateinit var amount : Array<String>
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentTransactionsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,45 +29,8 @@ class TransactionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val customToolbar = root.findViewById<View>(R.id.header)
-        val titleTextView: TextView = customToolbar.findViewById(R.id.titleTextView)
-        titleTextView.text = "Transaction History"
-
-        type = arrayOf(
-            "Recieve Points",
-            "Redeem Reward",
-        )
-
-        date = arrayOf(
-            "09-10-2023",
-            "09-10-2023"
-        )
-
-        amount = arrayOf(
-            "20",
-            "20"
-        )
-
-        newRecyclerView = binding.recyclerView
-        newRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        newRecyclerView.setHasFixedSize(true)
-
-        newArrayList = arrayListOf<Item>()
-        getItemData()
-
+        _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    private fun getItemData() {
-        for (i in type.indices){
-            val transaction = Item(type[i], date[i], amount[i])
-            newArrayList.add(transaction)
-        }
-
-        newRecyclerView.adapter = ItemAdapter(newArrayList)
     }
 
     override fun onDestroyView() {

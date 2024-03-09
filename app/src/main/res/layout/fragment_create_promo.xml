@@ -166,7 +166,7 @@
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addReward"
+                android:id="@+id/submitForm"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/large"
                 android:layout_below="@id/spinner"

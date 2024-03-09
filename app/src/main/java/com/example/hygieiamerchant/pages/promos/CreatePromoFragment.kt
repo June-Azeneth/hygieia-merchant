@@ -26,7 +26,7 @@ class CreatePromoFragment : Fragment() {
     ): View? {
         _binding = FragmentCreatePromoBinding.inflate(inflater, container, false)
 
-        Commons().setPageTitle("Create Promo", binding.root)
+
 
         return binding.root
     }

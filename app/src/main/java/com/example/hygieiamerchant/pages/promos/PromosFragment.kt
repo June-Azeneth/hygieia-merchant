@@ -53,7 +53,6 @@ class PromosFragment : Fragment() {
         ).setView(R.layout.connectivity_dialog_box).setCancelable(true).create()
 
         //common operations
-        commons.setPageTitle("Promos", binding.root)
         commons.setNavigationOnClickListener(binding.addPromo, R.id.action_promo_to_create_promo)
         commons.setOnRefreshListener(binding.swipeRefreshLayout) {
             //Refresh the data here
