@@ -11,6 +11,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,16 +36,12 @@
                 android:layout_height="@dimen/XXL"
                 android:layout_centerInParent="true" />
 
-
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginHorizontal="@dimen/small"
-                android:layout_marginTop="@dimen/small"
-                android:layout_marginEnd="14dp"
-                android:background="@color/main_green"
+                android:background="@drawable/simple_button"
                 android:padding="@dimen/small" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -52,7 +49,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spinner"
-                android:layout_marginHorizontal="@dimen/small"
                 android:layout_marginTop="@dimen/small" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,10 +57,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/tiny"
-                android:layout_marginTop="@dimen/tiny"
-                android:layout_marginEnd="@dimen/tiny"
-                android:layout_marginBottom="@dimen/tiny"
                 android:backgroundTint="@color/accent_orange"
                 android:clickable="true"
                 android:contentDescription="@string/add_promo"

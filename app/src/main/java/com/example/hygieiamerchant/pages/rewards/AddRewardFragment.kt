@@ -25,7 +25,6 @@ import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.RewardRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
-import com.example.hygieiamerchant.utils.NetworkManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
@@ -77,7 +76,7 @@ class AddRewardFragment : Fragment() {
         _binding = FragmentAddRewardBinding.inflate(inflater, container, false)
 
         initializeVariables()
-        setUpNetworkObservation()
+//        setUpNetworkObservation()
         setUpSpinner()
         setUpActionListeners()
         calculateDiscountedPrice()
@@ -129,8 +128,6 @@ class AddRewardFragment : Fragment() {
                 storePrice.setText(commons.formatDecimalNumber(reward.price))
                 discount.setText(commons.formatDecimalNumber(reward.discount))
                 pointsRequired.setText(commons.formatDecimalNumber(reward.pointsRequired))
-
-                commons.log("CATEGORY", reward.category)
 
                 val position = spinnerData.indexOf(reward.category)
 
@@ -333,8 +330,8 @@ class AddRewardFragment : Fragment() {
         storePrice.doOnTextChanged { price, _, _, _ ->
             price?.let {
                 val prc = storePrice.text.toString().toDoubleOrNull() ?: 0.0
-                val dsnt = discount.text.toString().toDoubleOrNull() ?: 0.0
-                discountedPrice = calculateDiscountedPrice(prc,dsnt)
+                val discnt = discount.text.toString().toDoubleOrNull() ?: 0.0
+                discountedPrice = calculateDiscountedPrice(prc,discnt)
                 val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
                 binding.discountedPrice.text = formattedDiscountedPrice
             }
@@ -351,16 +348,16 @@ class AddRewardFragment : Fragment() {
         }
     }
 
-    private fun setUpNetworkObservation() {
-        val networkManager = NetworkManager(requireContext())
-        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            if (!isNetworkAvailable) {
-
-            } else {
-
-            }
-        }
-    }
+//    private fun setUpNetworkObservation() {
+//        val networkManager = NetworkManager(requireContext())
+//        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
+//            if (!isNetworkAvailable) {
+//
+//            } else {
+//
+//            }
+//        }
+//    }
 
     private fun setUpSpinner() {
         spinnerData =

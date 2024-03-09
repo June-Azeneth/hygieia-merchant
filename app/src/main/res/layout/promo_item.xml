@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/tiny"
+    android:orientation="vertical"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/text_regular"
-    android:orientation="vertical">
+    app:cardCornerRadius="@dimen/text_regular">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,66 +16,33 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/photo"
             android:layout_width="130dp"
-            android:layout_height="160dp"
-            android:src="@drawable/imgplaceholder"
+            android:layout_height="140dp"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/placeholder_image"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/details"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/details"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/details"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:layout_marginHorizontal="@dimen/small"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/photo">
+            app:layout_constraintStart_toEndOf="@id/photo"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/promo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent_orange"
                 android:fontFamily="@font/nunito_sans_semibold"
+                android:textColor="@color/accent_orange"
                 android:textSize="@dimen/text_small" />
-
-            <TextView
-                android:id="@+id/product"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/promo_name"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
-
-            <TextView
-                android:id="@+id/discount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/product"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
-
-
-            <TextView
-                android:id="@+id/disc_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/discount"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
-
-            <TextView
-                android:id="@+id/points_required"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/disc_price"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny"/>
 
             <TextView
                 android:id="@+id/promoStart"
@@ -97,11 +64,41 @@
                 android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:layout_below="@id/points_required"
                 android:layout_marginTop="@dimen/tiny"
                 android:fontFamily="@font/nunito_sans_bold"
-                android:layout_below="@id/points_required"
-                android:textSize="@dimen/text_tiny"/>
+                android:textSize="@dimen/text_tiny" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/edit_item"
+                    android:paddingStart="8dp"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/main_green" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/deleteItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/danger_button"
+                    android:drawableStart="@drawable/delete"
+                    android:paddingStart="3dp"
+                    android:text="@string/delete"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

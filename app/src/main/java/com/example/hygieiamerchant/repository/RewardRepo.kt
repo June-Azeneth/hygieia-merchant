@@ -16,7 +16,6 @@ class RewardRepo {
     companion object {
         private const val COLLECTION = "reward"
         private const val STORE_ID = "storeId"
-        private const val ID = "id"
         private const val PHOTO = "photo"
         private const val NAME = "name"
         private const val PRICE = "price"

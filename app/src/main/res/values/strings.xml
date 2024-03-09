@@ -108,4 +108,6 @@
     <string name="fill_in_all_the_required_details">Fill in all the required details</string>
     <string name="discountRate">%s</string>
     <string name="discountedPrice">₱%1$s</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

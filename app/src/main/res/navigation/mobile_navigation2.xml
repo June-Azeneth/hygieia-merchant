@@ -21,6 +21,9 @@
         android:name="com.example.hygieiamerchant.pages.promos.PromosFragment"
         android:label="Promos"
         tools:layout="@layout/fragment_promos" >
+        <action
+            android:id="@+id/action_nav_promos_to_createPromoFragment"
+            app:destination="@id/createPromoFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_rewards"
@@ -49,7 +52,11 @@
         android:id="@+id/createPromoFragment"
         android:name="com.example.hygieiamerchant.pages.promos.CreatePromoFragment"
         android:label="Create Promo"
-        tools:layout="@layout/fragment_create_promo" />
+        tools:layout="@layout/fragment_create_promo" >
+        <action
+            android:id="@+id/action_createPromoFragment_to_nav_promos"
+            app:destination="@id/nav_promos" />
+    </fragment>
     <fragment
         android:id="@+id/requestListFragment2"
         android:name="com.example.hygieiamerchant.pages.requestpickup.RequestListFragment"

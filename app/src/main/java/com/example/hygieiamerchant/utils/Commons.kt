@@ -3,6 +3,7 @@ package com.example.hygieiamerchant.utils
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,13 +18,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.pages.rewards.RewardsViewModel
+import com.example.hygieiamerchant.repository.UserRepo
+import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import java.util.Date
 import java.util.Locale
 
 class Commons {
 
     private var loadingDialog: AlertDialog? = null
+    private val userRepo: UserRepo = UserRepo()
+    private var storage: FirebaseStorage = Firebase.storage
 
     fun setOnRefreshListener(refreshLayout: SwipeRefreshLayout, refreshAction: () -> Unit) {
         refreshLayout.setOnRefreshListener {
@@ -82,6 +89,28 @@ class Commons {
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
         return Timestamp(Date(calendar.timeInMillis))
+    }
+
+    fun uploadImage(
+        imageUri: Uri,
+        path: String,
+        callback: (String) -> Unit
+    ) {
+        val storageRef =
+            storage.reference.child(path)
+
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                callback(imageUrl.toString())
+            }.addOnFailureListener {
+                callback("")
+            }
+
+        }.addOnFailureListener {
+            callback("")
+        }
     }
 
     fun getDateAndTime(): Timestamp {

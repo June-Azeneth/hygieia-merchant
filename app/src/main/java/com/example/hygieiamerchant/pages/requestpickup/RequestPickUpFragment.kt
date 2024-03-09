@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.utils.Commons
 import com.example.hygieiamerchant.databinding.FragmentRequestPickUpBinding
 import java.util.Locale
 
