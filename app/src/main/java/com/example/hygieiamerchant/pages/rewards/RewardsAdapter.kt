@@ -14,18 +14,18 @@ import com.example.hygieiamerchant.data_classes.Reward
 import com.example.hygieiamerchant.utils.Commons
 import com.google.android.material.imageview.ShapeableImageView
 
-class RewardAdapter(
+class RewardsAdapter(
     private val rewardList: ArrayList<Reward>,
     private val onEditClickListener: OnItemClickListener,
     private val onDeleteClickListener: OnDeleteClickListener
-) : RecyclerView.Adapter<RewardAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<RewardsAdapter.MyViewHolder>() {
 
     interface OnItemClickListener {
         fun onEditClick(item: Reward)
     }
 
     interface OnDeleteClickListener {
-        fun onDeleteClick(rewards: Reward)
+        fun onDeleteClick(item: Reward)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

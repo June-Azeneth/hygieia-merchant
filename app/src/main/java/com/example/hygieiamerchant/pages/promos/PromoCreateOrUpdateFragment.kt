@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.util.Pair
@@ -32,7 +33,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import java.util.Date
 
-class CreatePromoFragment : Fragment() {
+class PromoCreateOrUpdateFragment : Fragment() {
     private var _binding: FragmentCreatePromoBinding? = null
     private val binding get() = _binding!!
     private val dashboardViewModel: DashboardViewModel = DashboardViewModel()
@@ -81,6 +82,7 @@ class CreatePromoFragment : Fragment() {
     ): View {
         _binding = FragmentCreatePromoBinding.inflate(inflater, container, false)
 
+        setPageTitle()
         initializeVariables()
         setUpUi()
         setUpActionListeners()
@@ -89,6 +91,14 @@ class CreatePromoFragment : Fragment() {
         calculateDiscountedPrice()
 
         return binding.root
+    }
+
+    private fun setPageTitle(){
+        if (promoViewModel.action.value == "update") {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Update Promo"
+        } else {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Create Promo"
+        }
     }
 
     private fun setUpUi() {
@@ -242,8 +252,6 @@ class CreatePromoFragment : Fragment() {
                 val updatedPointsRequired = pointsRequired.text.toString().toDouble()
                 val updatedPhoto = imageUrl ?: ""
                 val updatedDiscountedPrice = calculateDiscountedPrice(updatedPrice, updatedDiscount)
-                val updatedStart = startDate.text.toString()
-                val updatedEnd = endDate.text.toString()
 
                 if (currentPromo.promoName != updatedPromoName ||
                     currentPromo.product != updatedName ||
@@ -252,8 +260,8 @@ class CreatePromoFragment : Fragment() {
                     currentPromo.pointsRequired != updatedPointsRequired ||
                     currentPromo.photo != updatedPhoto ||
                     currentPromo.discountedPrice != updatedDiscountedPrice ||
-                    currentPromo.dateStart.toString().equals(timestampStartDate) ||
-                    currentPromo.dateEnd.toString().equals(timestampEndDate)
+                    currentPromo.dateStart != timestampStartDate ||
+                    currentPromo.dateEnd != timestampEndDate
                 ) {
                     // Data has changed, proceed to update
                     if (image != null) {

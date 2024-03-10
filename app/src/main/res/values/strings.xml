@@ -110,4 +110,15 @@
     <string name="discountedPrice">₱%1$s</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="update">Update</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="date_placeholder">March 30, 2024</string>
+    <string name="sold_item">Sold item %1$s</string>
+    <string name="grant_points">Grant Points</string>
+    <string name="id">ID: %1$s</string>
+    <string name="customer">Customer: %1$s</string>
+    <string name="product">Product: %1$s</string>
+    <string name="sold_at">Sold at: %1$s</string>
+    <string name="points_required_">Points Required: %1$s</string>
+    <string name="points_granted">Points granted: %1$s</string>
 </resources>

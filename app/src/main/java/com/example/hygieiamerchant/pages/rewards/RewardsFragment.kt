@@ -24,14 +24,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.launch
 
-class RewardFragment : Fragment() {
+class RewardsFragment : Fragment() {
     private val logTag = "REWARD FRAGMENT"
     private var _binding: FragmentRewardBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var rewardList: ArrayList<Reward>
     private val rewardsViewModel: RewardsViewModel by activityViewModels()
-    private lateinit var recyclerViewAdapter : RewardAdapter
+    private lateinit var recyclerViewAdapter : RewardsAdapter
 
     private lateinit var commons: Commons
 
@@ -107,10 +107,10 @@ class RewardFragment : Fragment() {
 
     private fun showMessage(show : Boolean){
         if(show){
-            binding.imageMessage.visibility = View.VISIBLE
+            binding.imageMessage.visibility = VISIBLE
         }
         else{
-            binding.imageMessage.visibility = View.INVISIBLE
+            binding.imageMessage.visibility = INVISIBLE
         }
     }
 
@@ -182,22 +182,22 @@ class RewardFragment : Fragment() {
             recyclerView.setHasFixedSize(true)
 
             rewardList = arrayListOf()
-            recyclerViewAdapter = RewardAdapter(
+            recyclerViewAdapter = RewardsAdapter(
                 rewardList,
-                object : RewardAdapter.OnItemClickListener {
-                    override fun onEditClick(reward: Reward) {
+                object : RewardsAdapter.OnItemClickListener {
+                    override fun onEditClick(item: Reward) {
                         rewardsViewModel.setAction("update")
-                        rewardsViewModel.fetchReward(reward.id)
+                        rewardsViewModel.fetchReward(item.id)
                         findNavController().navigate(R.id.rewardsTab_to_addReward)
                     }
                 },
-                object : RewardAdapter.OnDeleteClickListener {
-                    override fun onDeleteClick(reward: Reward) {
+                object : RewardsAdapter.OnDeleteClickListener {
+                    override fun onDeleteClick(item: Reward) {
                         val builder = AlertDialog.Builder(requireContext())
                         builder.setTitle("Delete Reward")
                             .setMessage("Are you sure you want to delete this reward?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                rewardsViewModel.deleteReward(reward.id)
+                                rewardsViewModel.deleteReward(item.id)
                                 rewardsViewModel.fetchAllRewards("All")
                                 dialog.dismiss()
                             }

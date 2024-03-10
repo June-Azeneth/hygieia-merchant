@@ -90,9 +90,9 @@ class PromoRepo {
         }
     }
 
-    fun pausePromo(id: String, pause: Date?, end: Date?) {
-
-    }
+//    fun pausePromo(id: String, pause: Date?, end: Date?) {
+//
+//    }
 
     fun addPromo(data: Promo, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION)

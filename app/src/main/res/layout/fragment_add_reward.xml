@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".pages.rewards.AddRewardFragment">
+    tools:context=".pages.rewards.RewardCreateOrUpdateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

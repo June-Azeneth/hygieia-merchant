@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_rewards"
-        android:name="com.example.hygieiamerchant.pages.rewards.RewardFragment"
+        android:name="com.example.hygieiamerchant.pages.rewards.RewardsFragment"
         android:label="Rewards"
         tools:layout="@layout/fragment_reward" >
         <action
@@ -41,7 +41,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/addRewardFragment"
-        android:name="com.example.hygieiamerchant.pages.rewards.AddRewardFragment"
+        android:name="com.example.hygieiamerchant.pages.rewards.RewardCreateOrUpdateFragment"
         android:label="Add Reward"
         tools:layout="@layout/fragment_add_reward" >
         <action
@@ -50,8 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPromoFragment"
-        android:name="com.example.hygieiamerchant.pages.promos.CreatePromoFragment"
-        android:label="Create Promo"
+        android:name="com.example.hygieiamerchant.pages.promos.PromoCreateOrUpdateFragment"
         tools:layout="@layout/fragment_create_promo" >
         <action
             android:id="@+id/action_createPromoFragment_to_nav_promos"

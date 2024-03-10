@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
@@ -31,7 +32,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 
-class AddRewardFragment : Fragment() {
+class RewardCreateOrUpdateFragment : Fragment() {
     private var _binding: FragmentAddRewardBinding? = null
     private val binding get() = _binding!!
     private lateinit var storage: FirebaseStorage
@@ -75,6 +76,7 @@ class AddRewardFragment : Fragment() {
     ): View {
         _binding = FragmentAddRewardBinding.inflate(inflater, container, false)
 
+        setPageTitle()
         initializeVariables()
 //        setUpNetworkObservation()
         setUpSpinner()
@@ -84,6 +86,14 @@ class AddRewardFragment : Fragment() {
         setUpUi()
 
         return binding.root
+    }
+
+    private fun setPageTitle(){
+        if (rewardsViewModel.action.value == "update") {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Update Reward"
+        } else {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Create Reward"
+        }
     }
 
     private fun initializeVariables() {
@@ -102,11 +112,11 @@ class AddRewardFragment : Fragment() {
 
     private fun setUpUi() {
         if (rewardsViewModel.action.value == "update") {
-            submit.text = "Update"
+            submit.text = getString(R.string.update)
             populateFields()
         } else {
             // Load empty/default fields
-            submit.text = "Add"
+            submit.text = getString(R.string.add)
         }
 
         submit.setOnClickListener {
