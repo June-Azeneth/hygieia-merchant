@@ -7,17 +7,12 @@ import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.pages.rewards.RewardsViewModel
 import com.example.hygieiamerchant.repository.UserRepo
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
@@ -166,19 +161,19 @@ class Commons {
         }
     }
 
-    fun showAlertDialogWithDestination(
+    fun showAlertDialogWithCallback(
         fragment: Fragment,
         title: String,
         message: String,
         positiveButton: String,
-        destination: Int
+        positiveButtonCallback: (() -> Unit)? = null
     ) {
         val builder = AlertDialog.Builder(fragment.requireContext())
         builder.setTitle(title)
             .setMessage(message)
             .setPositiveButton(positiveButton) { dialog, _ ->
                 dialog.dismiss()
-                fragment.findNavController().navigate(destination)
+                positiveButtonCallback?.invoke()
             }
         val dialog = builder.create()
         dialog.show()

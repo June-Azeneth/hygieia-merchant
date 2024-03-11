@@ -16,9 +16,6 @@ class RewardsViewModel : ViewModel() {
     private val _singleReward = MutableLiveData<Reward?>()
     val singleReward: MutableLiveData<Reward?> get() = _singleReward
 
-//    private val _selectedRewardId = MutableLiveData<String>()
-//    val selectedRewardId: LiveData<String> get() = _selectedRewardId
-
     private val _action = MutableLiveData<String>()
     val action: LiveData<String> get() = _action
 
@@ -29,10 +26,6 @@ class RewardsViewModel : ViewModel() {
             }
         }
     }
-
-//    fun setSelectedReward(id: String) {
-//        _selectedRewardId.value = id
-//    }
 
     fun setAction(action: String) {
         _action.value = action

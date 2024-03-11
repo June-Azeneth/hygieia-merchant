@@ -29,9 +29,9 @@
 
     <fragment
         android:id="@+id/navigation_qrCode"
-        android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRCodeFragment"
         android:label="@string/scan"
-        tools:layout="@layout/fragment_scan_q_r">
+        tools:layout="@layout/fragment_scan_q_r_code">
     </fragment>
 
     <fragment

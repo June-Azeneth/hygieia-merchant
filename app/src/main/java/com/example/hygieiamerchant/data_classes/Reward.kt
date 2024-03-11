@@ -11,7 +11,6 @@ class Reward(
     var pointsRequired: Double = 0.0,
     var price: Double = 0.0,
     var category: String = "",
-    var storeName: String = "",
     var storeId: String = "",
     var addedOn: Timestamp? = null,
     var updatedOn: Timestamp? = null

@@ -18,7 +18,7 @@
         android:id="@+id/loader_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Uploading..."
+        android:text="Processing..."
         android:layout_marginStart="@dimen/regular"/>
 
 </LinearLayout>

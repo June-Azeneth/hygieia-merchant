@@ -18,4 +18,6 @@ class TransactionsViewModel : ViewModel() {
             _transactionList.value = transactions
         }
     }
+
+
 }

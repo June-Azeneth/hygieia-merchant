@@ -281,8 +281,10 @@ class SignUpFragment : Fragment() {
                 val title = "Account Request Sent"
                 val message =
                     "Thank you for your interest in opening an account with us. " + "Your request has been successfully submitted to the Hygieia Admin team for review. " + "\n\nPlease allow us some time to process your application. " + "We will notify you via email once your application has been reviewed and processed." + "\n\nThank You!"
-                common.showAlertDialogWithDestination(
-                    this, title, message, "Got it!", R.id.action_signUpFragment_to_loginFragment
+                common.showAlertDialogWithCallback(
+                    this, title, message, "Got it!", positiveButtonCallback = {
+                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                    }
                 )
 
             }.addOnFailureListener { e ->

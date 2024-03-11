@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Transaction
 import com.example.hygieiamerchant.databinding.FragmentTransactionsBinding
 import com.example.hygieiamerchant.utils.Commons
-import com.example.hygieiamerchant.utils.popups.GrantPointsPopUp
+import com.example.hygieiamerchant.utils.NetworkManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 
 class TransactionsFragment : Fragment() {
@@ -26,6 +29,7 @@ class TransactionsFragment : Fragment() {
     private lateinit var recyclerViewAdapter: TransactionsAdapter
     private lateinit var imgMessage: ShapeableImageView
     private lateinit var progressBar: ProgressBar
+    private lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,14 +39,35 @@ class TransactionsFragment : Fragment() {
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
 
         initializeVariables()
+        observeNetwork()
         setUpRecyclerView()
-        observeDataSetChange()
+        setUpRefreshListener()
 
         return binding.root
     }
 
-    private fun observeNetwork() {
+    private fun setUpRefreshListener(){
+        commons.setOnRefreshListener(binding.swipeRefreshLayout){
+            observeNetwork()
+        }
+    }
 
+    private fun observeNetwork() {
+        val networkManager = NetworkManager(requireContext())
+        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
+            if (!isNetworkAvailable) {
+                showConnectivityDialog()
+                clearTransactionList()
+            } else {
+                observeDataSetChange()
+                setUpRecyclerView()
+            }
+        }
+    }
+
+    private fun showConnectivityDialog() {
+        if (!dialog.isShowing)
+            dialog.show()
     }
 
     private fun observeDataSetChange() {
@@ -78,6 +103,10 @@ class TransactionsFragment : Fragment() {
         progressBar = binding.progressBar
         recyclerView = binding.recyclerView
         transactionList = ArrayList()
+        dialog = MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded)
+            .setView(R.layout.connectivity_dialog_box)
+            .setCancelable(true)
+            .create()
     }
 
     private fun setUpRecyclerView() {
@@ -92,7 +121,6 @@ class TransactionsFragment : Fragment() {
                 object : TransactionsAdapter.OnItemClickListener {
                     override fun onItemClick(item: Transaction) {
                         val dialog = TransactionDetailsDialog(requireContext(), item)
-                        commons.log(logTag,item.customerId)
                         dialog.show()
                     }
                 }

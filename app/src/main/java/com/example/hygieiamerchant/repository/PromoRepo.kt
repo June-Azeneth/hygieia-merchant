@@ -2,10 +2,8 @@ package com.example.hygieiamerchant.repository
 
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Promo
-import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Date
 
 class PromoRepo {
     private val tag = "PROMOSREPO"
@@ -28,7 +26,8 @@ class PromoRepo {
         private const val DATE_RESUME = "dateResume"
         private const val ADDED_ON = "addedOn"
         private const val DISCOUNTED_PRICE = "discountedPrice"
-        private const val STORE_NAME = "storeName"
+        private const val UPDATED_ON = "updatedOn"
+        private const val STATUS = "status"
     }
 
     fun getAllPromos(statusFilter: String, callback: (List<Promo>?) -> Unit) {
@@ -37,6 +36,7 @@ class PromoRepo {
 
             val query = fireStore.collection(COLLECTION)
                 .whereEqualTo(STORE_ID, user.uid)
+                .whereEqualTo(STATUS , "active")
 
             query.get()
                 .addOnSuccessListener { result ->
@@ -104,11 +104,11 @@ class PromoRepo {
             DISCOUNT_RATE to data.discountRate,
             DISCOUNTED_PRICE to data.discountedPrice,
             PRICE to data.price,
-            STORE_NAME to data.storeName,
             STORE_ID to data.storeId,
             PROMO_START to data.dateStart,
             PROMO_END to data.dateEnd,
-            PRODUCT to data.product
+            PRODUCT to data.product,
+            STATUS to "active"
         )
         docRef.add(addData)
             .addOnSuccessListener {
@@ -149,7 +149,10 @@ class PromoRepo {
 
     fun deletePromo(id: String, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION).document(id)
-        docRef.delete()
+        val data = mapOf(
+            STATUS to "deleted"
+        )
+        docRef.update(data)
             .addOnSuccessListener {
                 callback(true)
             }
@@ -161,24 +164,22 @@ class PromoRepo {
     fun updatePromo(id: String, data: Promo, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION).document(id)
         val updateData = mapOf(
-            "name" to data.promoName,
-            "product" to data.product,
-            "updatedOn" to data.updatedOn?.toDate(),
-            "photo" to data.photo,
-            "pointsRequired" to data.pointsRequired,
-            "discountRate" to data.discountRate,
-            "discountedPrice" to data.discountedPrice,
-            "price" to data.price,
-            "storeName" to data.storeName,
-            "promoStart" to data.dateStart,
-            "promoEnd" to data.dateEnd
+            NAME to data.promoName,
+            PRODUCT to data.product,
+            UPDATED_ON to data.updatedOn?.toDate(),
+            PHOTO to data.photo,
+            POINTS_REQUIRED to data.pointsRequired,
+            DISCOUNT_RATE to data.discountRate,
+            DISCOUNTED_PRICE to data.discountedPrice,
+            PRICE to data.price,
+            PROMO_START to data.dateStart,
+            PROMO_END to data.dateEnd
         )
         docRef.update(updateData)
             .addOnSuccessListener {
                 callback(true)
             }
             .addOnFailureListener {error ->
-                Log.e("UPDATE PROMO", error.toString())
                 callback(false)
             }
     }

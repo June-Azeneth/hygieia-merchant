@@ -2,6 +2,7 @@ package com.example.hygieiamerchant.repository
 
 
 import android.util.Log
+import com.example.hygieiamerchant.data_classes.Customer
 import com.example.hygieiamerchant.data_classes.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,6 +12,11 @@ class UserRepo {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    sealed class CustomerDetailsResult {
+        data class Success(val customer: Customer) : CustomerDetailsResult()
+        data class Error(val errorMessage: String) : CustomerDetailsResult()
+    }
 
     fun getUserDetails(callback: (UserInfo?) -> Unit) {
         currentUser?.let {
@@ -25,7 +31,6 @@ class UserRepo {
                             val userInfo = document.toObject(UserInfo::class.java)
                             callback(userInfo)
                         } else {
-                            // User document not found
                             callback(null)
                         }
                     } catch (error: Exception) {
@@ -42,5 +47,31 @@ class UserRepo {
     fun getCurrentUserId(): String? {
         val currentUser = auth.currentUser
         return currentUser?.uid
+    }
+
+    fun getCustomerDetails(id: String, callback: (CustomerDetailsResult) -> Unit) {
+        val docRef = fireStore.collection("consumer").document(id)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val status = document.getString("status") ?: ""
+                    if (status == "active") {
+                        val firstName = document.getString("firstName") ?: ""
+                        val lastName = document.getString("lastName") ?: ""
+                        val name = "$firstName $lastName"
+                        val currentBalance = document.getDouble("currentBalance") ?: 0.0
+                        val customer = Customer(document.id, name, currentBalance)
+                        callback(CustomerDetailsResult.Success(customer))
+                    }
+                    else {
+                        callback(CustomerDetailsResult.Error("Customer account inactive"))
+                    }
+                } else {
+                    callback(CustomerDetailsResult.Error("Customer not found"))
+                }
+            }
+            .addOnFailureListener { exception ->
+                callback(CustomerDetailsResult.Error(exception.message ?: "Unknown error"))
+            }
     }
 }

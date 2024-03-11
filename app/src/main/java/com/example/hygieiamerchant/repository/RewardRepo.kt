@@ -23,12 +23,16 @@ class RewardRepo {
         private const val DISCOUNTED_PRICE = "discountedPrice"
         private const val POINTS_REQUIRED = "pointsRequired"
         private const val CATEGORY = "category"
+        private const val STATUS = "status"
+        private const val ADDED_ON = "addedOn"
+        private const val UPDATED_ON = "updatedOn"
     }
 
     fun getAllRewards(category: String?, callback: (List<Reward>?) -> Unit) {
         currentUser?.let { user ->
             val baseQuery = fireStore.collection(COLLECTION)
                 .whereEqualTo(STORE_ID, user.uid)
+                .whereEqualTo(STATUS, "active")
 
             val query = if (category.isNullOrEmpty() || category == "All") {
                 baseQuery // No category filter or "All" selected, use the base query
@@ -64,7 +68,9 @@ class RewardRepo {
     }
 
     fun getReward(id: String, callback: (Reward?) -> Unit) {
-        val docRef = fireStore.collection("reward").document(id)
+        val docRef = fireStore.collection(COLLECTION)
+            .document(id)
+
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
@@ -91,16 +97,16 @@ class RewardRepo {
     fun addReward(data: Reward, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection("reward")
         val addData = mapOf(
-            "name" to data.name,
-            "addedOn" to data.addedOn?.toDate(),
-            "photo" to data.photo,
-            "category" to data.category,
-            "pointsRequired" to data.pointsRequired,
-            "discount" to data.discount,
-            "discountedPrice" to data.discountedPrice,
-            "price" to data.price,
-            "storeName" to data.storeName,
-            "storeId" to data.storeId
+            NAME to data.name,
+            ADDED_ON to data.addedOn?.toDate(),
+            PHOTO to data.photo,
+            CATEGORY to data.category,
+            POINTS_REQUIRED to data.pointsRequired,
+            DISCOUNT_RATE to data.discount,
+            DISCOUNTED_PRICE to data.discountedPrice,
+            PRICE to data.price,
+            STORE_ID to data.storeId,
+            STATUS to "active"
         )
         docRef.add(addData)
             .addOnSuccessListener {
@@ -112,17 +118,16 @@ class RewardRepo {
     }
 
     fun updateReward(id: String, data: Reward, callback: (Boolean) -> Unit) {
-        val docRef = fireStore.collection("reward").document(id)
+        val docRef = fireStore.collection(COLLECTION).document(id)
         val updateData = mapOf(
-            "name" to data.name,
-            "updatedOn" to data.updatedOn?.toDate(),
-            "photo" to data.photo,
-            "category" to data.category,
-            "pointsRequired" to data.pointsRequired,
-            "discount" to data.discount,
-            "discountedPrice" to data.discountedPrice,
-            "price" to data.price,
-            "storeName" to data.storeName
+            NAME to data.name,
+            UPDATED_ON to data.updatedOn?.toDate(),
+            PHOTO to data.photo,
+            CATEGORY to data.category,
+            POINTS_REQUIRED to data.pointsRequired,
+            DISCOUNT_RATE to data.discount,
+            DISCOUNTED_PRICE to data.discountedPrice,
+            PRICE to data.price,
         )
         docRef.update(updateData)
             .addOnSuccessListener {
@@ -135,8 +140,11 @@ class RewardRepo {
     }
 
     fun deleteReward(id: String, callback: (Boolean) -> Unit) {
-        val docRef = fireStore.collection("reward").document(id)
-        docRef.delete()
+        val docRef = fireStore.collection(COLLECTION).document(id)
+        val data = mapOf(
+            "status" to "deleted"
+        )
+        docRef.update(data)
             .addOnSuccessListener {
                 callback(true)
             }

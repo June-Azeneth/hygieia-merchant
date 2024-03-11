@@ -28,13 +28,10 @@ class RewardsFragment : Fragment() {
     private val logTag = "REWARD FRAGMENT"
     private var _binding: FragmentRewardBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var rewardList: ArrayList<Reward>
     private val rewardsViewModel: RewardsViewModel by activityViewModels()
     private lateinit var recyclerViewAdapter : RewardsAdapter
-
     private lateinit var commons: Commons
-
     private var selectedCategory: String = ""
     private lateinit var dialog: AlertDialog
     private lateinit var networkManager: NetworkManager
@@ -52,7 +49,7 @@ class RewardsFragment : Fragment() {
 
         initializeVariables()
         dropDown(binding.root)
-        setUpNetworkObservation()
+        observeNetwork()
         commonActions()
 
         return binding.root
@@ -76,11 +73,11 @@ class RewardsFragment : Fragment() {
         }
 
         commons.setOnRefreshListener(binding.swipeRefreshLayout) {
-            refreshRewards()
+            observeNetwork()
         }
     }
 
-    private fun setUpNetworkObservation() {
+    private fun observeNetwork() {
         val networkManager = NetworkManager(requireContext())
         networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
             if (!isNetworkAvailable) {
@@ -89,18 +86,6 @@ class RewardsFragment : Fragment() {
             } else {
                 setUpRecyclerView()
                 observeRewardDetails()
-            }
-        }
-    }
-
-    private fun refreshRewards() {
-        val networkManager = NetworkManager(requireContext())
-        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            if (!isNetworkAvailable) {
-                showConnectivityDialog()
-                clearRewardList()
-            } else {
-                rewardsViewModel.fetchAllRewards(selectedCategory)
             }
         }
     }

@@ -59,7 +59,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
     private lateinit var datePicker: AppCompatButton
 
     private var image: Uri? = null
-    private var storeName: String = ""
     private var discountedPrice: Double = 0.0
     private var id: String = ""
     private var imageUrl: String? = null
@@ -87,7 +86,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
         setUpUi()
         setUpActionListeners()
         setOnClickListeners()
-        retrieveStoreName()
         calculateDiscountedPrice()
 
         return binding.root
@@ -163,13 +161,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
         }
     }
 
-    private fun retrieveStoreName() {
-        dashboardViewModel.fetchUserInfo()
-        dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
-            storeName = details.name
-        }
-    }
-
     private fun setUpActionListeners() {
         photoPicker.setOnClickListener {
             openGallery.launch("image/*")
@@ -193,7 +184,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
                         pointsRequired = pointsRequired.text.toString().toDouble(),
                         photo = img,
                         storeId = userRepo.getCurrentUserId().toString(),
-                        storeName = storeName,
                         addedOn = commons.getDateAndTime(),
                         discountedPrice = discountedPrice,
                         dateStart = timestampStartDate,
@@ -294,7 +284,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
             pointsRequired = pointsRequired.text.toString().toDouble(),
             photo = imageUrl,
             storeId = userRepo.getCurrentUserId().toString(),
-            storeName = storeName,
             updatedOn = commons.getDateAndTime(),
             discountedPrice = formattedDiscountedPrice.toDouble(),
             dateStart = timestampStartDate,

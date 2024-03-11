@@ -226,7 +226,6 @@ class RewardCreateOrUpdateFragment : Fragment() {
                         pointsRequired = pointsRequired.text.toString().toDouble(),
                         photo = img,
                         storeId = userRepo.getCurrentUserId().toString(),
-                        storeName = storeName,
                         addedOn = commons.getDateAndTime(),
                         category = selectedCategory,
                         discountedPrice = discountedPrice
@@ -305,7 +304,6 @@ class RewardCreateOrUpdateFragment : Fragment() {
             pointsRequired = pointsRequired.text.toString().toDouble(),
             photo = imageUrl,
             storeId = userRepo.getCurrentUserId().toString(),
-            storeName = storeName,
             updatedOn = commons.getDateAndTime(),
             category = selectedCategory,
             discountedPrice = formattedDiscountedPrice.toDouble()

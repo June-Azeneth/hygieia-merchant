@@ -61,7 +61,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        setNavigationOnClickListener(R.id.requestPickUp, R.id.action_to_pickup_request_list)
+        setNavigationOnClickListener(R.id.requestPickUp, R.id.action_nav_dashboard_to_requestListFragment2)
     }
 
     private fun setNavigationOnClickListener(viewId: Int, actionId: Int) {

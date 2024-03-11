@@ -7,11 +7,6 @@
     android:background="@color/bg_color"
     tools:context=".pages.scanQR.ScanQRFragment">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/custom_header"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -56,8 +51,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/trans_text"
@@ -89,11 +83,11 @@
             android:id="@+id/editBTN"
             android:layout_width="match_parent"
             android:layout_height="@dimen/large"
+            android:layout_marginHorizontal="@dimen/large"
             android:layout_marginTop="@dimen/regular"
             android:background="@drawable/buttons"
             android:fontFamily="@font/nunito_sans_semibold"
             android:textAllCaps="false"
-            android:layout_marginHorizontal="@dimen/large"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -106,7 +100,7 @@
             android:fontFamily="@font/nunito_sans_semibold"
             android:text="Submit"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -115,7 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/XL"
-        android:layout_marginBottom="@dimen/tiny"
+        android:layout_marginBottom="@dimen/large"
         android:background="@drawable/button"
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Scan Now"

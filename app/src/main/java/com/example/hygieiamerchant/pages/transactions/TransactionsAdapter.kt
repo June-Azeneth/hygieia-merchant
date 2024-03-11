@@ -34,7 +34,8 @@ class TransactionsAdapter(
         val context = holder.itemView.context
 
         if(currentItem.type == "redeem"){
-            holder.type.text = context.getString(R.string.sold_item, currentItem.product)
+//            holder.type.text = context.getString(R.string.sold_item, currentItem.rewardId)
+            holder.type.text = "Sold an Item"
         }
         else{
             holder.type.text = context.getString(R.string.grant_points)

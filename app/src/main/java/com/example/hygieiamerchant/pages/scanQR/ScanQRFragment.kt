@@ -95,7 +95,6 @@ class ScanQRFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentScanQRBinding.inflate(inflater, container, false)
-        requestCameraAndStartScanner()
         return binding.root
     }
 
@@ -510,7 +509,7 @@ class ScanQRFragment : Fragment() {
 
     private fun requestCameraAndStartScanner() {
         if (requireContext().isCameraPermissionGranted(cameraPermission)) {
-
+//            startScanner()
         } else {
             requestCameraPermission()
         }

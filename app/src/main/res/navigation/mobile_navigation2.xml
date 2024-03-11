@@ -9,18 +9,22 @@
         android:id="@+id/nav_dashboard"
         android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_dashboard_to_requestListFragment2"
+            app:destination="@id/requestListFragment2" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_scan_qr_code"
-        android:label="@string/scan_qr_code"
         android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRCodeFragment"
+        android:label="@string/scan_qr_code"
         tools:layout="@layout/fragment_scan_q_r_code" />
     <fragment
         android:id="@+id/nav_promos"
         android:name="com.example.hygieiamerchant.pages.promos.PromosFragment"
         android:label="Promos"
-        tools:layout="@layout/fragment_promos" >
+        tools:layout="@layout/fragment_promos">
         <action
             android:id="@+id/action_nav_promos_to_createPromoFragment"
             app:destination="@id/createPromoFragment" />
@@ -29,7 +33,7 @@
         android:id="@+id/nav_rewards"
         android:name="com.example.hygieiamerchant.pages.rewards.RewardsFragment"
         android:label="Rewards"
-        tools:layout="@layout/fragment_reward" >
+        tools:layout="@layout/fragment_reward">
         <action
             android:id="@+id/rewardsTab_to_addReward"
             app:destination="@id/addRewardFragment" />
@@ -43,7 +47,7 @@
         android:id="@+id/addRewardFragment"
         android:name="com.example.hygieiamerchant.pages.rewards.RewardCreateOrUpdateFragment"
         android:label="Add Reward"
-        tools:layout="@layout/fragment_add_reward" >
+        tools:layout="@layout/fragment_add_reward">
         <action
             android:id="@+id/from_add_rewards_to_rewards"
             app:destination="@id/nav_rewards" />
@@ -51,7 +55,7 @@
     <fragment
         android:id="@+id/createPromoFragment"
         android:name="com.example.hygieiamerchant.pages.promos.PromoCreateOrUpdateFragment"
-        tools:layout="@layout/fragment_create_promo" >
+        tools:layout="@layout/fragment_create_promo">
         <action
             android:id="@+id/action_createPromoFragment_to_nav_promos"
             app:destination="@id/nav_promos" />
@@ -71,4 +75,32 @@
         android:name="com.example.hygieiamerchant.pages.transactions.TransactionsFragment"
         android:label="Transactions"
         tools:layout="@layout/fragment_transactions" />
+    <fragment
+        android:id="@+id/operationOptionsFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.screens.OperationOptionsFragment"
+        android:label="Scan QR Code"
+        tools:layout="@layout/fragment_operation_options" />
+    <fragment
+        android:id="@+id/redeemRewardFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.screens.RedeemRewardFragment"
+        android:label="Redeem Reward"
+        tools:layout="@layout/fragment_redeem_reward" />
+    <fragment
+        android:id="@+id/grantPointsFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.screens.GrantPointsFragment"
+        android:label="Grant Points"
+        tools:layout="@layout/fragment_grant_points" />
+
+    <action
+        android:id="@+id/to_operations_options"
+        app:destination="@id/operationOptionsFragment" />
+
+    <action
+        android:id="@+id/to_redeem_fragment"
+        app:destination="@id/redeemRewardFragment" />
+
+    <action
+        android:id="@+id/to_grant_fragment"
+        app:destination="@id/grantPointsFragment" />
+
 </navigation>
