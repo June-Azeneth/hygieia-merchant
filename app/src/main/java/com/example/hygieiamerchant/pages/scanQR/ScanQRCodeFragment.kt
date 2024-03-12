@@ -10,7 +10,7 @@ import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentScanQRCodeBinding
 import com.example.hygieiamerchant.pages.scanQR.screens.GrantPointsFragment
 import com.example.hygieiamerchant.pages.scanQR.screens.OperationOptionsFragment
-import com.example.hygieiamerchant.pages.scanQR.screens.RedeemRewardFragment
+import com.example.hygieiamerchant.pages.scanQR.screens.RedeemFragment
 
 class ScanQRCodeFragment : Fragment() {
     private var _binding: FragmentScanQRCodeBinding? = null
@@ -34,7 +34,7 @@ class ScanQRCodeFragment : Fragment() {
                     switchTabsManager(GrantPointsFragment::class.java)
                 }
                 "redeem" -> {
-                    switchTabsManager(RedeemRewardFragment::class.java)
+                    switchTabsManager(RedeemFragment::class.java)
                 }
                 else -> {
                     switchTabsManager(OperationOptionsFragment::class.java)

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentHomeBinding
 import com.example.hygieiamerchant.utils.Commons
+import com.google.android.material.navigation.NavigationView
 
 class DashboardFragment : Fragment() {
 

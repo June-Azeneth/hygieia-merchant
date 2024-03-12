@@ -27,6 +27,14 @@ class PromosViewModel : ViewModel() {
         }
     }
 
+    fun fetchOngoingPromos(){
+        viewModelScope.launch {
+            promoRepo.getAllPromos("Ongoing") { promo ->
+                _promoDetails.value = promo
+            }
+        }
+    }
+
     fun fetchPromo(id: String){
         viewModelScope.launch {
             promoRepo.getPromo(id) { promo ->

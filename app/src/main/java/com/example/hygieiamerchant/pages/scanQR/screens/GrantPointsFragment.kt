@@ -54,7 +54,7 @@ class GrantPointsFragment : Fragment() {
                 rewardId = ""
             )
 
-            scanQrCodeViewModel.createTransaction(data, "grant") { (success, message) ->
+            scanQrCodeViewModel.createGrantTransaction(data) { (success, message) ->
                 if (success) {
                     commons.showLoader(
                         requireContext(),

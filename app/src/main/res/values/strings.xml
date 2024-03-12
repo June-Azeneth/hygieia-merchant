@@ -115,7 +115,7 @@
     <string name="date_placeholder">March 30, 2024</string>
     <string name="sold_item">Sold item %1$s</string>
     <string name="grant_points">Grant Points</string>
-    <string name="id">ID: %1$s</string>
+    <string name="id">Transaction ID: %1$s</string>
     <string name="customer">Customer: %1$s</string>
     <string name="product">Product: %1$s</string>
     <string name="sold_at">Sold at: %1$s</string>
@@ -127,4 +127,6 @@
     <string name="name">Name: %1$s</string>
     <string name="balance">Balance: %1$s</string>
     <string name="no_of_recyclables">No.of recyclables</string>
+    <string name="sold_an_item">Sold an Item</string>
+    <string name="promo">Promo: %1$s</string>
 </resources>

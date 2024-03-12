@@ -7,7 +7,7 @@
     android:background="@color/bg_color"
     android:orientation="vertical"
     android:padding="@dimen/regular"
-    tools:context=".pages.scanQR.screens.RedeemRewardFragment">
+    tools:context=".pages.scanQR.screens.RedeemFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -43,14 +43,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/tiniest"
-        android:text="Available Rewards"
         android:fontFamily="@font/nunito_sans_semibold"
+        android:text="Available For Redemption"
         android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rewardsList"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/promo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/zxing_transparent"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Promos"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/reward"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/reward"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/simple_button"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Rewards"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/promo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rewardsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/promoList"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -27,6 +27,9 @@ class TransactionRepo {
         private const val STORE_ID = "storeId"
         private const val TOTAL = "total"
         private const val PRODUCT = "product"
+        private const val PROMO_ID = "promoId"
+        private const val PROMO_NAME = "promoName"
+        private const val DISCOUNT = "discount"
     }
 
     private suspend fun getCustomerName(id: String): String? {
@@ -81,7 +84,9 @@ class TransactionRepo {
                                 document.getDouble(POINTS_REQUIRED) ?: 0.0,
                                 document.getDouble(POINTS_GRANTED) ?: 0.0,
                                 document.getDouble(TOTAL) ?: 0.0,
-                                document.getString(PRODUCT) ?: ""
+                                document.getString(PRODUCT) ?: "",
+                                document.getString(PROMO_NAME) ?: "",
+
                             )
                             transactionList.add(transaction)
                         } catch (error: Error) {
@@ -133,17 +138,16 @@ class TransactionRepo {
         }
     }
 
-    suspend fun createTransaction(
+    suspend fun createPromoTransaction(
         data: (Transaction),
-        type: String,
         callback: (Pair<Boolean, String>) -> Unit
     ) {
         try {
             val (success, message) = updateCustomerBalance(
                 data.customerId,
                 data.pointsRequired,
-                data.pointsGranted,
-                type
+                0.0,
+                "redeem"
             )
 
             if (!success) {
@@ -152,27 +156,99 @@ class TransactionRepo {
             }
 
             val docRef = fireStore.collection("transaction")
-            val map = HashMap<String, Any>()
-            data.addedOn?.let { map.put("addedOn", it) }
-            map["customerId"] = data.customerId
-            map["storeId"] = data.storeId
-            map["type"] = type
+            val data = mapOf(
+                ADDED_ON to data.addedOn,
+                CUSTOMER_ID to data.customerId,
+                STORE_ID to data.storeId,
+                TYPE to "redeem",
+                POINTS_REQUIRED to data.pointsRequired,
+                PROMO_ID to data.promoId,
+                PROMO_NAME to data.promoName,
+                PRODUCT to data.product,
+                DISCOUNT to data.discount,
+                TOTAL to data.total
+            )
 
-            when (type) {
-                "grant" -> {
-                    map["pointsEarned"] = data.pointsGranted
+            docRef.add(data)
+                .addOnSuccessListener {
+                    callback(Pair(true, message))
                 }
+                .addOnFailureListener {
+                    callback(Pair(false, it.message ?: "Unknown error"))
+                }
+        } catch (e: Exception) {
+            callback(Pair(false, e.message ?: "Unknown error"))
+        }
+    }
 
-                "redeem" -> {
-                    map["pointsSpent"] = data.pointsRequired
-                    map["rewardId"] = data.rewardId
-                    map["product"] = data.product
-                    map["discount"] = data.discount
-                    map["total"] = data.total
-                }
+    suspend fun createRewardTransaction(
+        data: (Transaction),
+        callback: (Pair<Boolean, String>) -> Unit
+    ) {
+        try {
+            val (success, message) = updateCustomerBalance(
+                data.customerId,
+                data.pointsRequired,
+                0.0,
+                "redeem"
+            )
+
+            if (!success) {
+                callback(Pair(false, message))
+                return
             }
 
-            docRef.add(map)
+            val docRef = fireStore.collection("transaction")
+            val data = mapOf(
+                ADDED_ON to data.addedOn,
+                CUSTOMER_ID to data.customerId,
+                STORE_ID to data.storeId,
+                TYPE to "redeem",
+                POINTS_REQUIRED to data.pointsRequired,
+                REWARD_ID to data.rewardId,
+                PRODUCT to data.product,
+                DISCOUNT to data.discount,
+                TOTAL to data.total
+            )
+
+            docRef.add(data)
+                .addOnSuccessListener {
+                    callback(Pair(true, message))
+                }
+                .addOnFailureListener {
+                    callback(Pair(false, it.message ?: "Unknown error"))
+                }
+        } catch (e: Exception) {
+            callback(Pair(false, e.message ?: "Unknown error"))
+        }
+    }
+
+    suspend fun createGrantTransaction(
+        data: (Transaction),
+        callback: (Pair<Boolean, String>) -> Unit
+    ) {
+        try {
+            val (success, message) = updateCustomerBalance(
+                data.customerId,
+                data.pointsRequired,
+                data.pointsGranted,
+                "grant"
+            )
+
+            if (!success) {
+                callback(Pair(false, message))
+                return
+            }
+            val docRef = fireStore.collection("transaction")
+            val data = mapOf(
+                ADDED_ON to data.addedOn,
+                CUSTOMER_ID to data.customerId,
+                STORE_ID to data.storeId,
+                TYPE to "grant",
+                POINTS_GRANTED to data.pointsGranted,
+            )
+
+            docRef.add(data)
                 .addOnSuccessListener {
                     callback(Pair(true, message))
                 }

@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PromoRepo {
-    private val tag = "PROMOSREPO"
+    private val tag = "PROMOS_REPO"
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser

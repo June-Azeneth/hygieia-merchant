@@ -46,13 +46,42 @@ class ScanQrCodeViewModel : ViewModel() {
         _customerData.value = null
     }
 
-    fun createTransaction(
+    fun createRewardTransaction(
         data: Transaction,
-        type: String,
         callback: (Pair<Boolean, String>) -> Unit
     ) {
         viewModelScope.launch {
-            transactionRepo.createTransaction(data, type) { (success , message) ->
+            transactionRepo.createRewardTransaction(data) { (success, message) ->
+                if (success) {
+                    callback(Pair(true, message))
+                } else {
+                    callback(Pair(false, message))
+                }
+            }
+        }
+    }
+
+    fun createGrantTransaction(
+        data: Transaction,
+        callback: (Pair<Boolean, String>) -> Unit
+    ) {
+        viewModelScope.launch {
+            transactionRepo.createGrantTransaction(data) { (success, message) ->
+                if (success) {
+                    callback(Pair(true, message))
+                } else {
+                    callback(Pair(false, message))
+                }
+            }
+        }
+    }
+
+    fun createPromoTransaction(
+        data: Transaction,
+        callback: (Pair<Boolean, String>) -> Unit
+    ) {
+        viewModelScope.launch {
+            transactionRepo.createPromoTransaction(data) { (success, message) ->
                 if (success) {
                     callback(Pair(true, message))
                 } else {

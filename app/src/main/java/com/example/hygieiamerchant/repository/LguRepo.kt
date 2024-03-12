@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class LguRepo {
 
-    private val logTag = "LGUREPO"
+    private val logTag = "LGU_REPO"
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val commons: Commons = Commons()
 

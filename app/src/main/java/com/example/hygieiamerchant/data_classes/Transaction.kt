@@ -13,7 +13,9 @@ data class Transaction(
     var pointsGranted: Double = 0.0,
     var total : Double = 0.0,
     var product: String = "",
+    var promoName : String = "",
     var storeId : String = "",
     var storeName : String = "",
     var discount : Double = 0.0,
+    var promoId : String = "",
 )

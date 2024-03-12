@@ -82,7 +82,7 @@
         tools:layout="@layout/fragment_operation_options" />
     <fragment
         android:id="@+id/redeemRewardFragment"
-        android:name="com.example.hygieiamerchant.pages.scanQR.screens.RedeemRewardFragment"
+        android:name="com.example.hygieiamerchant.pages.scanQR.screens.RedeemFragment"
         android:label="Redeem Reward"
         tools:layout="@layout/fragment_redeem_reward" />
     <fragment

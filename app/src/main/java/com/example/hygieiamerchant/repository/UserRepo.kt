@@ -59,8 +59,11 @@ class UserRepo {
                         val firstName = document.getString("firstName") ?: ""
                         val lastName = document.getString("lastName") ?: ""
                         val name = "$firstName $lastName"
-                        val currentBalance = document.getDouble("currentBalance") ?: 0.0
-                        val customer = Customer(document.id, name, currentBalance)
+                        val customer = Customer(
+                            document.id,
+                            name,
+                            document.getDouble("currentBalance") ?: 0.0
+                        )
                         callback(CustomerDetailsResult.Success(customer))
                     }
                     else {

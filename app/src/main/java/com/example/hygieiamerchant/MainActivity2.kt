@@ -2,6 +2,7 @@ package com.example.hygieiamerchant
 
 import android.os.Bundle
 import android.view.Menu
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,14 +12,20 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hygieiamerchant.databinding.ActivityMain2Binding
+import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
+import com.google.firebase.firestore.core.View
 
 class MainActivity2 : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMain2Binding
+    private var dashboardViewModel: DashboardViewModel = DashboardViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        val navigationView: NavigationView = findViewById(com.google.android.material.R.id.navigation_header_container)
+//        val navigationView: NavigationView = findViewById(R.layout.nav_header_main)
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -27,6 +34,17 @@ class MainActivity2 : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+
+        //Set nav header details
+        dashboardViewModel.fetchUserInfo()
+        dashboardViewModel.userInfo.observe(this) { details ->
+            val view : android.view.View? = navView.getHeaderView(0)
+            val storeName : TextView = view?.findViewById(R.id.shopName) ?: TextView(this)
+            val storeEmail : TextView = view?.findViewById(R.id.shopEmail) ?: TextView(this)
+            storeName.text = details.name
+            storeEmail.text = details.email
+        }
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
