@@ -244,13 +244,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun setNavigationOnClickListener(viewId: Int, actionId: Int) {
-        val view: ImageView = binding.root.findViewById(viewId)
-        view.setOnClickListener {
-            findNavController().navigate(actionId)
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

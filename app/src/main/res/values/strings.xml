@@ -135,4 +135,6 @@
     <string name="store">Store: %1$s</string>
     <string name="lgu">LGU: %1$s</string>
     <string name="garbage_pick_up_request">Garbage Pick-up Request</string>
+    <string name="recyclables_optional">Recyclables (Optional)</string>
+    <string name="what_types_of_recyclable_materials_would_you_like_to_accept_in_your_store_separate_them_with_comma">What types of recyclable materials would you like to accept in your store. Separate them with comma.</string>
 </resources>

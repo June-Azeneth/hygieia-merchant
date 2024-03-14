@@ -35,14 +35,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@drawable/simple_button"-->
-<!--            android:layout_marginTop="@dimen/small"-->
-<!--            android:paddingHorizontal="6dp" />-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -221,6 +213,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/XL"
+            android:layout_below="@id/textView12"
+            android:layout_marginTop="@dimen/tiniest"
+            android:background="@drawable/white_round_container"
+            android:ems="10"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:gravity="start|top"
+            android:hint="Description (Optional)"
+            android:inputType="textMultiLine|textLongMessage"
+            android:padding="@dimen/tiny"
+            android:textSize="@dimen/text_small" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

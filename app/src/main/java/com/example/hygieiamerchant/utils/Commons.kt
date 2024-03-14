@@ -174,7 +174,31 @@ class Commons {
         title: String,
         message: String,
         positiveButton: String,
-        positiveButtonCallback: (() -> Unit)? = null
+        negativeButton: String,
+        positiveButtonCallback: (() -> Unit)? = null,
+        negativeButtonCallback: (() -> Unit)? = null
+    ) {
+        val builder = AlertDialog.Builder(fragment.requireContext())
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveButton) { dialog, _ ->
+                dialog.dismiss()
+                positiveButtonCallback?.invoke()
+            }
+            .setNegativeButton(negativeButton) { dialog, _ ->
+                dialog.dismiss()
+                negativeButtonCallback?.invoke()
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    fun showAlertDialogWithCallback(
+        fragment: Fragment,
+        title: String,
+        message: String,
+        positiveButton: String,
+        positiveButtonCallback: (() -> Unit)? = null,
     ) {
         val builder = AlertDialog.Builder(fragment.requireContext())
         builder.setTitle(title)

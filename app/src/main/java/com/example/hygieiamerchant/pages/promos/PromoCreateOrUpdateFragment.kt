@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,6 @@ import com.bumptech.glide.Glide
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Promo
 import com.example.hygieiamerchant.databinding.FragmentCreatePromoBinding
-import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.PromoRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
@@ -36,7 +36,6 @@ import java.util.Date
 class PromoCreateOrUpdateFragment : Fragment() {
     private var _binding: FragmentCreatePromoBinding? = null
     private val binding get() = _binding!!
-    private val dashboardViewModel: DashboardViewModel = DashboardViewModel()
     private val promoViewModel: PromosViewModel by activityViewModels()
     private val promosRepo: PromoRepo = PromoRepo()
     private val commons: Commons = Commons()
@@ -50,6 +49,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
     private lateinit var pointsRequired: TextInputEditText
     private lateinit var startDate: TextInputEditText
     private lateinit var endDate: TextInputEditText
+    private lateinit var description: EditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
     private lateinit var photoPicker: ConstraintLayout
@@ -57,7 +57,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
     private lateinit var contentResolver: ContentResolver
     private lateinit var discPrice: TextView
     private lateinit var datePicker: AppCompatButton
-
     private var image: Uri? = null
     private var discountedPrice: Double = 0.0
     private var id: String = ""
@@ -132,6 +131,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
                 endDate.setText(promo.dateEnd?.let { commons.dateFormatMMMDDYYYY(it) })
                 timestampStartDate = promo.dateStart
                 timestampEndDate = promo.dateEnd
+                description.setText(promo.description)
                 Glide.with(this).load(promo.photo).into(promoImage)
             }
         }
@@ -173,7 +173,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
 
     private fun createPromo() {
         if (validateFields()) {
-            var path = "stores/${userRepo.getCurrentUserId()}/promos/${promoName.text.toString()}"
             image?.let {
                 uploadImage(it) { img ->
                     val data = Promo(
@@ -187,7 +186,8 @@ class PromoCreateOrUpdateFragment : Fragment() {
                         addedOn = commons.getDateAndTime(),
                         discountedPrice = discountedPrice,
                         dateStart = timestampStartDate,
-                        dateEnd = timestampEndDate
+                        dateEnd = timestampEndDate,
+                        description = description.text.toString()
                     )
 
                     promosRepo.addPromo(data) { success ->
@@ -200,7 +200,10 @@ class PromoCreateOrUpdateFragment : Fragment() {
                             findNavController().navigate(R.id.action_createPromoFragment_to_nav_promos)
                         } else {
                             // Handle failure
-                            commons.showToast("An error occured. Please try again later", requireContext())
+                            commons.showToast(
+                                "An error occured. Please try again later",
+                                requireContext()
+                            )
                         }
                     }
                 }
@@ -240,6 +243,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
                 val updatedPointsRequired = pointsRequired.text.toString().toDouble()
                 val updatedPhoto = imageUrl ?: ""
                 val updatedDiscountedPrice = calculateDiscountedPrice(updatedPrice, updatedDiscount)
+                val updatedDescription = description.text.toString()
 
                 if (currentPromo.promoName != updatedPromoName ||
                     currentPromo.product != updatedName ||
@@ -249,15 +253,16 @@ class PromoCreateOrUpdateFragment : Fragment() {
                     currentPromo.photo != updatedPhoto ||
                     currentPromo.discountedPrice != updatedDiscountedPrice ||
                     currentPromo.dateStart != timestampStartDate ||
-                    currentPromo.dateEnd != timestampEndDate
+                    currentPromo.dateEnd != timestampEndDate ||
+                    currentPromo.description != updatedDescription
                 ) {
                     // Data has changed, proceed to update
                     if (image != null) {
                         uploadImage(image!!) { img ->
-                            updateRewardWithData(img)
+                            updatePromoWithData(img)
                         }
                     } else {
-                        updateRewardWithData(updatedPhoto)
+                        updatePromoWithData(updatedPhoto)
                     }
                 } else {
                     // No changes in data
@@ -272,7 +277,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
         }
     }
 
-    private fun updateRewardWithData(imageUrl: String) {
+    private fun updatePromoWithData(imageUrl: String) {
         val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
         val data = Promo(
             promoName = promoName.text.toString(),
@@ -285,7 +290,8 @@ class PromoCreateOrUpdateFragment : Fragment() {
             updatedOn = commons.getDateAndTime(),
             discountedPrice = formattedDiscountedPrice.toDouble(),
             dateStart = timestampStartDate,
-            dateEnd = timestampEndDate
+            dateEnd = timestampEndDate,
+            description = description.text.toString()
         )
 
         promosRepo.updatePromo(id, data) { success ->
@@ -311,7 +317,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
 
     private fun initializeVariables() {
         storage = Firebase.storage
-//        dateRange = binding.dateRange
         datePicker = binding.datePicker
         discPrice = binding.discountedPrice
         contentResolver = requireContext().contentResolver
@@ -326,6 +331,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
         startDate = binding.startDate
         endDate = binding.endDate
         promoImage = binding.promoImage
+        description = binding.description
     }
 
     private fun calculateDiscountedPrice(price: Double, discount: Double): Double {

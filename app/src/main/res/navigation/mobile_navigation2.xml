@@ -39,7 +39,11 @@
         android:id="@+id/nav_profile"
         android:name="com.example.hygieiamerchant.pages.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addRewardFragment"
         android:name="com.example.hygieiamerchant.pages.rewards.RewardCreateOrUpdateFragment"
@@ -107,5 +111,14 @@
     <action
         android:id="@+id/to_grant_fragment"
         app:destination="@id/grantPointsFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.hygieiamerchant.pages.profile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
 
 </navigation>

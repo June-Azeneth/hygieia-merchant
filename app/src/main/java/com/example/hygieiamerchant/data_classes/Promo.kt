@@ -16,6 +16,7 @@ class Promo(
     var dateStart: Date? = null,
     var dateEnd: Date? = null,
     var status: String = "",
+    var description: String = "",
     var addedOn: Timestamp? = null,
-    var updatedOn : Timestamp? = null
+    var updatedOn: Timestamp? = null,
 )

@@ -35,6 +35,7 @@ class RewardRepo {
         private const val STATUS = "status"
         private const val ADDED_ON = "addedOn"
         private const val UPDATED_ON = "updatedOn"
+        private const val DESCRIPTION = "description"
     }
 
     fun getAllRewards(category: String?, callback: (List<Reward>?) -> Unit) {
@@ -60,7 +61,8 @@ class RewardRepo {
                                 document.getString(NAME) ?: "",
                                 document.getDouble(DISCOUNT_RATE) ?: 0.0,
                                 document.getDouble(DISCOUNTED_PRICE) ?: 0.0,
-                                document.getDouble(POINTS_REQUIRED) ?: 0.0
+                                document.getDouble(POINTS_REQUIRED) ?: 0.0,
+                                document.getString(DESCRIPTION) ?: "",
                             )
                             rewardList.add(reward)
                         } catch (e: Exception) {
@@ -90,6 +92,7 @@ class RewardRepo {
                         document.getDouble(DISCOUNT_RATE) ?: 0.0,
                         document.getDouble(DISCOUNTED_PRICE) ?: 0.0,
                         document.getDouble(POINTS_REQUIRED) ?: 0.0,
+                        document.getString(DESCRIPTION) ?: "",
                         document.getDouble(PRICE) ?: 0.0,
                         document.getString(CATEGORY) ?: "",
                     )
@@ -115,7 +118,8 @@ class RewardRepo {
             DISCOUNTED_PRICE to data.discountedPrice,
             PRICE to data.price,
             STORE_ID to data.storeId,
-            STATUS to "active"
+            STATUS to "active",
+            DESCRIPTION to data.description
         )
         docRef.add(addData)
             .addOnSuccessListener {
@@ -137,6 +141,7 @@ class RewardRepo {
             DISCOUNT_RATE to data.discount,
             DISCOUNTED_PRICE to data.discountedPrice,
             PRICE to data.price,
+            DESCRIPTION to data.description
         )
         docRef.update(updateData)
             .addOnSuccessListener {

@@ -9,9 +9,10 @@ class Reward(
     var discount: Double = 0.0,
     var discountedPrice: Double = 0.0,
     var pointsRequired: Double = 0.0,
+    var description : String = "",
     var price: Double = 0.0,
     var category: String = "",
     var storeId: String = "",
     var addedOn: Timestamp? = null,
-    var updatedOn: Timestamp? = null
+    var updatedOn: Timestamp? = null,
 )

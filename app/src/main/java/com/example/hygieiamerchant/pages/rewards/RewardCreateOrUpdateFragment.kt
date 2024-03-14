@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
     private lateinit var storePrice: TextInputEditText
     private lateinit var discount: TextInputEditText
     private lateinit var pointsRequired: TextInputEditText
+    private lateinit var description : EditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
     private lateinit var photoPicker: ConstraintLayout
@@ -108,6 +110,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
         spinner = binding.spinner
         rewardImage = binding.rewardImage
         contentResolver = requireContext().contentResolver
+        description = binding.description
     }
 
     private fun setUpUi() {
@@ -138,6 +141,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
                 storePrice.setText(commons.formatDecimalNumber(reward.price))
                 discount.setText(commons.formatDecimalNumber(reward.discount))
                 pointsRequired.setText(commons.formatDecimalNumber(reward.pointsRequired))
+                description.setText(reward.description)
 
                 val position = spinnerData.indexOf(reward.category)
 
@@ -228,7 +232,8 @@ class RewardCreateOrUpdateFragment : Fragment() {
                         storeId = userRepo.getCurrentUserId().toString(),
                         addedOn = commons.getDateAndTime(),
                         category = selectedCategory,
-                        discountedPrice = discountedPrice
+                        discountedPrice = discountedPrice,
+                        description = binding.description.text.toString()
                     )
 
                     rewardsRepo.addReward(data) { success ->
@@ -264,6 +269,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
                 val updatedPointsRequired = pointsRequired.text.toString().toDouble()
                 val updatedPhoto = imageUrl ?: ""
                 val updatedCategory = selectedCategory
+                val updatedDescription = binding.description.text.toString()
                 val updatedDiscountedPrice = calculateDiscountedPrice(updatedPrice, updatedDiscount)
 
                 if (currentReward.name != updatedName ||
@@ -272,7 +278,8 @@ class RewardCreateOrUpdateFragment : Fragment() {
                     currentReward.pointsRequired != updatedPointsRequired ||
                     currentReward.photo != updatedPhoto ||
                     currentReward.category != updatedCategory ||
-                    currentReward.discountedPrice != updatedDiscountedPrice
+                    currentReward.discountedPrice != updatedDiscountedPrice ||
+                    currentReward.description != updatedDescription
                 ) {
                     // Data has changed, proceed to update
                     if (image != null) {
@@ -306,7 +313,8 @@ class RewardCreateOrUpdateFragment : Fragment() {
             storeId = userRepo.getCurrentUserId().toString(),
             updatedOn = commons.getDateAndTime(),
             category = selectedCategory,
-            discountedPrice = formattedDiscountedPrice.toDouble()
+            discountedPrice = formattedDiscountedPrice.toDouble(),
+            description = binding.description.text.toString()
         )
 
         rewardsRepo.updateReward(id, data) { success ->

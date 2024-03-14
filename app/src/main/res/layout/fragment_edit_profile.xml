@@ -4,139 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical"
-    tools:context=".pages.rewards.RewardCreateOrUpdateFragment">
+    tools:context=".pages.profile.EditProfileFragment">
 
     <LinearLayout
+        android:padding="@dimen/small"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tiniest"
-            android:text="@string/fill_in_all_the_required_details"/>
+            android:text="Update Profile" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:hint="@string/product_name"
-            android:textColorHint="@color/sub_text"
-            tools:layout_editor_absoluteX="25dp">
+            android:hint="Store Name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/prod_name"
+                android:id="@+id/storeName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/store"
+                android:drawablePadding="@dimen/small" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinner"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/simple_button"
+            android:layout_height="wrap_content"
+            android:hint="Sitio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/location"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Barangay">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/barangay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/location"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="City">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/location"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Province">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/province"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/location"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small"
-            android:paddingHorizontal="6dp" />
+            android:text="@string/what_types_of_recyclable_materials_would_you_like_to_accept_in_your_store_separate_them_with_comma" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tiniest"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:hint="@string/store_price"
-            android:textColorHint="@color/sub_text"
-            tools:layout_editor_absoluteX="25dp">
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/tiny"
+            android:hint="@string/recyclables_optional">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/store_price"
+                android:id="@+id/recyclables"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
-
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/tiny"
+                android:gravity="top" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tiniest"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:hint="@string/discount_rate"
-            android:textColorHint="@color/sub_text"
-            tools:layout_editor_absoluteX="25dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/discount_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:drawablePadding="7dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tiniest"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:hint="@string/points_required"
-            android:textColorHint="@color/sub_text"
-            tools:layout_editor_absoluteX="25dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/points_req"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:drawablePadding="7dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/discounted_price_"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/discountedPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tiny"
-                android:textSize="20sp"
-                android:text="0.0"
-                android:fontFamily="@font/nunito_sans_bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/textView"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/rewardImage"
+            android:id="@+id/profilePic"
             android:layout_width="match_parent"
-            android:scaleType="centerCrop"
             android:layout_height="150dp"
-            android:background="@drawable/dotted_container"/>
+            android:layout_marginTop="@dimen/small"
+            android:background="@drawable/dotted_container"
+            android:scaleType="centerCrop" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/photoPicker"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/small"
             android:layout_height="50dp"
+            android:layout_marginTop="@dimen/small"
             android:background="@drawable/white_round_container"
             android:gravity="end">
 
@@ -147,33 +130,18 @@
                 android:layout_marginHorizontal="@dimen/tiny"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Select Image"
+                android:text="Select Profile Picture"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/XL"
-            android:layout_below="@id/textView12"
-            android:layout_marginTop="@dimen/tiniest"
-            android:background="@drawable/white_round_container"
-            android:ems="10"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:gravity="start|top"
-            android:hint="Description (Optional)"
-            android:inputType="textMultiLine|textLongMessage"
-            android:padding="@dimen/tiny"
-            android:textSize="@dimen/text_small" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/large"
-            android:layout_marginTop="@dimen/small">
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginBottom="@dimen/large">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submitForm"
@@ -182,6 +150,7 @@
                 android:layout_marginStart="@dimen/small"
                 android:background="@drawable/primary_button"
                 android:fontFamily="@font/nunito_sans_regular"
+                android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

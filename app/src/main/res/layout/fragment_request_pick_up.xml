@@ -97,7 +97,6 @@
         android:layout_marginTop="@dimen/tiniest"
         android:background="@drawable/white_round_container"
         android:ems="10"
-
         android:fontFamily="@font/nunito_sans_regular"
         android:gravity="start|top"
         android:hint="Add notes"

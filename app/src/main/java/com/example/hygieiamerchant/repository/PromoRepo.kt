@@ -28,6 +28,7 @@ class PromoRepo {
         private const val DISCOUNTED_PRICE = "discountedPrice"
         private const val UPDATED_ON = "updatedOn"
         private const val STATUS = "status"
+        private const val DESCRIPTION = "description"
     }
 
     fun getAllPromos(statusFilter: String, callback: (List<Promo>?) -> Unit) {
@@ -108,7 +109,8 @@ class PromoRepo {
             PROMO_START to data.dateStart,
             PROMO_END to data.dateEnd,
             PRODUCT to data.product,
-            STATUS to "active"
+            STATUS to "active",
+            DESCRIPTION to data.description
         )
         docRef.add(addData)
             .addOnSuccessListener {
@@ -136,6 +138,7 @@ class PromoRepo {
                         document.getDouble(POINTS_REQUIRED) ?: 0.0,
                         document.getTimestamp(PROMO_START)?.toDate(),
                         document.getTimestamp(PROMO_END)?.toDate(),
+                        document.getString(DESCRIPTION) ?: "",
                     )
                     callback(promo)
                 } else {
@@ -173,7 +176,8 @@ class PromoRepo {
             DISCOUNTED_PRICE to data.discountedPrice,
             PRICE to data.price,
             PROMO_START to data.dateStart,
-            PROMO_END to data.dateEnd
+            PROMO_END to data.dateEnd,
+            DESCRIPTION to data.description
         )
         docRef.update(updateData)
             .addOnSuccessListener {

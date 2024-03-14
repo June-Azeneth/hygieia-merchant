@@ -4,7 +4,6 @@ package com.example.hygieiamerchant.repository
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Customer
 import com.example.hygieiamerchant.data_classes.UserInfo
-import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -30,7 +29,6 @@ class UserRepo {
                         if (!querySnapshot.isEmpty) {
                             val document = querySnapshot.documents[0]
                             val userInfo = document.toObject(UserInfo::class.java)
-                            userInfo?.let { it1 -> Commons().log("STOREDETAILS", it1.lguId) }
                             callback(userInfo)
                         } else {
                             callback(null)
@@ -67,8 +65,7 @@ class UserRepo {
                             document.getDouble("currentBalance") ?: 0.0
                         )
                         callback(CustomerDetailsResult.Success(customer))
-                    }
-                    else {
+                    } else {
                         callback(CustomerDetailsResult.Error("Customer account inactive"))
                     }
                 } else {
@@ -77,6 +74,41 @@ class UserRepo {
             }
             .addOnFailureListener { exception ->
                 callback(CustomerDetailsResult.Error(exception.message ?: "Unknown error"))
+            }
+    }
+
+    fun updateProfile(id: String, data: UserInfo, callback: (Boolean) -> Unit) {
+        val query = fireStore.collection("store")
+            .whereEqualTo("storeId", id)
+            .limit(1)
+
+        query.get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val document = querySnapshot.documents[0]
+                    val updateData = mapOf(
+                        "name" to data.name,
+                        "address" to data.address,
+                        "recyclable" to data.recyclable,
+                        "photo" to data.photo
+                    )
+                    document.reference.update(updateData)
+                        .addOnSuccessListener {
+                            callback(true)
+                        }
+                        .addOnFailureListener { error ->
+                            callback(false)
+                            Log.e(logTAG, "Error updating profile: ${error.message}", error)
+                        }
+                } else {
+                    // No document found with the given storeId
+                    callback(false)
+                    Log.e(logTAG, "No document found with storeId: $id")
+                }
+            }
+            .addOnFailureListener { error ->
+                callback(false)
+                Log.e(logTAG, "Error querying Firestore: ${error.message}", error)
             }
     }
 }
