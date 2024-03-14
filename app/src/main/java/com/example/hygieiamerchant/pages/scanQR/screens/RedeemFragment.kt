@@ -17,7 +17,6 @@ import com.example.hygieiamerchant.databinding.FragmentRedeemRewardBinding
 import com.example.hygieiamerchant.pages.promos.PromosViewModel
 import com.example.hygieiamerchant.pages.rewards.RewardsViewModel
 import com.example.hygieiamerchant.pages.scanQR.ScanQrCodeViewModel
-import com.example.hygieiamerchant.repository.TransactionRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
 
@@ -84,28 +83,52 @@ class RedeemFragment : Fragment() {
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    android.R.color.transparent
+                    R.color.lightGray
+                )
+            )
+            binding.promo.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.text_color
                 )
             )
             binding.reward.setBackgroundDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.simple_button
+                    R.color.sub_text
+                )
+            )
+            binding.reward.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
                 )
             )
             binding.rewardsList.visibility = View.VISIBLE
             binding.promoList.visibility = View.GONE
         } else {
-            binding.reward.setBackgroundColor(
+            binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    android.R.color.transparent
+                    R.color.sub_text
                 )
             )
-            binding.promo.setBackgroundDrawable(
+            binding.promo.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
+                )
+            )
+            binding.reward.setBackgroundDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.simple_button
+                    R.color.lightGray
+                )
+            )
+            binding.reward.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.text_color
                 )
             )
             binding.rewardsList.visibility = View.GONE

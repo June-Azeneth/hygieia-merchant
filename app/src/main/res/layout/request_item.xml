@@ -1,62 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/tiny"
-    android:layout_marginHorizontal="@dimen/small"
-    android:background="@drawable/white_round_container"
     android:layout_marginBottom="5dp"
-    android:orientation="vertical">
+    app:cardCornerRadius="5dp"
+    android:orientation="vertical"
+    android:padding="@dimen/tiny">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:textSize="@dimen/text_tiny"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/sub_text"
-        android:text="Date"/>
+        android:padding="@dimen/small">
 
-    <TextView
-        android:id="@+id/address"
-        android:layout_below="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:textSize="@dimen/text_tiny"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date"
-        android:textColor="@color/sub_text"
-        android:text="Address"
-        />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Date"
+            android:textColor="@color/sub_text"
+            android:textSize="@dimen/text_tiny"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_below="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:textSize="@dimen/text_tiny"
-        app:layout_constraintTop_toBottomOf="@id/address"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@color/green"
-        android:text="Status"
-        />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="Status"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_tiny"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            app:layout_goneMarginTop="@dimen/small" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_toRightOf="@+id/address"
-        android:src="@drawable/delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

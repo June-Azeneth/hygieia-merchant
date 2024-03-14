@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
@@ -143,6 +144,13 @@ class Commons {
             }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun observeNetwork(context: Context, lifecycleOwner: LifecycleOwner, callback: (Boolean) -> Unit) {
+        val networkManager = NetworkManager(context)
+        networkManager.observe(lifecycleOwner) { isNetworkAvailable ->
+            callback(isNetworkAvailable)
+        }
     }
 
     fun showLoader(context: Context, layoutInflater: LayoutInflater, show: Boolean) {

@@ -1,183 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
+    android:id="@+id/swipeRefreshLayout"
     tools:context=".pages.dashboard.DashboardFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/shopName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/shopName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/sub_text"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintTop_toBottomOf="@id/shopName"
+            tools:layout_editor_absoluteX="0dp" />
 
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_small"
-                app:layout_constraintTop_toBottomOf="@id/shopName"
-                tools:layout_editor_absoluteX="0dp" />
+<!--        <LinearLayout-->
+<!--            android:id="@+id/call_to_actions"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginVertical="@dimen/medium"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/address">-->
 
-            <LinearLayout
-                android:id="@+id/call_to_actions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/medium"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/address">
+<!--            <ImageView-->
+<!--                android:id="@+id/nav_rewards"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginStart="@dimen/small"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:contentDescription="rewards"-->
+<!--                android:src="@drawable/rewards" />-->
 
-                <ImageView
-                    android:id="@+id/nav_rewards"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="@dimen/small"
-                    android:layout_marginEnd="@dimen/small"
-                    android:src="@drawable/rewards"
-                    android:contentDescription="rewards" />
+<!--            <ImageView-->
+<!--                android:id="@+id/nav_promos"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:src="@drawable/promo" />-->
 
-                <ImageView
-                    android:id="@+id/nav_promos"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="@dimen/small"
-                    android:src="@drawable/promo" />
+<!--            <ImageView-->
+<!--                android:id="@+id/scanQR"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:src="@drawable/qr" />-->
 
-                <ImageView
-                    android:id="@+id/scanQR"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="@dimen/small"
-                    android:src="@drawable/qr" />
+<!--            <ImageView-->
+<!--                android:id="@+id/requestPickUp"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:src="@drawable/calendar" />-->
 
-                <ImageView
-                    android:id="@+id/requestPickUp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="@dimen/small"
-                    android:src="@drawable/calendar" />
+<!--            <ImageView-->
+<!--                android:id="@+id/transactionHistory"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginEnd="@dimen/small"-->
+<!--                android:src="@drawable/historyy" />-->
 
-                <ImageView
-                    android:id="@+id/transactionHistory"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="@dimen/small"
-                    android:src="@drawable/historyy" />
+<!--        </LinearLayout>-->
 
-            </LinearLayout>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Reward Items Sold"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            app:layout_constraintTop_toBottomOf="@+id/address"
+            app:layout_goneMarginTop="@dimen/medium" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:text="Top Claimed Products"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_regular"
-                app:layout_constraintTop_toBottomOf="@+id/call_to_actions"
-                app:layout_goneMarginTop="@dimen/medium" />
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:stretchColumns="*"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Promos Redeemed"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_regular"
+            app:layout_constraintTop_toBottomOf="@id/tableLayout" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/accent_orange">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:padding="8dp"
-                        android:text="Product"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_small" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:padding="8dp"
-                        android:text="No. of items sold"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_small" />
-
-                    <!-- Add more TextViews for additional headings -->
-
-                </TableRow>
-
-            </TableLayout>
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:text="Active Promos"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_regular"
-                app:layout_constraintTop_toBottomOf="@id/tableLayout" />
-
-            <TableLayout
-                android:id="@+id/active_promos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:stretchColumns="*"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/accent_orange">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:padding="8dp"
-                        android:text="Promo"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_small" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:padding="8dp"
-                        android:text="Sold"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_small" />
-
-                </TableRow>
-            </TableLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TableLayout
+            android:id="@+id/active_promos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+        </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

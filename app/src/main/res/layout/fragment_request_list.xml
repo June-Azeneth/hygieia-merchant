@@ -1,26 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:id="@+id/swipeRefreshLayout"
+    android:padding="@dimen/regular"
     tools:context=".pages.requestpickup.RequestListFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/header"
-            layout="@layout/custom_header" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_container"
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/header"/>
+            android:layout_height="wrap_content"
+            android:text="@string/garbage_pick_up_request"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/details"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/createRequest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            android:background="@color/white"
+            android:padding="@dimen/small"
+            app:layout_constraintVertical_bias="0.023"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/lgu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/actions"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/createRequest"
+            app:layout_constraintTop_toBottomOf="@+id/details"
+            app:layout_constraintVertical_bias="0.031"
+            tools:layout_editor_absoluteX="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/small"
+                android:background="@drawable/danger_button"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:text="Cancel"
+                android:drawableStart="@drawable/delete"
+                android:textAllCaps="false"
+                android:paddingStart="@dimen/small"
+                android:textColor="@color/red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/edit"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/simple_button"
+                android:drawableStart="@drawable/edit_item"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:text="@string/edit"
+                android:paddingStart="@dimen/small"
+                android:textAllCaps="false"
+                android:textColor="@color/sub_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cancel"
+                android:layout_marginEnd="@dimen/small"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/loader"
@@ -28,27 +115,38 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/main_green"
-            android:visibility="invisible" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="108dp"
+            android:src="@drawable/no_data"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.342" />
 
-        <TextView
-            android:id="@+id/message"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/createRequest"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/sub_text"
-            android:textSize="@dimen/text_regular"
-            />
-        />
-    </RelativeLayout>
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/primary_button"
+            android:text="Create Request"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

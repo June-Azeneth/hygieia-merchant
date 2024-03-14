@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/regular"
     tools:context=".pages.requestpickup.RequestPickUpFragment">
 
     <TextView
@@ -12,57 +14,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/regular"
-        android:layout_marginHorizontal="@dimen/small"
         android:fontFamily="@font/nunito_sans_semibold"
-        android:text="Details"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_small" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="@dimen/XL"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView8"
-        android:layout_marginTop="@dimen/regular"
-        android:layout_marginHorizontal="@dimen/small"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:text="Store"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_small" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="@dimen/XL"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView9"
-        android:layout_marginTop="@dimen/tiniest"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:text="Address"
-        android:layout_marginHorizontal="@dimen/small"
+        android:text="Request Garbage Pick-up from your LGU"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/storeName"
-        android:layout_width="@dimen/XL"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView8"
         android:layout_marginTop="@dimen/regular"
-        android:layout_toEndOf="@id/textView9"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:text="Loading...."
+        android:fontFamily="@font/nunito_sans_semibold"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_small" />
 
     <TextView
-        android:id="@+id/storeAddress"
-        android:layout_width="@dimen/XL"
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/storeName"
+        android:layout_below="@+id/textView9"
         android:layout_marginTop="@dimen/tiniest"
-        android:layout_toEndOf="@id/textView10"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:text="Loading...."
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_small" />
+
+    <TextView
+        android:id="@+id/lgu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView9"
+        android:layout_marginTop="@dimen/tiniest"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_small" />
 
@@ -74,11 +57,11 @@
         android:layout_marginTop="@dimen/large"
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Select date of pick-up"
-        android:layout_marginHorizontal="@dimen/small"
+
         android:textColor="@color/text_color" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/textView11"
@@ -87,23 +70,23 @@
         android:drawableEnd="@drawable/baseline_calendar_month_24"
         android:ems="10"
         android:focusableInTouchMode="false"
-        android:textSize="@dimen/text_small"
-        android:layout_marginHorizontal="@dimen/small"
         android:fontFamily="@font/nunito_sans_regular"
+
         android:hint="mm-dd-yyyy"
         android:inputType="date"
         android:paddingStart="@dimen/tiny"
-        android:paddingEnd="@dimen/tiny" />
+        android:paddingEnd="@dimen/tiny"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextDate"
+        android:layout_below="@+id/date"
         android:layout_marginTop="@dimen/large"
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Notes (Optional)"
-        android:layout_marginHorizontal="@dimen/small"
+
         android:textColor="@color/text_color" />
 
     <EditText
@@ -114,26 +97,47 @@
         android:layout_marginTop="@dimen/tiniest"
         android:background="@drawable/white_round_container"
         android:ems="10"
-        android:layout_marginHorizontal="@dimen/small"
+
         android:fontFamily="@font/nunito_sans_regular"
-        android:inputType="textMultiLine|textLongMessage"
         android:gravity="start|top"
         android:hint="Add notes"
-        android:textSize="@dimen/text_small"
-        android:padding="@dimen/tiny"/>
+        android:inputType="textMultiLine|textLongMessage"
+        android:padding="@dimen/tiny"
+        android:textSize="@dimen/text_small" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/send"
-        android:layout_width="@dimen/XXL"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/notes"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="@dimen/XL"
-        android:layout_marginTop="@dimen/medium"
-        android:background="@drawable/rounded_button"
-        android:fontFamily="@font/nunito_sans_regular"
-        android:text="Send Request"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-</RelativeLayout>
+        android:layout_marginTop="@dimen/small"
+        android:layout_marginBottom="@dimen/large">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/small"
+            android:background="@drawable/primary_button"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cancel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/danger_button"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

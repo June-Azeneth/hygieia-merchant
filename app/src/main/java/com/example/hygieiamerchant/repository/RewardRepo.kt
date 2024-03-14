@@ -2,6 +2,7 @@ package com.example.hygieiamerchant.repository
 
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Reward
+import com.example.hygieiamerchant.data_classes.Transaction
 import com.example.hygieiamerchant.utils.Commons
 import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +13,14 @@ class RewardRepo {
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
+
+    interface ItemsSoldCallback {
+        fun onItemsSoldPerReward(itemsSoldPerReward: Map<String, Int>)
+    }
+
+    interface PromosSoldCallback {
+        fun onItemsSoldPerPromo(promosSoldPerReward: Map<String, Int>)
+    }
 
     companion object {
         private const val COLLECTION = "reward"
@@ -150,6 +159,68 @@ class RewardRepo {
             }
             .addOnFailureListener {
                 callback(false)
+            }
+    }
+
+    fun calculateItemsSoldPerReward(callback: ItemsSoldCallback) {
+        // Map to store the count of items sold per reward
+        val itemsSoldPerReward = mutableMapOf<String, Int>()
+
+        // Query the transactions collection
+        fireStore.collection("transaction")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                // Iterate through the documents
+                for (document in querySnapshot.documents) {
+                    // Deserialize the document into a Transaction object
+                    val transaction = document.toObject(Transaction::class.java)
+
+                    // Check if the transaction is not null and has a valid rewardId
+                    if (transaction != null && !transaction.rewardId.isNullOrEmpty()) {
+                        // Increment the count of items sold for the rewardId
+                        val count = itemsSoldPerReward.getOrDefault(transaction.product, 0)
+                        itemsSoldPerReward[transaction.product] = count + 1
+                    }
+                }
+
+                // Invoke the callback with the result
+                callback.onItemsSoldPerReward(itemsSoldPerReward)
+            }
+            .addOnFailureListener { e ->
+                println("Error fetching transactions: $e")
+                // Invoke the callback with an empty result or handle the error
+                callback.onItemsSoldPerReward(emptyMap())
+            }
+    }
+
+    fun calculateItemsSoldPerPromo(callback: PromosSoldCallback) {
+        // Map to store the count of items sold per reward
+        val itemsSoldPerReward = mutableMapOf<String, Int>()
+
+        // Query the transactions collection
+        fireStore.collection("transaction")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                // Iterate through the documents
+                for (document in querySnapshot.documents) {
+                    // Deserialize the document into a Transaction object
+                    val transaction = document.toObject(Transaction::class.java)
+
+                    // Check if the transaction is not null and has a valid rewardId
+                    if (transaction != null && !transaction.promoId.isNullOrEmpty()) {
+                        // Increment the count of items sold for the rewardId
+                        val count = itemsSoldPerReward.getOrDefault(transaction.promoName, 0)
+                        itemsSoldPerReward[transaction.promoName] = count + 1
+                    }
+                }
+
+                // Invoke the callback with the result
+                callback.onItemsSoldPerPromo(itemsSoldPerReward)
+            }
+            .addOnFailureListener { e ->
+                println("Error fetching transactions: $e")
+                // Invoke the callback with an empty result or handle the error
+                callback.onItemsSoldPerPromo(emptyMap())
             }
     }
 }

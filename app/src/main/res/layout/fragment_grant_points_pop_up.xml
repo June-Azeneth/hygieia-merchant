@@ -55,7 +55,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/cancel_btn"
         android:fontFamily="@font/nunito_sans_regular"
         android:text="Cancel"
         android:textAllCaps="false"

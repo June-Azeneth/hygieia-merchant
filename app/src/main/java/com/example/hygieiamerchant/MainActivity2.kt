@@ -25,7 +25,6 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 //        val navigationView: NavigationView = findViewById(com.google.android.material.R.id.navigation_header_container)
-//        val navigationView: NavigationView = findViewById(R.layout.nav_header_main)
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,8 +54,8 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_scan_qr_code,
                 R.id.nav_rewards,
                 R.id.nav_promos,
+                R.id.nav_requests,
                 R.id.nav_profile,
-                R.id.nav_logout,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

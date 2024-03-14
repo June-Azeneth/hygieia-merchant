@@ -91,7 +91,7 @@ class PromoCreateOrUpdateFragment : Fragment() {
         return binding.root
     }
 
-    private fun setPageTitle(){
+    private fun setPageTitle() {
         if (promoViewModel.action.value == "update") {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = "Update Promo"
         } else {
@@ -191,18 +191,16 @@ class PromoCreateOrUpdateFragment : Fragment() {
                     )
 
                     promosRepo.addPromo(data) { success ->
+                        commons.showLoader(
+                            requireContext(), LayoutInflater.from(requireContext()), false
+                        )
                         if (success) {
                             // Handle success
-                            commons.showLoader(
-                                requireContext(), LayoutInflater.from(requireContext()), false
-                            )
                             commons.showToast("Promo Item Created Successfully", requireContext())
                             findNavController().navigate(R.id.action_createPromoFragment_to_nav_promos)
                         } else {
                             // Handle failure
-                            commons.showLoader(
-                                requireContext(), LayoutInflater.from(requireContext()), false
-                            )
+                            commons.showToast("An error occured. Please try again later", requireContext())
                         }
                     }
                 }
@@ -373,7 +371,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
             .build()
 
         datePicker.show(childFragmentManager, "DatePicker")
-
         datePicker.addOnPositiveButtonClickListener {
             binding.startDate.setText(commons.dateFormatMMMDDYYYY(it.first))
             binding.endDate.setText(commons.dateFormatMMMDDYYYY(it.second))

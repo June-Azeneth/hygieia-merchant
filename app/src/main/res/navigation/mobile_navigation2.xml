@@ -10,9 +10,6 @@
         android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
         android:label="@string/dashboard"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_nav_dashboard_to_requestListFragment2"
-            app:destination="@id/requestListFragment2" />
     </fragment>
 
     <fragment
@@ -61,15 +58,23 @@
             app:destination="@id/nav_promos" />
     </fragment>
     <fragment
-        android:id="@+id/requestListFragment2"
+        android:id="@+id/nav_requests"
         android:name="com.example.hygieiamerchant.pages.requestpickup.RequestListFragment"
         android:label="Requests"
-        tools:layout="@layout/fragment_request_list" />
+        tools:layout="@layout/fragment_request_list" >
+        <action
+            android:id="@+id/action_nav_requests_to_requestPickUpFragment"
+            app:destination="@id/requestPickUpFragment" />
+    </fragment>
     <fragment
         android:id="@+id/requestPickUpFragment"
         android:name="com.example.hygieiamerchant.pages.requestpickup.RequestPickUpFragment"
         android:label="Create Request"
-        tools:layout="@layout/fragment_request_pick_up" />
+        tools:layout="@layout/fragment_request_pick_up" >
+        <action
+            android:id="@+id/action_requestPickUpFragment_to_nav_requests"
+            app:destination="@id/nav_requests" />
+    </fragment>
     <fragment
         android:id="@+id/nav_transactions"
         android:name="com.example.hygieiamerchant.pages.transactions.TransactionsFragment"

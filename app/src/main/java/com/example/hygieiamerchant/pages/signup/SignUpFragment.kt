@@ -108,15 +108,10 @@ class SignUpFragment : Fragment() {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                // Extract the selected value
                 selectedIdType = parent?.getItemAtPosition(position).toString()
-
-                // Use the selected value as needed
-                Log.d("Spinner", "Selected item: $selectedIdType")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing if nothing is selected
             }
         }
     }
@@ -157,7 +152,6 @@ class SignUpFragment : Fragment() {
         barangay = binding.storeBrgyEditText
         city = binding.storeCityEditText
         province = binding.storeProvinceEditText
-
         cityString = city.text.toString()
     }
 
@@ -184,9 +178,6 @@ class SignUpFragment : Fragment() {
                 // Extract the selected value
                 selectedLgu = parent?.getItemAtPosition(position).toString()
 
-                // Use the selected value as needed
-                Log.d("Spinner", "Selected item: $selectedLgu")
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -201,9 +192,6 @@ class SignUpFragment : Fragment() {
                 // Update the list and notify the adapter of the Spinner
                 list.clear()
                 list.addAll(lgu)
-
-                common.log("LGU", lgu.toString())
-
                 // Get a reference to the Spinner
                 val lguListAdapter = ArrayAdapter(requireContext(),
                     android.R.layout.simple_spinner_item,
@@ -272,6 +260,7 @@ class SignUpFragment : Fragment() {
                 "dateSubmitted" to getDateAndTime(),
                 "idType" to selectedIdType,
                 "lgu" to selectedLgu,
+//                "lguId" to
                 "status" to "pending"
             )
 

@@ -21,8 +21,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="190dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/happy_earth_day" />
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
 

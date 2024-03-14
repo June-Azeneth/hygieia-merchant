@@ -25,12 +25,12 @@
             android:icon="@drawable/reward"
             android:title="@string/promos" />
         <item
+            android:id="@+id/nav_requests"
+            android:icon="@drawable/baseline_calendar_month_24"
+            android:title="@string/requests" />
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/person"
             android:title="@string/profile" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/logout"
-            android:title="@string/logout" />
     </group>
 </menu>

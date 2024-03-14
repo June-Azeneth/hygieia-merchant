@@ -39,7 +39,7 @@
         android:layout_marginBottom="@dimen/regular"
         android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:text="@string/redeem_rewards"
+        android:text="@string/redeem_offers"
         android:textAllCaps="false"/>
 
 </LinearLayout>

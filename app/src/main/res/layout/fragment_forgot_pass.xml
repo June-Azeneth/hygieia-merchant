@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    android:background="@drawable/backgroundddd"
     tools:context=".pages.password_reset.ForgotPassFragment"
     >
 
@@ -39,7 +38,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_fields"
             android:hint="New Password"
             android:drawableStart="@drawable/custom_password_focused"
             android:drawablePadding="7dp"
@@ -63,7 +61,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_fields"
             android:drawableStart="@drawable/custom_password_focused"
             android:drawablePadding="5dp"
             android:inputType="textPassword"

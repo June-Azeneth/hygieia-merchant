@@ -318,7 +318,6 @@ class ScanQRFragment : Fragment() {
                 binding.scanNow.visibility = VISIBLE
                 binding.scanQRPromt.visibility = VISIBLE
                 binding.scanNow.text = "Try Again"
-                binding.scanQRPromt.setImageResource(R.drawable.failed)
             }
         }
     }

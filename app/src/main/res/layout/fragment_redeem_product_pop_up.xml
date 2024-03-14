@@ -62,7 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/list_container"
             android:layout_toRightOf="@id/submitBTN"
-            android:background="@drawable/cancel_btn"
             android:text="Cancel"
             android:textAllCaps="false"
             android:textColor="@color/white" />

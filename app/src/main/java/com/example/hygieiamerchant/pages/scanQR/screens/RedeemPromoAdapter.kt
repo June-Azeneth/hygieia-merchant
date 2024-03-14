@@ -59,7 +59,7 @@ class RedeemPromoAdapter(
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_green))
 
         } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_holder))
         }
 
         holder.item.setOnClickListener {
