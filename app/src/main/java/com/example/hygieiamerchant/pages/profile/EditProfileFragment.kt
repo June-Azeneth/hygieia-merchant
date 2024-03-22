@@ -164,7 +164,7 @@ class EditProfileFragment : Fragment() {
                 user.address != updatedAddress ||
                 user.recyclable != recyclablesArray
             ) {
-                Commons().showLoader(requireContext(),LayoutInflater.from(requireContext()), true)
+                Commons().showLoader(requireContext(), LayoutInflater.from(requireContext()), true)
                 // Data has changed, proceed to update
                 if (image != null) {
                     uploadImage(image!!) { img ->
@@ -174,12 +174,6 @@ class EditProfileFragment : Fragment() {
                     updateProfile(updatedPhoto)
                 }
             } else {
-                // No changes in data
-                Commons().showLoader(
-                    requireContext(),
-                    LayoutInflater.from(requireContext()),
-                    false
-                )
                 Commons().showToast("No changes detected.", requireContext())
             }
         }
@@ -187,7 +181,6 @@ class EditProfileFragment : Fragment() {
 
     private fun updateProfile(imageUrl: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Observe network state within the view's lifecycle
             Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
                 if (network) {
                     val address = mapOf(
@@ -209,7 +202,6 @@ class EditProfileFragment : Fragment() {
                             photo = imageUrl
                         )
                     }
-
 
                     userRepo.getCurrentUserId()?.let {
                         data?.let { userInfo ->
@@ -259,11 +251,11 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun validateFields(callback: (Boolean) -> Unit) {
-        var storeName = storeName.text.toString()
-        var sitio = sitio.text.toString()
-        var barangay = barangay.text.toString()
-        var city = city.text.toString()
-        var province = province.text.toString()
+        val storeName = storeName.text.toString()
+        val sitio = sitio.text.toString()
+        val barangay = barangay.text.toString()
+        val city = city.text.toString()
+        val province = province.text.toString()
 
         if (storeName.isEmpty() || sitio.isEmpty() || barangay.isEmpty() || city.isEmpty() || province.isEmpty()) {
             Commons().showToast("Please fill in all the required fields.", requireContext())

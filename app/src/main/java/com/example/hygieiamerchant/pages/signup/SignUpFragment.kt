@@ -62,8 +62,9 @@ class SignUpFragment : Fragment() {
     private val signUpViewModel: SignUpViewModel = SignUpViewModel()
     private val common: Commons = Commons()
     private var cityString: String = ""
-    private var selectedLgu: String = ""
+//    private var selectedLguName: String = ""
     private var selectedIdType: String = ""
+    private var selectedLguId: String = ""
 
     private val getBackPhotoName =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -95,7 +96,7 @@ class SignUpFragment : Fragment() {
         observeDataSetChange()
         setUpRefreshListener()
         onInputChange()
-        getSelectedCity()
+//        getSelectedCity()
         getSelectedIdType()
 
         signUpViewModel.fetchLguBasedOnUserCity(cityString)
@@ -163,6 +164,7 @@ class SignUpFragment : Fragment() {
 
     private fun onInputChange() {
         city.doOnTextChanged { text, _, _, _ ->
+            selectedLguId = ""
             text?.let {
                 val cityName = it.toString()
                 signUpViewModel.fetchLguBasedOnUserCity(cityName)
@@ -170,37 +172,53 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun getSelectedCity() {
-        lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                // Extract the selected value
-                selectedLgu = parent?.getItemAtPosition(position).toString()
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing if nothing is selected
-            }
-        }
-    }
+//    private fun getSelectedCity() {
+//        lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+//            ) {
+//                val selectedLgu = parent?.getItemAtPosition(position) as Lgu
+//                selectedLguId = selectedLgu.id
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                // Do nothing if nothing is selected
+//            }
+//        }
+//    }
 
     private fun observeDataSetChange() {
-        signUpViewModel.lguDetails.observe(viewLifecycleOwner) { lgu ->
-            if (lgu != null) {
+        signUpViewModel.lguDetails.observe(viewLifecycleOwner) { listLgu ->
+            if (listLgu != null) {
                 // Update the list and notify the adapter of the Spinner
                 list.clear()
-                list.addAll(lgu)
+                list.addAll(listLgu)
                 // Get a reference to the Spinner
                 val lguListAdapter = ArrayAdapter(requireContext(),
                     android.R.layout.simple_spinner_item,
                     list.map { it.name })
                 lguListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 lguList.adapter = lguListAdapter
+
+                // Set a listener for item selection
+                lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedLguId = listLgu[position].id
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // Do nothing
+                    }
+                }
             }
         }
     }
+
 
     private fun setUpSpinners() {
         val validIdsAdapter = ArrayAdapter.createFromResource(
@@ -259,8 +277,7 @@ class SignUpFragment : Fragment() {
                 "validIdBack" to backUrl,
                 "dateSubmitted" to getDateAndTime(),
                 "idType" to selectedIdType,
-                "lgu" to selectedLgu,
-//                "lguId" to
+                "lguId" to selectedLguId,
                 "status" to "pending"
             )
 
@@ -317,6 +334,9 @@ class SignUpFragment : Fragment() {
             return false
         } else if (!common.validateEmail(storeEmail)) {
             common.showToast("Email is not valid", requireContext())
+            return false
+        }else if(selectedLguId.isEmpty() || selectedLguId.contentEquals("")){
+            common.showToast("Please Select a Local Government Unit", requireContext())
             return false
         } else if (selectedIdType == "Select ID" || selectedIdType.isEmpty()) {
             common.showToast("Please select a valid ID type", requireContext())

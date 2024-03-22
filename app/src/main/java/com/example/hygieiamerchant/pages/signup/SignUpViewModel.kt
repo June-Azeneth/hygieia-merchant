@@ -9,14 +9,15 @@ import com.example.hygieiamerchant.repository.LguRepo
 import kotlinx.coroutines.launch
 
 class SignUpViewModel : ViewModel() {
-    private val _lguDetails = MutableLiveData<List<Lgu>>()
-    val lguDetails: LiveData<List<Lgu>> get() = _lguDetails
+    private val _lguDetails = MutableLiveData<List<Lgu>?>()
+    val lguDetails: LiveData<List<Lgu>?> get() = _lguDetails
     private val lguRepo: LguRepo = LguRepo()
 
-    fun fetchLguBasedOnUserCity(city : String){
+    fun fetchLguBasedOnUserCity(city: String) {
         viewModelScope.launch {
-            lguRepo.fetchLguBasedOnUserLocation(city) { lgu ->
-                _lguDetails.value = lgu
+            lguRepo.fetchLguBasedOnUserLocation(city) { lguPairs ->
+                val lgus = lguPairs?.map { Lgu(it.first, it.second) } // Convert Pair<String, String> to Lgu
+                _lguDetails.value = lgus
             }
         }
     }
