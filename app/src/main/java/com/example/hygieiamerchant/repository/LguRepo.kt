@@ -1,6 +1,5 @@
 package com.example.hygieiamerchant.repository
 
-import com.example.hygieiamerchant.data_classes.Lgu
 import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -11,13 +10,16 @@ class LguRepo {
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     companion object {
-        private const val COLLECTION = "client"
+        private const val COLLECTION = "user"
         private const val ID = "id"
         private const val ADDRESS_CITY = "address.city"
         private const val NAME = "name"
     }
 
-    fun fetchLguBasedOnUserLocation(userCity: String, callback: (List<Pair<String, String>>?) -> Unit) {
+    fun fetchLguBasedOnUserLocation(
+        userCity: String,
+        callback: (List<Pair<String, String>>?) -> Unit
+    ) {
         val query = fireStore.collection(COLLECTION)
             .whereEqualTo(ADDRESS_CITY, userCity)
 
