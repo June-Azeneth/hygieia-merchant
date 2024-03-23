@@ -164,7 +164,6 @@ class EditProfileFragment : Fragment() {
                 user.address != updatedAddress ||
                 user.recyclable != recyclablesArray
             ) {
-                Commons().showLoader(requireContext(), LayoutInflater.from(requireContext()), true)
                 // Data has changed, proceed to update
                 if (image != null) {
                     uploadImage(image!!) { img ->
