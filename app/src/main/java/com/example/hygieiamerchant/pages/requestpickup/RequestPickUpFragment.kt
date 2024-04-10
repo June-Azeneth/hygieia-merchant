@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Request
@@ -18,7 +20,7 @@ import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.RequestRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
-import com.example.hygieiamerchant.utils.NetworkManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Date
 import java.util.Locale
 
@@ -29,18 +31,19 @@ class RequestPickUpFragment : Fragment() {
     private val requestRepo: RequestRepo = RequestRepo()
     private val userRepo: UserRepo = UserRepo()
     private val dashboardViewModel: DashboardViewModel = DashboardViewModel()
+    private val requestViewModel: RequestPickUpViewModel by activityViewModels()
     private lateinit var editTextDate: EditText
     private lateinit var notes: EditText
+    private lateinit var phone: EditText
     private lateinit var send: AppCompatButton
     private lateinit var cancel: AppCompatButton
-    private var storeId: String = ""
     private lateinit var address: Map<String, String>
     private lateinit var date: Date
-    private var lguId: String = ""
+    private lateinit var dialog: AlertDialog
+    private var storeId: String = ""
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRequestPickUpBinding.inflate(inflater, container, false)
 
@@ -56,16 +59,75 @@ class RequestPickUpFragment : Fragment() {
             showDatePickerDialog()
         }
         send.setOnClickListener {
-            createRequest()
+            if (requestViewModel.action.value == "create") {
+                createRequest()
+            } else {
+                editRequest()
+            }
         }
         cancel.setOnClickListener {
             findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
         }
     }
 
-    private fun validateFields(): Boolean {
-        var date = editTextDate.text.toString()
-        return date.isNotEmpty()
+    private fun editRequest() {
+        Commons().observeNetwork(requireContext(), viewLifecycleOwner) { isNetworkAvailable ->
+            if (isNetworkAvailable) {
+                val data = Request(
+                    date = date,
+                    notes = notes.text.toString(),
+                    phone = phone.text.toString()
+                )
+
+                requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
+                    if (request != null) {
+                        requestRepo.editRequest(request.id, data) { success ->
+                            if (success) {
+                                Commons().showAlertDialogWithCallback(this,
+                                    "Success",
+                                    "Request updated successfully",
+                                    "Okay",
+                                    positiveButtonCallback = {
+                                        findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
+                                    })
+                            } else {
+                                Commons().showAlertDialog(
+                                    requireContext(),
+                                    "Failed!",
+                                    "An error occurred. Please try again later.",
+                                    "Okay"
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                showConnectivityDialog()
+            }
+        }
+    }
+
+    private fun validateFields(callback: (Pair<Boolean, String>) -> Unit) {
+        val date = editTextDate.text.toString()
+        val phone = phone.text.toString()
+        if (date.isEmpty() || phone.isEmpty()) {
+            callback.invoke(Pair(false, "Fill in all required fields"))
+        } else if (!isValidPhoneNumber(phone)) {
+            callback.invoke(Pair(false, "Invalid phone number"))
+        } else {
+            callback.invoke(Pair(true, ""))
+        }
+    }
+
+    private fun isValidPhoneNumber(phoneNumber: String): Boolean {
+        // Regular expression to match a phone number pattern
+        val phoneRegex = "^[+]?[0-9]{10,13}\$"
+
+        // Compile the regex pattern
+        val pattern = Regex(phoneRegex)
+
+        // Return true if the phone number matches the pattern, otherwise false
+        return pattern.matches(phoneNumber)
     }
 
     private fun populateFields() {
@@ -74,50 +136,72 @@ class RequestPickUpFragment : Fragment() {
             binding.storeName.text = getString(R.string.store, details.name)
             binding.address.text =
                 getString(R.string.address_, Commons().formatAddress(details.address, "short"))
-            binding.lgu.text = getString(R.string.lgu, details.lgu)
 
             storeId = userRepo.getCurrentUserId().toString()
-            lguId = details.lguId
             address = details.address!!
+        }
+
+        if (requestViewModel.action.value == "edit") {
+            requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
+                if (request != null) {
+                    date = request.date!!
+                    notes.setText(request.notes)
+                    editTextDate.setText(Commons().dateFormatMMMDDYYYYDate(request.date))
+                    phone.setText(request.phone)
+                }
+            }
         }
     }
 
     private fun createRequest() {
-        if (validateFields()) {
-            val data = Request(
-                storeId = storeId,
-                lguId = lguId,
-                date = date,
-                address = address,
-                notes = notes.text.toString(),
-            )
+        Commons().observeNetwork(requireContext(), viewLifecycleOwner) { isNetworkAvailable ->
+            if (isNetworkAvailable) {
+                validateFields { result ->
+                    if (result.first) {
+                        val data = Request(
+                            storeId = storeId,
+                            date = date,
+                            address = address,
+                            notes = notes.text.toString(),
+                            phone = phone.text.toString()
+                        )
 
-            requestRepo.addRequest(data) { success ->
-                if (success) {
-                    Commons().showAlertDialogWithCallback(
-                        this,
-                        "Success",
-                        "Request successfully submitted",
-                        "Okay",
-                        positiveButtonCallback = {
-                            findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.send.visibility = View.INVISIBLE
+
+                        requestRepo.addRequest(data) { success ->
+                            binding.progressBar.visibility = View.GONE
+                            binding.send.visibility = View.VISIBLE
+                            if (success) {
+                                Commons().showAlertDialogWithCallback(this,
+                                    "Success",
+                                    "Request successfully submitted",
+                                    "Okay",
+                                    positiveButtonCallback = {
+                                        findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
+                                    })
+                            } else {
+                                Commons().showAlertDialogWithCallback(this,
+                                    "Failed",
+                                    "Request sent failed. Please try again later.",
+                                    "Okay",
+                                    positiveButtonCallback = {
+                                        findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
+                                    })
+                            }
                         }
-                    )
-                } else {
-                    Commons().showAlertDialogWithCallback(
-                        this,
-                        "Failed",
-                        "Request sent failed. Please try again later.",
-                        "Okay",
-                        positiveButtonCallback = {
-                            findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
-                        }
-                    )
+                    } else {
+                        Commons().showToast(result.second, requireContext())
+                    }
                 }
+            } else {
+                showConnectivityDialog()
             }
-        } else {
-            Commons().showToast("Please set a date for this request", requireContext())
         }
+    }
+
+    private fun showConnectivityDialog() {
+        if (!dialog.isShowing) dialog.show()
     }
 
     private fun initializeVariables() {
@@ -125,6 +209,11 @@ class RequestPickUpFragment : Fragment() {
         editTextDate = binding.date
         notes = binding.notes
         cancel = binding.cancel
+        phone = binding.phone
+        dialog = MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.MaterialAlertDialog_Rounded
+        ).setView(R.layout.connectivity_dialog_box).setCancelable(true).create()
     }
 
     private fun showDatePickerDialog() {
@@ -134,8 +223,7 @@ class RequestPickUpFragment : Fragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
+            requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(selectedYear, selectedMonth, selectedDay)
 
@@ -144,10 +232,7 @@ class RequestPickUpFragment : Fragment() {
 
                 editTextDate.setText(formattedDate)
                 date = selectedDate.time
-            },
-            year,
-            month,
-            day
+            }, year, month, day
         )
         datePickerDialog.show()
     }

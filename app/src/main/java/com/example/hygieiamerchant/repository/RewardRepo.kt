@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.hygieiamerchant.data_classes.Reward
 import com.example.hygieiamerchant.data_classes.Transaction
 import com.example.hygieiamerchant.utils.Commons
-import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -147,8 +146,8 @@ class RewardRepo {
             .addOnSuccessListener {
                 callback(true)
             }
-            .addOnFailureListener {error ->
-                Commons().log(logTag,error.toString())
+            .addOnFailureListener { error ->
+                Commons().log(logTag, error.toString())
                 callback(false)
             }
     }
@@ -173,6 +172,7 @@ class RewardRepo {
 
         // Query the transactions collection
         fireStore.collection("transaction")
+            .whereEqualTo("storeId", currentUser?.uid)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 // Iterate through the documents
@@ -191,9 +191,8 @@ class RewardRepo {
                 // Invoke the callback with the result
                 callback.onItemsSoldPerReward(itemsSoldPerReward)
             }
-            .addOnFailureListener { e ->
-                println("Error fetching transactions: $e")
-                // Invoke the callback with an empty result or handle the error
+            .addOnFailureListener {
+                // Invoke the callback with an empty result
                 callback.onItemsSoldPerReward(emptyMap())
             }
     }
@@ -204,6 +203,7 @@ class RewardRepo {
 
         // Query the transactions collection
         fireStore.collection("transaction")
+            .whereEqualTo("storeId", currentUser?.uid)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 // Iterate through the documents

@@ -1,6 +1,5 @@
 package com.example.hygieiamerchant.pages.promos
 
-import android.icu.text.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Promo
-import com.example.hygieiamerchant.data_classes.Reward
 import com.example.hygieiamerchant.utils.Commons
 import com.google.android.material.imageview.ShapeableImageView
-import java.util.Date
 
 class PromoAdapter(
     private val promoList: ArrayList<Promo>,

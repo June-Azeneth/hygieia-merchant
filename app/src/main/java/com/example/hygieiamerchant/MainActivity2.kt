@@ -1,19 +1,25 @@
 package com.example.hygieiamerchant
 
+import android.graphics.drawable.shapes.Shape
 import android.os.Bundle
 import android.view.Menu
+import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.example.hygieiamerchant.databinding.ActivityMain2Binding
 import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
-import com.google.firebase.firestore.core.View
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.navigation.NavigationView
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -37,11 +43,19 @@ class MainActivity2 : AppCompatActivity() {
         //Set nav header details
         dashboardViewModel.fetchUserInfo()
         dashboardViewModel.userInfo.observe(this) { details ->
-            val view : android.view.View? = navView.getHeaderView(0)
-            val storeName : TextView = view?.findViewById(R.id.shopName) ?: TextView(this)
-            val storeEmail : TextView = view?.findViewById(R.id.shopEmail) ?: TextView(this)
+            val view: android.view.View? = navView.getHeaderView(0)
+            val storeName: TextView = view?.findViewById(R.id.shopName) ?: TextView(this)
+            val storeEmail: TextView = view?.findViewById(R.id.shopEmail) ?: TextView(this)
+            val image: ShapeableImageView = view?.findViewById(R.id.profileImage) ?: ShapeableImageView(this)
+
             storeName.text = details.name
             storeEmail.text = details.email
+            Glide.with(this)
+                .load(details.photo)
+                .apply(RequestOptions.centerCropTransform())
+                .placeholder(R.drawable.placeholder_image)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(image)
         }
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -56,6 +70,7 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_promos,
                 R.id.nav_requests,
                 R.id.nav_profile,
+                R.id.nav_announcement
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

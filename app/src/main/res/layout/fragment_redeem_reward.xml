@@ -21,23 +21,29 @@
         android:id="@+id/customerId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/tiniest"
-        android:textSize="13sp" />
+        android:layout_marginBottom="@dimen/tiniest" />
 
 
     <TextView
         android:id="@+id/customerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/tiniest"
-        android:textSize="13sp" />
+        android:layout_marginBottom="@dimen/tiniest" />
 
     <TextView
         android:id="@+id/currentBalance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/regular"
-        android:textSize="13sp" />
+        android:layout_marginBottom="@dimen/tiniest" />
+
+    <TextView
+        android:id="@+id/duePrice"
+        android:gravity="end"
+        android:text="Due: ₱0.0"
+        android:textSize="@dimen/text_regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/medium"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -81,12 +87,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="300dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rewardsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,8 +101,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/promoList"
             android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +113,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="@dimen/large">
+        android:layout_marginTop="@dimen/regular">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submitForm"

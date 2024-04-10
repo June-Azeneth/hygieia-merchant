@@ -3,7 +3,6 @@ package com.example.hygieiamerchant.repository
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Request
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Date
 
 class RequestRepo {
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -18,6 +17,7 @@ class RequestRepo {
         private const val NOTES = "notes"
         private const val ADDRESS = "address"
         private const val STATUS = "status"
+        private const val PHONE = "phone"
     }
 
 //    sealed class RequestDetailsResult {
@@ -38,7 +38,6 @@ class RequestRepo {
                         val request = Request(
                             documentSnapshot.id,
                             documentSnapshot.getString(STORE_ID) ?: "",
-                            documentSnapshot.getString(LGU_ID) ?: "",
                             documentSnapshot.getTimestamp(DATE)?.toDate(),
                             documentSnapshot.getString(NOTES) ?: "",
                             data?.get(ADDRESS) as? Map<*, *>?,
@@ -64,10 +63,10 @@ class RequestRepo {
         val docRef = fireStore.collection(COLLECTION)
         val addData = mapOf(
             STORE_ID to data.storeId,
-            LGU_ID to data.lguId,
             DATE to data.date,
             NOTES to data.notes,
             ADDRESS to data.address,
+            PHONE to data.phone,
             STATUS to "pending",
         )
         docRef.add(addData)
@@ -93,10 +92,12 @@ class RequestRepo {
             }
     }
 
-    fun editRequest(id: String, data : Request, callback: (Boolean) -> Unit) {
+    fun editRequest(id: String, data: Request, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION).document(id)
         val updateData = mapOf(
-            "date" to data.date
+            DATE to data.date,
+            NOTES to data.notes,
+            PHONE to data.phone
         )
         docRef.update(updateData)
             .addOnSuccessListener {

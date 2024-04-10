@@ -9,8 +9,7 @@
         android:id="@+id/nav_dashboard"
         android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_home">
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_scan_qr_code"
@@ -39,7 +38,7 @@
         android:id="@+id/nav_profile"
         android:name="com.example.hygieiamerchant.pages.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_nav_profile_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
@@ -65,7 +64,7 @@
         android:id="@+id/nav_requests"
         android:name="com.example.hygieiamerchant.pages.requestpickup.RequestListFragment"
         android:label="Requests"
-        tools:layout="@layout/fragment_request_list" >
+        tools:layout="@layout/fragment_request_list">
         <action
             android:id="@+id/action_nav_requests_to_requestPickUpFragment"
             app:destination="@id/requestPickUpFragment" />
@@ -74,7 +73,7 @@
         android:id="@+id/requestPickUpFragment"
         android:name="com.example.hygieiamerchant.pages.requestpickup.RequestPickUpFragment"
         android:label="Create Request"
-        tools:layout="@layout/fragment_request_pick_up" >
+        tools:layout="@layout/fragment_request_pick_up">
         <action
             android:id="@+id/action_requestPickUpFragment_to_nav_requests"
             app:destination="@id/nav_requests" />
@@ -100,6 +99,26 @@
         android:label="Grant Points"
         tools:layout="@layout/fragment_grant_points" />
 
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.hygieiamerchant.pages.profile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_editProfileFragment_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_announcement"
+        android:name="com.example.hygieiamerchant.pages.announcement.AnnouncementFragment"
+        android:label="Announcements"
+        tools:layout="@layout/fragment_announcement">
+        <action
+            android:id="@+id/action_nav_announcement_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+
+    <!--    ACTIONS-->
     <action
         android:id="@+id/to_operations_options"
         app:destination="@id/operationOptionsFragment" />
@@ -112,13 +131,12 @@
         android:id="@+id/to_grant_fragment"
         app:destination="@id/grantPointsFragment" />
     <fragment
-        android:id="@+id/editProfileFragment"
-        android:name="com.example.hygieiamerchant.pages.profile.EditProfileFragment"
-        android:label="Edit Profile"
-        tools:layout="@layout/fragment_edit_profile" >
+        android:id="@+id/announcementDetailsFragment"
+        android:name="com.example.hygieiamerchant.pages.announcement.AnnouncementDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_announcement_details">
         <action
-            android:id="@+id/action_editProfileFragment_to_nav_profile"
-            app:destination="@id/nav_profile" />
+            android:id="@+id/action_announcementDetailsFragment_to_nav_announcement"
+            app:destination="@id/nav_announcement" />
     </fragment>
-
 </navigation>

@@ -18,13 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Lgu
 import com.example.hygieiamerchant.databinding.FragmentSignUpBinding
 import com.example.hygieiamerchant.utils.Commons
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,25 +43,28 @@ class SignUpFragment : Fragment() {
     private lateinit var submit: ConstraintLayout
     private lateinit var front: TextView
     private lateinit var back: TextView
-    private lateinit var storeName: TextView
-    private lateinit var storeEmail: TextView
-    private lateinit var storeOwner: TextView
-    private lateinit var sitio: TextView
-    private lateinit var barangay: TextView
-    private lateinit var city: TextView
-    private lateinit var province: TextView
+    private lateinit var storeName: TextInputEditText
+    private lateinit var storeEmail: TextInputEditText
+    private lateinit var storeOwner: TextInputEditText
+    private lateinit var phone: TextInputEditText
+
+    //    private lateinit var sitio: TextView
+    private lateinit var barangay: TextInputEditText
+    private lateinit var city: TextInputEditText
+    private lateinit var province: TextInputEditText
     private lateinit var imageUriFront: Uri
     private lateinit var imageUriBack: Uri
     private lateinit var lisOfIds: Spinner
-    private lateinit var lguList: Spinner
+
+    //    private lateinit var lguList: Spinner
     private lateinit var termsAndConditions: TextView
-    private var list: ArrayList<Lgu> = arrayListOf()
+
+    //    private var list: ArrayList<Lgu> = arrayListOf()
     private var downloadUrlFront: String = ""
     private var downloadUrlBack: String = ""
     private val signUpViewModel: SignUpViewModel = SignUpViewModel()
     private val common: Commons = Commons()
     private var cityString: String = ""
-//    private var selectedLguName: String = ""
     private var selectedIdType: String = ""
     private var selectedLguId: String = ""
 
@@ -95,8 +97,7 @@ class SignUpFragment : Fragment() {
         showTermsAndConditions()
         observeDataSetChange()
         setUpRefreshListener()
-        onInputChange()
-//        getSelectedCity()
+//        onInputChange()
         getSelectedIdType()
 
         signUpViewModel.fetchLguBasedOnUserCity(cityString)
@@ -138,7 +139,7 @@ class SignUpFragment : Fragment() {
 
     private fun initializeVariables() {
         lisOfIds = binding.listOfValidIDs
-        lguList = binding.lguList
+//        lguList = binding.lguList
         storage = Firebase.storage
         contentResolver = requireContext().contentResolver
         uploadFront = binding.uploadFront
@@ -149,11 +150,11 @@ class SignUpFragment : Fragment() {
         storeName = binding.storeNameEditText
         storeEmail = binding.storeEmailEditText
         storeOwner = binding.storeOwnerEditText
-        sitio = binding.storeSitioEditText
         barangay = binding.storeBrgyEditText
         city = binding.storeCityEditText
         province = binding.storeProvinceEditText
         cityString = city.text.toString()
+        phone = binding.phoneEditText
     }
 
     private fun setUpRefreshListener() {
@@ -162,15 +163,15 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun onInputChange() {
-        city.doOnTextChanged { text, _, _, _ ->
-            selectedLguId = ""
-            text?.let {
-                val cityName = it.toString()
-                signUpViewModel.fetchLguBasedOnUserCity(cityName)
-            }
-        }
-    }
+//    private fun onInputChange() {
+//        city.doOnTextChanged { text, _, _, _ ->
+//            selectedLguId = ""
+//            text?.let {
+//                val cityName = it.toString()
+//                signUpViewModel.fetchLguBasedOnUserCity(cityName)
+//            }
+//        }
+//    }
 
 //    private fun getSelectedCity() {
 //        lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -188,35 +189,35 @@ class SignUpFragment : Fragment() {
 //    }
 
     private fun observeDataSetChange() {
-        signUpViewModel.lguDetails.observe(viewLifecycleOwner) { listLgu ->
-            if (listLgu != null) {
-                // Update the list and notify the adapter of the Spinner
-                list.clear()
-                list.addAll(listLgu)
-                // Get a reference to the Spinner
-                val lguListAdapter = ArrayAdapter(requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    list.map { it.name })
-                lguListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                lguList.adapter = lguListAdapter
+//        signUpViewModel.lguDetails.observe(viewLifecycleOwner) { listLgu ->
+//            if (listLgu != null) {
+//                // Update the list and notify the adapter of the Spinner
+//                list.clear()
+//                list.addAll(listLgu)
+//                // Get a reference to the Spinner
+//                val lguListAdapter = ArrayAdapter(requireContext(),
+//                    android.R.layout.simple_spinner_item,
+//                    list.map { it.name })
+//                lguListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                lguList.adapter = lguListAdapter
 
-                // Set a listener for item selection
-                lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        selectedLguId = listLgu[position].id
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Do nothing
-                    }
-                }
-            }
-        }
+        // Set a listener for item selection
+//                lguList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                    override fun onItemSelected(
+//                        parent: AdapterView<*>?,
+//                        view: View?,
+//                        position: Int,
+//                        id: Long
+//                    ) {
+//                        selectedLguId = listLgu[position].id
+//                    }
+//
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {
+//                        // Do nothing
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -257,13 +258,14 @@ class SignUpFragment : Fragment() {
         val storeName = storeName.text.toString()
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
-        val sitio = sitio.text.toString()
         val barangay = barangay.text.toString()
         val city = city.text.toString()
         val province = province.text.toString()
 
         val address = mapOf(
-            "sitio" to sitio, "barangay" to barangay, "city" to city, "province" to province
+            "barangay" to barangay,
+            "city" to city,
+            "province" to province
         )
 
         uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
@@ -278,7 +280,8 @@ class SignUpFragment : Fragment() {
                 "dateSubmitted" to getDateAndTime(),
                 "idType" to selectedIdType,
                 "lguId" to selectedLguId,
-                "status" to "pending"
+                "status" to "pending",
+                "phone" to phone.text.toString()
             )
 
             fireStore.collection("store").add(data).addOnSuccessListener {
@@ -319,14 +322,15 @@ class SignUpFragment : Fragment() {
         val storeName = storeName.text.toString()
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
-        val sitio = sitio.text.toString()
         val barangay = barangay.text.toString()
         val city = city.text.toString()
         val province = province.text.toString()
         val validIdFront = front.text.toString()
         val validIdBack = back.text.toString()
+        val phone = phone.text.toString()
 
-        if (storeName.isBlank() || storeEmail.isBlank() || storeOwner.isBlank() || sitio.isBlank() || barangay.isBlank() || city.isBlank() || province.isBlank() || validIdFront.contentEquals(
+        //validate that all the necessary details are provided
+        if (storeName.isBlank() || storeEmail.isBlank() || storeOwner.isBlank() || phone.isEmpty() || barangay.isBlank() || city.isBlank() || province.isBlank() || validIdFront.contentEquals(
                 "Upload Front of ID"
             ) || validIdBack.contentEquals("Upload Back of ID")
         ) {
@@ -335,11 +339,14 @@ class SignUpFragment : Fragment() {
         } else if (!common.validateEmail(storeEmail)) {
             common.showToast("Email is not valid", requireContext())
             return false
-        }else if(selectedLguId.isEmpty() || selectedLguId.contentEquals("")){
-            common.showToast("Please Select a Local Government Unit", requireContext())
-            return false
+//        }else if(selectedLguId.isEmpty() || selectedLguId.contentEquals("")){
+//            common.showToast("Please Select a Local Government Unit", requireContext())
+//            return false
         } else if (selectedIdType == "Select ID" || selectedIdType.isEmpty()) {
             common.showToast("Please select a valid ID type", requireContext())
+            return false
+        } else if (phone.length < 11) {
+            common.showToast("Please provide a valid phone number", requireContext())
             return false
         } else if (imageUriFront == null || imageUriBack == null) {
             common.showToast(

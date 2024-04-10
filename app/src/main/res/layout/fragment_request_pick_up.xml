@@ -23,7 +23,6 @@
         android:id="@+id/storeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView8"
         android:layout_marginTop="@dimen/regular"
         android:fontFamily="@font/nunito_sans_semibold"
         android:textColor="@color/text_color"
@@ -33,27 +32,25 @@
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView9"
         android:layout_marginTop="@dimen/tiniest"
         android:fontFamily="@font/nunito_sans_semibold"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_small" />
 
-    <TextView
-        android:id="@+id/lgu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView9"
-        android:layout_marginTop="@dimen/tiniest"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_small" />
+<!--    <TextView-->
+<!--        android:id="@+id/lgu"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/textView9"-->
+<!--        android:layout_marginTop="@dimen/tiniest"-->
+<!--        android:fontFamily="@font/nunito_sans_semibold"-->
+<!--        android:textColor="@color/text_color"-->
+<!--        android:textSize="@dimen/text_small" />-->
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView10"
         android:layout_marginTop="@dimen/large"
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Select date of pick-up"
@@ -64,16 +61,29 @@
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/textView11"
         android:layout_marginTop="@dimen/tiniest"
         android:background="@drawable/white_round_container"
         android:drawableEnd="@drawable/baseline_calendar_month_24"
         android:ems="10"
         android:focusableInTouchMode="false"
         android:fontFamily="@font/nunito_sans_regular"
-
-        android:hint="mm-dd-yyyy"
+        android:hint="@string/mm_dd_yyyy"
         android:inputType="date"
+        android:paddingStart="@dimen/tiny"
+        android:paddingEnd="@dimen/tiny"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/tiniest"
+        android:background="@drawable/white_round_container"
+        android:drawableStart="@drawable/phone"
+        android:fontFamily="@font/nunito_sans_regular"
+        android:hint="@string/enter_phone_number"
+        android:maxLength="13"
+        android:inputType="phone"
         android:paddingStart="@dimen/tiny"
         android:paddingEnd="@dimen/tiny"
         android:textSize="@dimen/text_small" />
@@ -82,10 +92,9 @@
         android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/date"
         android:layout_marginTop="@dimen/large"
         android:fontFamily="@font/nunito_sans_semibold"
-        android:text="Notes (Optional)"
+        android:text="@string/notes_optional"
 
         android:textColor="@color/text_color" />
 
@@ -93,13 +102,12 @@
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="@dimen/XL"
-        android:layout_below="@id/textView12"
         android:layout_marginTop="@dimen/tiniest"
         android:background="@drawable/white_round_container"
         android:ems="10"
         android:fontFamily="@font/nunito_sans_regular"
         android:gravity="start|top"
-        android:hint="Add notes"
+        android:hint="@string/add_notes"
         android:inputType="textMultiLine|textLongMessage"
         android:padding="@dimen/tiny"
         android:textSize="@dimen/text_small" />
@@ -123,6 +131,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cancel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/main_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.811"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton

@@ -1,7 +1,5 @@
 package com.example.hygieiamerchant.pages.requestpickup
 
-import android.app.DatePickerDialog
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.data_classes.Request
 import com.example.hygieiamerchant.databinding.FragmentRequestListBinding
 import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.RequestRepo
@@ -26,7 +23,6 @@ import com.example.hygieiamerchant.utils.NetworkManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Date
 
 class RequestListFragment : Fragment() {
 
@@ -113,11 +109,12 @@ class RequestListFragment : Fragment() {
 
     private fun setUpOnClickListeners() {
         createRequest.setOnClickListener {
+            requestViewModel.setSelectedAction("create")
             if (requestExist) {
                 Commons().showAlertDialog(
                     requireContext(),
                     "Oops!",
-                    "You have a pending/active request. Please wait for the LGUs response.",
+                    "You have a pending/active request. Please wait for our response.",
                     "Okay"
                 )
             } else {
@@ -126,100 +123,39 @@ class RequestListFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            if (status == "active") {
-                Commons().showAlertDialog(
-                    requireContext(),
-                    "Oops!",
-                    "You can't cancel an active request.",
-                    "Okay"
-                )
-            } else {
-                cancelRequest()
-            }
+            cancelRequest()
         }
 
         binding.edit.setOnClickListener {
-            showDatePickerDialog() { date ->
-                editRequest(date)
-            }
+            findNavController().navigate(R.id.action_nav_requests_to_requestPickUpFragment)
+            requestViewModel.setSelectedAction("edit")
         }
-    }
-
-    private fun editRequest(date: Date) {
-        Commons().observeNetwork(requireContext(), viewLifecycleOwner) { isNetworkAvailable ->
-            if (isNetworkAvailable) {
-                val data = Request(
-                    date = date
-                )
-                commons.showLoader(
-                    requireContext(),
-                    LayoutInflater.from(requireContext()),
-                    true
-                )
-                requestRepo.editRequest(id, data) { success ->
-                    commons.showLoader(
-                        requireContext(),
-                        LayoutInflater.from(requireContext()),
-                        false
-                    )
-                    if (success) {
-                        Commons().showAlertDialog(
-                            requireContext(),
-                            "Success!",
-                            "Request updated successfully.",
-                            "Okay"
-                        )
-                    } else {
-                        Commons().showAlertDialog(
-                            requireContext(),
-                            "Failed!",
-                            "An error occurred. Please try again later.",
-                            "Okay"
-                        )
-                    }
-                    observeDataSetChange()
-                }
-            } else {
-                showConnectivityDialog()
-                binding.loader.visibility = VISIBLE
-            }
-        }
-    }
-
-    private fun showDatePickerDialog(callback: (Date) -> Unit) {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(selectedYear, selectedMonth, selectedDay)
-                callback(selectedDate.time)
-            },
-            year,
-            month,
-            day
-        )
-        datePickerDialog.show()
     }
 
     private fun observeDataSetChange() {
         requestViewModel.fetchAllRequests(userRepo.getCurrentUserId().toString())
         requestViewModel.requestDetails.observe(viewLifecycleOwner) { requests ->
             if (requests != null) {
+                val date = requests.date?.let { Commons().dateFormatMMMDDYYYY(it) }
+                val time = requests.date?.let { Commons().dateFormatHHMM(it) }
+
                 binding.loader.visibility = INVISIBLE
                 showMessage(false)
                 binding.details.visibility = VISIBLE
                 binding.actions.visibility = VISIBLE
-                binding.id.text = "ID: ${requests.id}"
-                binding.date.text = "Date: ${requests.date.toString()}"
-                binding.status.text = "Status: ${requests.status.uppercase()}"
+                binding.id.text = getString(R.string.request_id, requests.id)
+                binding.date.text = getString(R.string.date, date)
+                binding.status.text =
+                    getString(R.string.request_status, requests.status.uppercase())
                 requestExist = true
                 id = requests.id
                 status = requests.status
+
+                if (status == "active") {
+                    binding.time.text = getString(R.string.request_time, time)
+                } else {
+                    binding.time.text = ""
+                }
             } else {
                 requestExist = false
                 binding.loader.visibility = INVISIBLE
@@ -231,8 +167,7 @@ class RequestListFragment : Fragment() {
 
         dashboardViewModel.fetchUserInfo()
         dashboardViewModel.userInfo.observe(viewLifecycleOwner) { user ->
-            binding.storeName.text = "Store: ${user.name}"
-            binding.lgu.text = "LGU: ${user.lgu}"
+            binding.storeName.text = getString(R.string.request_store_name, user.name)
         }
     }
 

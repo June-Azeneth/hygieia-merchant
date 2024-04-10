@@ -31,8 +31,8 @@ class RedeemFragment : Fragment() {
     private lateinit var customerId: String
     private lateinit var rewardList: ArrayList<Reward>
     private lateinit var promoList: ArrayList<Promo>
-    private lateinit var recyclerViewAdapter: RedeemRewardAdapter
-    private lateinit var recyclerRedeemViewAdapter: RedeemPromoAdapter
+    private lateinit var recyclerViewRewardAdapter: RedeemRewardAdapter
+    private lateinit var recyclerViewPromoAdapter: RedeemPromoAdapter
     private var id: String = ""
     private var promoName: String = ""
     private var discount: Double = 0.0
@@ -44,7 +44,7 @@ class RedeemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRedeemRewardBinding.inflate(inflater, container, false)
 
         setUpUi()
@@ -80,6 +80,9 @@ class RedeemFragment : Fragment() {
 
     private fun changeTabs(tab: String) {
         if (tab == "reward") {
+            binding.duePrice.text = "Due: ₱0.0"
+            recyclerViewRewardAdapter.clearSelection()
+
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -107,6 +110,9 @@ class RedeemFragment : Fragment() {
             binding.rewardsList.visibility = View.VISIBLE
             binding.promoList.visibility = View.GONE
         } else {
+            binding.duePrice.text = "Due: ₱0.0"
+            recyclerViewPromoAdapter.clearSelection()
+
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -255,13 +261,14 @@ class RedeemFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpRecyclerView() {
         val recyclerView = binding.rewardsList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
         rewardList = arrayListOf()
-        recyclerViewAdapter = RedeemRewardAdapter(
+        recyclerViewRewardAdapter = RedeemRewardAdapter(
             rewardList,
             object : RedeemRewardAdapter.OnItemClickListener {
                 override fun onItemClick(item: Reward) {
@@ -270,10 +277,11 @@ class RedeemFragment : Fragment() {
                     discountedPrice = item.discountedPrice
                     pointsRequired = item.pointsRequired
                     product = item.name
+                    binding.duePrice.text = "Due: ₱${item.discountedPrice}"
                 }
             }
         )
-        recyclerView.adapter = recyclerViewAdapter
+        recyclerView.adapter = recyclerViewRewardAdapter
         rewardsViewModel.fetchAllRewards("All")
 
         val promoListRecyclerView = binding.promoList
@@ -281,7 +289,7 @@ class RedeemFragment : Fragment() {
         promoListRecyclerView.setHasFixedSize(true)
 
         promoList = arrayListOf()
-        recyclerRedeemViewAdapter = RedeemPromoAdapter(
+        recyclerViewPromoAdapter = RedeemPromoAdapter(
             promoList,
             object : RedeemPromoAdapter.OnItemClickListener {
                 override fun onItemClick(item: Promo) {
@@ -291,10 +299,11 @@ class RedeemFragment : Fragment() {
                     pointsRequired = item.pointsRequired
                     product = item.product
                     promoName = item.promoName
+                    binding.duePrice.text = "Due: ₱${item.discountedPrice}"
                 }
             }
         )
-        promoListRecyclerView.adapter = recyclerRedeemViewAdapter
+        promoListRecyclerView.adapter = recyclerViewPromoAdapter
         promosViewModel.fetchOngoingPromos()
     }
 
@@ -304,7 +313,7 @@ class RedeemFragment : Fragment() {
             if (rewards != null) {
                 rewardList.clear()
                 rewardList.addAll(rewards)
-                recyclerViewAdapter.notifyDataSetChanged()
+                recyclerViewRewardAdapter.notifyDataSetChanged()
             }
         }
 
@@ -312,7 +321,7 @@ class RedeemFragment : Fragment() {
             if (promos != null) {
                 promoList.clear()
                 promoList.addAll(promos)
-                recyclerRedeemViewAdapter.notifyDataSetChanged()
+                recyclerViewPromoAdapter.notifyDataSetChanged()
             }
         }
     }

@@ -25,8 +25,8 @@ import java.util.Locale
 class Commons {
 
     private var loadingDialog: AlertDialog? = null
-    private val userRepo: UserRepo = UserRepo()
-    private var storage: FirebaseStorage = Firebase.storage
+//    private val userRepo: UserRepo = UserRepo()
+//    private var storage: FirebaseStorage = Firebase.storage
 
     fun setOnRefreshListener(refreshLayout: SwipeRefreshLayout, refreshAction: () -> Unit) {
         refreshLayout.setOnRefreshListener {
@@ -59,9 +59,11 @@ class Commons {
             "full" -> {
                 "$sitio $barangay, $city, $province"
             }
+
             "short" -> {
                 "$city, $province"
             }
+
             else -> {
                 "Invalid Format"
             }
@@ -87,35 +89,40 @@ class Commons {
         return Timestamp(Date(calendar.timeInMillis))
     }
 
-    fun uploadImage(
-        imageUri: Uri,
-        path: String,
-        callback: (String) -> Unit
-    ) {
-        val storageRef =
-            storage.reference.child(path)
-
-        val uploadTask = storageRef.putFile(imageUri)
-
-        uploadTask.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                callback(imageUrl.toString())
-            }.addOnFailureListener {
-                callback("")
-            }
-
-        }.addOnFailureListener {
-            callback("")
-        }
-    }
+//    fun uploadImage(
+//        imageUri: Uri,
+//        path: String,
+//        callback: (String) -> Unit
+//    ) {
+//        val storageRef =
+//            storage.reference.child(path)
+//
+//        val uploadTask = storageRef.putFile(imageUri)
+//
+//        uploadTask.addOnSuccessListener {
+//            storageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+//                callback(imageUrl.toString())
+//            }.addOnFailureListener {
+//                callback("")
+//            }
+//
+//        }.addOnFailureListener {
+//            callback("")
+//        }
+//    }
 
     fun getDateAndTime(): Timestamp {
         val currentDateTime = Calendar.getInstance().time
         return Timestamp(Date(currentDateTime.time))
     }
 
+    fun dateFormatHHMM(date: Date): String {
+        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
     fun dateFormatMMMDDYYYY(): String? {
-        val currentDate = getCurrentDate().toDate() // Convert Timestamp to Date
+        val currentDate = getCurrentDate().toDate()
         val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
         return dateFormat.format(currentDate)
     }
@@ -125,12 +132,17 @@ class Commons {
         return dateFormat.format(date)
     }
 
-    fun dateFormatMMMDDYYYY(calendar: Calendar): String {
-        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
-        return dateFormat.format(calendar)
-    }
+//    fun dateFormatMMMDDYYYY(calendar: Calendar): String {
+//        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
+//        return dateFormat.format(calendar)
+//    }
 
     fun dateFormatMMMDDYYYY(date: Long): String {
+        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
+    fun dateFormatMMMDDYYYYDate(date: Date?): String {
         val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
         return dateFormat.format(date)
     }
@@ -146,7 +158,11 @@ class Commons {
         dialog.show()
     }
 
-    fun observeNetwork(context: Context, lifecycleOwner: LifecycleOwner, callback: (Boolean) -> Unit) {
+    fun observeNetwork(
+        context: Context,
+        lifecycleOwner: LifecycleOwner,
+        callback: (Boolean) -> Unit
+    ) {
         val networkManager = NetworkManager(context)
         networkManager.observe(lifecycleOwner) { isNetworkAvailable ->
             callback(isNetworkAvailable)

@@ -27,6 +27,7 @@ import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.RewardRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
+import com.example.hygieiamerchant.utils.NetworkManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
@@ -42,7 +43,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
     private lateinit var storePrice: TextInputEditText
     private lateinit var discount: TextInputEditText
     private lateinit var pointsRequired: TextInputEditText
-    private lateinit var description : EditText
+    private lateinit var description: EditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
     private lateinit var photoPicker: ConstraintLayout
@@ -60,7 +61,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
     private var downloadUrl: String = ""
     private var discountedPrice: Double = 0.0
     private var id: String = ""
-    private var imageUrl : String? = null
+    private var imageUrl: String? = null
 
     private val openGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -80,7 +81,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
 
         setPageTitle()
         initializeVariables()
-//        setUpNetworkObservation()
+        setUpNetworkObservation()
         setUpSpinner()
         setUpActionListeners()
         calculateDiscountedPrice()
@@ -90,7 +91,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
         return binding.root
     }
 
-    private fun setPageTitle(){
+    private fun setPageTitle() {
         if (rewardsViewModel.action.value == "update") {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = "Update Reward"
         } else {
@@ -347,7 +348,7 @@ class RewardCreateOrUpdateFragment : Fragment() {
             price?.let {
                 val prc = storePrice.text.toString().toDoubleOrNull() ?: 0.0
                 val discnt = discount.text.toString().toDoubleOrNull() ?: 0.0
-                discountedPrice = calculateDiscountedPrice(prc,discnt)
+                discountedPrice = calculateDiscountedPrice(prc, discnt)
                 val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
                 binding.discountedPrice.text = formattedDiscountedPrice
             }
@@ -357,23 +358,24 @@ class RewardCreateOrUpdateFragment : Fragment() {
             disc?.let {
                 val prc = storePrice.text.toString().toDoubleOrNull() ?: 0.0
                 val dsnt = discount.text.toString().toDoubleOrNull() ?: 0.0
-                discountedPrice = calculateDiscountedPrice(prc,dsnt)
+                discountedPrice = calculateDiscountedPrice(prc, dsnt)
                 val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
                 binding.discountedPrice.text = formattedDiscountedPrice
             }
         }
     }
 
-//    private fun setUpNetworkObservation() {
-//        val networkManager = NetworkManager(requireContext())
-//        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
-//            if (!isNetworkAvailable) {
-//
-//            } else {
-//
-//            }
-//        }
-//    }
+    private fun setUpNetworkObservation() {
+        val networkManager = NetworkManager(requireContext())
+        networkManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
+            if (!isNetworkAvailable) {
+                binding.submitForm.isEnabled = false
+                Commons().showToast("No internet connection!", requireContext())
+            } else {
+                binding.submitForm.isEnabled = true
+            }
+        }
+    }
 
     private fun setUpSpinner() {
         spinnerData =

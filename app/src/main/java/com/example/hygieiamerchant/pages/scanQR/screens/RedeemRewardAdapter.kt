@@ -22,6 +22,11 @@ class RedeemRewardAdapter(
         fun onItemClick(item: Reward)
     }
 
+    fun clearSelection() {
+        selectedPosition = RecyclerView.NO_POSITION
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.redeem_reward_item, parent, false)
@@ -39,7 +44,6 @@ class RedeemRewardAdapter(
 
         holder.name.text = currentItem.name
         holder.discount.text = "${currentItem.discount}%"
-        holder.price.text = "₱${currentItem.discountedPrice}"
         holder.points.text = "${currentItem.pointsRequired}pts"
 
         val textColor = if (selectedPosition == position) {
@@ -51,7 +55,6 @@ class RedeemRewardAdapter(
 
         holder.name.setTextColor(textColor)
         holder.discount.setTextColor(textColor)
-        holder.price.setTextColor(textColor)
         holder.points.setTextColor(textColor)
 
         // Set background color based on the selected state
@@ -59,7 +62,6 @@ class RedeemRewardAdapter(
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_green))
 
         } else {
-//            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
             holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_holder))
         }
 
@@ -76,7 +78,6 @@ class RedeemRewardAdapter(
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.rewardName)
         val discount: TextView = itemView.findViewById(R.id.rewardDiscount)
-        val price: TextView = itemView.findViewById(R.id.rewardPrice)
         val points : TextView = itemView.findViewById(R.id.points)
         val item: ConstraintLayout = itemView.findViewById(R.id.item)
     }
