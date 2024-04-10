@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.hygieiamerchant.LoggedInActivity
 import com.example.hygieiamerchant.MainActivity2
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentLoginBinding
@@ -20,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 
 class LoginFragment : Fragment() {
-    val logTag = "LOGIN"
+    private val logTag = "LOGIN"
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var intent: Intent
@@ -35,7 +34,7 @@ class LoginFragment : Fragment() {
 
         val loginBtn: AppCompatButton = binding.loginBtn
         val forgotPass: TextView = binding.toForgotPass
-        val register : TextView = binding.toRegister
+        val register: TextView = binding.toRegister
 
         try {
             loginBtn.setOnClickListener {
@@ -46,7 +45,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_setNewPassFragment)
             }
 
-            register.setOnClickListener{
+            register.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
             }
 
@@ -76,9 +75,12 @@ class LoginFragment : Fragment() {
                 }
 
                 else -> {
+                    binding.loginBtn.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
                     auth.signInWithEmailAndPassword(email, pass)
                         .addOnCompleteListener(requireActivity()) { task ->
-
+                            binding.loginBtn.visibility = View.VISIBLE
+                            binding.progressBar.visibility = View.GONE
                             if (task.isSuccessful) {
                                 val intent =
                                     Intent(requireView().context, MainActivity2::class.java)

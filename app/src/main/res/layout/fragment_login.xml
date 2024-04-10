@@ -77,26 +77,44 @@
             android:layout_marginTop="@dimen/small"
             app:layout_constraintTop_toBottomOf="@+id/login" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/loginBtn"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="@dimen/XL"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="25dp"
-            android:background="@drawable/buttons"
-            android:text="@string/log_in"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-            tools:layout_editor_absoluteX="40dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/main_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="@dimen/large"
+                android:background="@drawable/buttons"
+                android:text="@string/log_in"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="Don't have an account yet?"
+            android:text="@string/don_t_have_an_account_yet"
             android:textColor="@color/text_color"
             android:textSize="15sp"
             app:layout_constraintTop_toBottomOf="@+id/login" />
@@ -106,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textColor="@color/accent_orange"
             android:textSize="15sp"
             android:layout_marginTop="@dimen/tiny"

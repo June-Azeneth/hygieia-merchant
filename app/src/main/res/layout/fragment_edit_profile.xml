@@ -34,20 +34,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sitio">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sitio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tiny"
-                android:drawableStart="@drawable/location"
-                android:drawablePadding="@dimen/small" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="Barangay">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -142,6 +128,17 @@
             android:layout_height="50dp"
             android:layout_marginTop="@dimen/small"
             android:layout_marginBottom="@dimen/large">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.797"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submitForm"

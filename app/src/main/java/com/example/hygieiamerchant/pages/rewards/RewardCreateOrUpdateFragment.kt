@@ -124,10 +124,16 @@ class RewardCreateOrUpdateFragment : Fragment() {
         }
 
         submit.setOnClickListener {
-            if (rewardsViewModel.action.value == "create") {
-                createReward()
-            } else {
-                updateReward()
+            Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
+                if (network) {
+                    if (rewardsViewModel.action.value == "create") {
+                        createReward()
+                    } else {
+                        updateReward()
+                    }
+                } else {
+                    Commons().showToast("No internet connection!", requireContext())
+                }
             }
         }
     }
@@ -305,6 +311,9 @@ class RewardCreateOrUpdateFragment : Fragment() {
 
     private fun updateRewardWithData(imageUrl: String) {
         val formattedDiscountedPrice = String.format("%.1f", discountedPrice)
+        if (selectedCategory == "Select A Category") {
+            selectedCategory = ""
+        }
         val data = Reward(
             name = productName.text.toString(),
             price = storePrice.text.toString().toDouble(),

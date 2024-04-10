@@ -36,7 +36,6 @@ class EditProfileFragment : Fragment() {
     private var storage: FirebaseStorage = Firebase.storage
     private var dashboardViewModel: DashboardViewModel = DashboardViewModel()
     private lateinit var storeName: TextInputEditText
-    private lateinit var sitio: TextInputEditText
     private lateinit var barangay: TextInputEditText
     private lateinit var city: TextInputEditText
     private lateinit var province: TextInputEditText
@@ -96,7 +95,6 @@ class EditProfileFragment : Fragment() {
         submit = binding.submitForm
         cancel = binding.cancel
         storeName = binding.storeName
-        sitio = binding.sitio
         barangay = binding.barangay
         province = binding.province
         city = binding.city
@@ -119,13 +117,11 @@ class EditProfileFragment : Fragment() {
                 recyclables.setText(recyclablesString)
                 user.address?.let { addressMap ->
                     // Extract address components from the address map
-                    val sitio = addressMap["sitio"] ?: ""
                     val barangay = addressMap["barangay"] ?: ""
                     val city = addressMap["city"] ?: ""
                     val province = addressMap["province"] ?: ""
 
                     // Set text fields with address components
-                    this.sitio.setText(sitio)
                     this.barangay.setText(barangay)
                     this.city.setText(city)
                     this.province.setText(province)
@@ -150,7 +146,6 @@ class EditProfileFragment : Fragment() {
             val updatedName = storeName.text.toString()
             val updatedPhoto = imageUrl ?: ""
             val address = mapOf(
-                "sitio" to sitio.text.toString(),
                 "barangay" to barangay.text.toString(),
                 "city" to city.text.toString(),
                 "province" to province.text.toString()
@@ -183,7 +178,6 @@ class EditProfileFragment : Fragment() {
             Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
                 if (network) {
                     val address = mapOf(
-                        "sitio" to sitio.text.toString(),
                         "barangay" to barangay.text.toString(),
                         "city" to city.text.toString(),
                         "province" to province.text.toString()
@@ -202,9 +196,14 @@ class EditProfileFragment : Fragment() {
                         )
                     }
 
+                    binding.progressBar.visibility = View.VISIBLE
+                    submit.visibility = View.INVISIBLE
+
                     userRepo.getCurrentUserId()?.let {
                         data?.let { userInfo ->
                             userRepo.updateProfile(it, userInfo) { success ->
+                                binding.progressBar.visibility = View.INVISIBLE
+                                submit.visibility = View.VISIBLE
                                 if (success) {
                                     Commons().showToast(
                                         "Profile updated successfully",
@@ -251,12 +250,11 @@ class EditProfileFragment : Fragment() {
 
     private fun validateFields(callback: (Boolean) -> Unit) {
         val storeName = storeName.text.toString()
-        val sitio = sitio.text.toString()
         val barangay = barangay.text.toString()
         val city = city.text.toString()
         val province = province.text.toString()
 
-        if (storeName.isEmpty() || sitio.isEmpty() || barangay.isEmpty() || city.isEmpty() || province.isEmpty()) {
+        if (storeName.isEmpty() || barangay.isEmpty() || city.isEmpty() || province.isEmpty()) {
             Commons().showToast("Please fill in all the required fields.", requireContext())
             callback(false)
         } else {

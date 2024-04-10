@@ -73,32 +73,38 @@ class RequestPickUpFragment : Fragment() {
     private fun editRequest() {
         Commons().observeNetwork(requireContext(), viewLifecycleOwner) { isNetworkAvailable ->
             if (isNetworkAvailable) {
-                val data = Request(
-                    date = date,
-                    notes = notes.text.toString(),
-                    phone = phone.text.toString()
-                )
+                validateFields { result ->
+                    if (result.first) {
+                        val data = Request(
+                            date = date,
+                            notes = notes.text.toString(),
+                            phone = phone.text.toString()
+                        )
 
-                requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
-                    if (request != null) {
-                        requestRepo.editRequest(request.id, data) { success ->
-                            if (success) {
-                                Commons().showAlertDialogWithCallback(this,
-                                    "Success",
-                                    "Request updated successfully",
-                                    "Okay",
-                                    positiveButtonCallback = {
-                                        findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
-                                    })
-                            } else {
-                                Commons().showAlertDialog(
-                                    requireContext(),
-                                    "Failed!",
-                                    "An error occurred. Please try again later.",
-                                    "Okay"
-                                )
+                        requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
+                            if (request != null) {
+                                requestRepo.editRequest(request.id, data) { success ->
+                                    if (success) {
+                                        Commons().showAlertDialogWithCallback(this,
+                                            "Success",
+                                            "Request updated successfully",
+                                            "Okay",
+                                            positiveButtonCallback = {
+                                                findNavController().navigate(R.id.action_requestPickUpFragment_to_nav_requests)
+                                            })
+                                    } else {
+                                        Commons().showAlertDialog(
+                                            requireContext(),
+                                            "Failed!",
+                                            "An error occurred. Please try again later.",
+                                            "Okay"
+                                        )
+                                    }
+                                }
                             }
                         }
+                    } else {
+                        Commons().showToast(result.second, requireContext())
                     }
                 }
             } else {

@@ -148,4 +148,6 @@
     <string name="request_id">ID: %1$s</string>
     <string name="request_store_name">Store: %1$s</string>
     <string name="request_time">Time: %1$s</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="create_account">Create Account</string>
 </resources>

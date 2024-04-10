@@ -107,10 +107,16 @@ class PromoCreateOrUpdateFragment : Fragment() {
         }
 
         submit.setOnClickListener {
-            if (promoViewModel.action.value == "create") {
-                createPromo()
-            } else {
-                updatePromo()
+            Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
+                if (network) {
+                    if (promoViewModel.action.value == "create") {
+                        createPromo()
+                    } else {
+                        updatePromo()
+                    }
+                } else {
+                    Commons().showToast("No internet connection!", requireContext())
+                }
             }
         }
     }
@@ -155,8 +161,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
             commons.showLoader(
                 requireContext(), LayoutInflater.from(requireContext()), true
             )
-
-            //return true
             true
         }
     }
