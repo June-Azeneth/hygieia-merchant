@@ -41,7 +41,8 @@ class RequestRepo {
                             documentSnapshot.getTimestamp(DATE)?.toDate(),
                             documentSnapshot.getString(NOTES) ?: "",
                             data?.get(ADDRESS) as? Map<*, *>?,
-                            documentSnapshot.getString(STATUS) ?: ""
+                            documentSnapshot.getString(STATUS) ?: "",
+                            documentSnapshot.getString(PHONE) ?: "",
                         )
                         callback(request)
                     } catch (e: Exception) {
@@ -49,7 +50,6 @@ class RequestRepo {
                         callback(null)
                     }
                 } else {
-                    // No document matching the query criteria
                     callback(null)
                 }
             }
@@ -97,7 +97,8 @@ class RequestRepo {
         val updateData = mapOf(
             DATE to data.date,
             NOTES to data.notes,
-            PHONE to data.phone
+            PHONE to data.phone,
+            STATUS to "pending"
         )
         docRef.update(updateData)
             .addOnSuccessListener {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -123,7 +124,18 @@ class RequestListFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            cancelRequest()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirm")
+                .setMessage("Are you sure you want to cancel this request?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    cancelRequest()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
 
         binding.edit.setOnClickListener {
@@ -153,8 +165,20 @@ class RequestListFragment : Fragment() {
 
                 if (status == "active") {
                     binding.time.text = getString(R.string.request_time, time)
+                    binding.status.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.main_green
+                        )
+                    )
                 } else {
                     binding.time.text = ""
+                    binding.status.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.accent_orange
+                        )
+                    )
                 }
             } else {
                 requestExist = false

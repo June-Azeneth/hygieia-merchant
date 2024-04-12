@@ -66,7 +66,7 @@ class SignUpFragment : Fragment() {
     private val common: Commons = Commons()
     private var cityString: String = ""
     private var selectedIdType: String = ""
-    private var selectedLguId: String = ""
+//    private var selectedLguId: String = ""
 
     private val getBackPhotoName =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -279,7 +279,6 @@ class SignUpFragment : Fragment() {
                 "validIdBack" to backUrl,
                 "dateSubmitted" to getDateAndTime(),
                 "idType" to selectedIdType,
-                "lguId" to selectedLguId,
                 "status" to "pending",
                 "phone" to phone.text.toString()
             )
