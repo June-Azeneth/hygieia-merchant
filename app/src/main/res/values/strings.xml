@@ -150,4 +150,5 @@
     <string name="request_time">Time: %1$s</string>
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="create_account">Create Account</string>
+    <string name="google_map_location">Google Map location</string>
 </resources>

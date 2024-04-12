@@ -32,7 +32,7 @@ class ProfileFragment : Fragment() {
     private lateinit var editProfile: AppCompatButton
     private lateinit var changePass: AppCompatButton
     private lateinit var logout: AppCompatButton
-    private lateinit var profile : ShapeableImageView
+    private lateinit var profile: ShapeableImageView
     private lateinit var dialog: AlertDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -85,8 +85,8 @@ class ProfileFragment : Fragment() {
                 dashboardViewModel.fetchUserInfo()
                 dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
                     storeName.text = details.name
-                    address.text = Commons().formatAddress(details.address, "short")
                     email.text = details.email
+                    address.text = details.address
                     Glide.with(this)
                         .load(details.photo)
                         .into(profile)

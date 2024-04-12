@@ -47,11 +47,13 @@ class SignUpFragment : Fragment() {
     private lateinit var storeEmail: TextInputEditText
     private lateinit var storeOwner: TextInputEditText
     private lateinit var phone: TextInputEditText
+    private lateinit var googleMapLocation: TextInputEditText
+    private lateinit var address: TextInputEditText
 
     //    private lateinit var sitio: TextView
-    private lateinit var barangay: TextInputEditText
-    private lateinit var city: TextInputEditText
-    private lateinit var province: TextInputEditText
+//    private lateinit var barangay: TextInputEditText
+//    private lateinit var city: TextInputEditText
+//    private lateinit var province: TextInputEditText
     private lateinit var imageUriFront: Uri
     private lateinit var imageUriBack: Uri
     private lateinit var lisOfIds: Spinner
@@ -72,7 +74,7 @@ class SignUpFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { imageUri ->
                 val imageTitle = getImageTitle(imageUri)
-                this.imageUriFront = imageUri
+                this.imageUriBack = imageUri
                 binding.backImage.text = imageTitle
             }
         }
@@ -81,7 +83,7 @@ class SignUpFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { imageUri ->
                 val imageTitle = getImageTitle(imageUri)
-                this.imageUriBack = imageUri
+                this.imageUriFront = imageUri
                 binding.frontImage.text = imageTitle
             }
         }
@@ -150,11 +152,13 @@ class SignUpFragment : Fragment() {
         storeName = binding.storeNameEditText
         storeEmail = binding.storeEmailEditText
         storeOwner = binding.storeOwnerEditText
-        barangay = binding.storeBrgyEditText
-        city = binding.storeCityEditText
-        province = binding.storeProvinceEditText
-        cityString = city.text.toString()
+//        barangay = binding.storeBrgyEditText
+//        city = binding.storeCityEditText
+//        province = binding.storeProvinceEditText
+//        cityString = city.text.toString()
         phone = binding.phoneEditText
+        googleMapLocation = binding.googleMapLink
+        address = binding.address
     }
 
     private fun setUpRefreshListener() {
@@ -255,21 +259,22 @@ class SignUpFragment : Fragment() {
     }
 
     private fun createRequest() {
+//        val barangay = barangay.text.toString()
+//        val city = city.text.toString()
+//        val province = province.text.toString()
+//        val address = mapOf(
+//            "barangay" to barangay,
+//            "city" to city,
+//            "province" to province
+//        )
+
+        val location = googleMapLocation.text.toString()
         val storeName = storeName.text.toString()
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
-        val barangay = barangay.text.toString()
-        val city = city.text.toString()
-        val province = province.text.toString()
-
-        val address = mapOf(
-            "barangay" to barangay,
-            "city" to city,
-            "province" to province
-        )
+        val address = binding.address.text.toString()
 
         uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
-            // Once you have the downloadUrl (validId), make the Firestore request
             val data = hashMapOf(
                 "name" to storeName,
                 "email" to storeEmail,
@@ -280,7 +285,8 @@ class SignUpFragment : Fragment() {
                 "dateSubmitted" to getDateAndTime(),
                 "idType" to selectedIdType,
                 "status" to "pending",
-                "phone" to phone.text.toString()
+                "phone" to phone.text.toString(),
+                "googleMapLocation" to location
             )
 
             fireStore.collection("store").add(data).addOnSuccessListener {
@@ -289,11 +295,13 @@ class SignUpFragment : Fragment() {
                 val title = "Account Request Sent"
                 val message =
                     "Thank you for your interest in opening an account with us. " + "Your request has been successfully submitted to the Hygieia Admin team for review. " + "\n\nPlease allow us some time to process your application. " + "We will notify you via email once your application has been reviewed and processed." + "\n\nThank You!"
-                common.showAlertDialogWithCallback(
-                    this, title, message, "Got it!", positiveButtonCallback = {
+                common.showAlertDialogWithCallback(this,
+                    title,
+                    message,
+                    "Got it!",
+                    positiveButtonCallback = {
                         findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-                    }
-                )
+                    })
 
             }.addOnFailureListener { e ->
                 // Error occurred while adding document
@@ -321,15 +329,18 @@ class SignUpFragment : Fragment() {
         val storeName = storeName.text.toString()
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
-        val barangay = barangay.text.toString()
-        val city = city.text.toString()
-        val province = province.text.toString()
+        val address = binding.address.text.toString()
         val validIdFront = front.text.toString()
         val validIdBack = back.text.toString()
         val phone = phone.text.toString()
+        val location = googleMapLocation.text.toString()
+
+        //        val barangay = barangay.text.toString()
+//        val city = city.text.toString()
+//        val province = province.text.toString()
 
         //validate that all the necessary details are provided
-        if (storeName.isBlank() || storeEmail.isBlank() || storeOwner.isBlank() || phone.isEmpty() || barangay.isBlank() || city.isBlank() || province.isBlank() || validIdFront.contentEquals(
+        if (storeName.isBlank() || storeEmail.isBlank() || location.isEmpty() || storeOwner.isBlank() || phone.isEmpty() || address.isEmpty() || validIdFront.contentEquals(
                 "Upload Front of ID"
             ) || validIdBack.contentEquals("Upload Back of ID")
         ) {
@@ -377,7 +388,7 @@ class SignUpFragment : Fragment() {
         uploadTaskFront.addOnSuccessListener {
             storageRefFront.downloadUrl.addOnSuccessListener { frontUri ->
                 downloadUrlFront = frontUri.toString()
-                uploadTaskBack.addOnSuccessListener { backSnapshot ->
+                uploadTaskBack.addOnSuccessListener {
                     storageRefBack.downloadUrl.addOnSuccessListener { backUri ->
                         downloadUrlBack = backUri.toString()
                         // Call the callback function once both images have been uploaded successfully

@@ -7,10 +7,10 @@
     tools:context=".pages.profile.EditProfileFragment">
 
     <LinearLayout
-        android:padding="@dimen/small"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/small">
 
         <TextView
             android:layout_width="match_parent"
@@ -31,46 +31,66 @@
                 android:drawablePadding="@dimen/small" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="Barangay">-->
+
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/barangay"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="@dimen/tiny"-->
+        <!--                android:drawableStart="@drawable/location"-->
+        <!--                android:drawablePadding="@dimen/small" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="City">-->
+
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/city"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="@dimen/tiny"-->
+        <!--                android:drawableStart="@drawable/location"-->
+        <!--                android:drawablePadding="@dimen/small" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="Province">-->
+
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/province"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="@dimen/tiny"-->
+        <!--                android:drawableStart="@drawable/location"-->
+        <!--                android:drawablePadding="@dimen/small" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Barangay">
+            android:layout_height="155dp"
+            android:layout_marginTop="@dimen/tiniest"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/main_green"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:layout_editor_absoluteX="25dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/barangay"
+                android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tiny"
-                android:drawableStart="@drawable/location"
-                android:drawablePadding="@dimen/small" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:hint="@string/address"
+                android:maxLines="5" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="City">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tiny"
-                android:drawableStart="@drawable/location"
-                android:drawablePadding="@dimen/small" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Province">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/province"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tiny"
-                android:drawableStart="@drawable/location"
-                android:drawablePadding="@dimen/small" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

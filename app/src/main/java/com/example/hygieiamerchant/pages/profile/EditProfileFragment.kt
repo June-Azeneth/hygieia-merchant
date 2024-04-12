@@ -36,9 +36,7 @@ class EditProfileFragment : Fragment() {
     private var storage: FirebaseStorage = Firebase.storage
     private var dashboardViewModel: DashboardViewModel = DashboardViewModel()
     private lateinit var storeName: TextInputEditText
-    private lateinit var barangay: TextInputEditText
-    private lateinit var city: TextInputEditText
-    private lateinit var province: TextInputEditText
+    private lateinit var address: TextInputEditText
     private lateinit var recyclables: TextInputEditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
@@ -91,13 +89,11 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun initializeVariables() {
+        address = binding.address
         contentResolver = requireContext().contentResolver
         submit = binding.submitForm
         cancel = binding.cancel
         storeName = binding.storeName
-        barangay = binding.barangay
-        province = binding.province
-        city = binding.city
         recyclables = binding.recyclables
         photoPicker = binding.photoPicker
         profilePic = binding.profilePic
@@ -115,17 +111,7 @@ class EditProfileFragment : Fragment() {
                 storeName.setText(user.name)
                 imageUrl = user.photo
                 recyclables.setText(recyclablesString)
-                user.address?.let { addressMap ->
-                    // Extract address components from the address map
-                    val barangay = addressMap["barangay"] ?: ""
-                    val city = addressMap["city"] ?: ""
-                    val province = addressMap["province"] ?: ""
-
-                    // Set text fields with address components
-                    this.barangay.setText(barangay)
-                    this.city.setText(city)
-                    this.province.setText(province)
-                }
+                address.setText(user.address)
 
                 Glide.with(this)
                     .load(user.photo)
@@ -145,19 +131,13 @@ class EditProfileFragment : Fragment() {
         dashboardViewModel.userInfo.value?.let { user ->
             val updatedName = storeName.text.toString()
             val updatedPhoto = imageUrl ?: ""
-            val address = mapOf(
-                "barangay" to barangay.text.toString(),
-                "city" to city.text.toString(),
-                "province" to province.text.toString()
-            )
-            val updatedAddress: Map<String, String>? = address
-
+            val address = address.text.toString()
             val recyclables = recyclables.text?.toString()?.trim()
             val recyclablesArray = recyclables?.split(",")?.map { it.trim() }?.toTypedArray()
 
             if (user.name != updatedName ||
-                user.address != updatedAddress ||
-                user.recyclable != recyclablesArray
+                user.recyclable != recyclablesArray ||
+                user.address != address
             ) {
                 // Data has changed, proceed to update
                 if (image != null) {
@@ -177,24 +157,17 @@ class EditProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
                 if (network) {
-                    val address = mapOf(
-                        "barangay" to barangay.text.toString(),
-                        "city" to city.text.toString(),
-                        "province" to province.text.toString()
-                    )
-
+                    val address = address.text.toString()
                     val recyclables = recyclables.text?.toString()?.trim()
                     val recyclablesList = recyclables?.split(",")?.map { it.trim() }
                         ?: listOf() // Use List<String> instead of Array<String>
 
-                    val data = recyclablesList?.let {
-                        UserInfo(
-                            name = storeName.text.toString(),
-                            address = address,
-                            recyclable = it,
-                            photo = imageUrl
-                        )
-                    }
+                    val data = UserInfo(
+                        name = storeName.text.toString(),
+                        recyclable = recyclablesList,
+                        photo = imageUrl,
+                        address = address
+                    )
 
                     binding.progressBar.visibility = View.VISIBLE
                     submit.visibility = View.INVISIBLE
@@ -250,11 +223,9 @@ class EditProfileFragment : Fragment() {
 
     private fun validateFields(callback: (Boolean) -> Unit) {
         val storeName = storeName.text.toString()
-        val barangay = barangay.text.toString()
-        val city = city.text.toString()
-        val province = province.text.toString()
+        val address = address.text.toString()
 
-        if (storeName.isEmpty() || barangay.isEmpty() || city.isEmpty() || province.isEmpty()) {
+        if (storeName.isEmpty() || address.isEmpty()) {
             Commons().showToast("Please fill in all the required fields.", requireContext())
             callback(false)
         } else {

@@ -139,12 +139,10 @@ class RequestPickUpFragment : Fragment() {
     private fun populateFields() {
         dashboardViewModel.fetchUserInfo()
         dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
-            binding.storeName.text = getString(R.string.store, details.name)
-            binding.address.text =
-                getString(R.string.address_, Commons().formatAddress(details.address, "short"))
-
-            storeId = userRepo.getCurrentUserId().toString()
-            address = details.address!!
+            if (details != null) {
+                binding.storeName.text = getString(R.string.store, details.name)
+                storeId = userRepo.getCurrentUserId().toString()
+            }
         }
 
         if (requestViewModel.action.value == "edit") {
