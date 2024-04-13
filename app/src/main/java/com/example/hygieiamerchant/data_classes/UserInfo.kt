@@ -8,5 +8,6 @@ class UserInfo(
 //    val lguId: String = "",
 //    val lgu: String = "",
     val recyclable: List<String> = listOf(),
-    val photo: String = ""
+    val photo: String = "",
+    val googleMapLocation: String = ""
 )

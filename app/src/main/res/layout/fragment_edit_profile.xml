@@ -93,6 +93,20 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:hint="Google Map Link">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/googleMapLink"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/tiny"
+                android:maxLines="10"
+                android:gravity="start" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

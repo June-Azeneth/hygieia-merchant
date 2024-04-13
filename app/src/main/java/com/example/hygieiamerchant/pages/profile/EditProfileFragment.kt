@@ -37,6 +37,7 @@ class EditProfileFragment : Fragment() {
     private var dashboardViewModel: DashboardViewModel = DashboardViewModel()
     private lateinit var storeName: TextInputEditText
     private lateinit var address: TextInputEditText
+    private lateinit var googleMap: TextInputEditText
     private lateinit var recyclables: TextInputEditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
@@ -89,6 +90,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun initializeVariables() {
+        googleMap = binding.googleMapLink
         address = binding.address
         contentResolver = requireContext().contentResolver
         submit = binding.submitForm
@@ -112,6 +114,7 @@ class EditProfileFragment : Fragment() {
                 imageUrl = user.photo
                 recyclables.setText(recyclablesString)
                 address.setText(user.address)
+                googleMap.setText(user.googleMapLocation)
 
                 Glide.with(this)
                     .load(user.photo)
@@ -134,10 +137,12 @@ class EditProfileFragment : Fragment() {
             val address = address.text.toString()
             val recyclables = recyclables.text?.toString()?.trim()
             val recyclablesArray = recyclables?.split(",")?.map { it.trim() }?.toTypedArray()
+            val link = googleMap.text.toString()
 
             if (user.name != updatedName ||
                 user.recyclable != recyclablesArray ||
-                user.address != address
+                user.address != address ||
+                user.googleMapLocation != link
             ) {
                 // Data has changed, proceed to update
                 if (image != null) {
@@ -161,12 +166,14 @@ class EditProfileFragment : Fragment() {
                     val recyclables = recyclables.text?.toString()?.trim()
                     val recyclablesList = recyclables?.split(",")?.map { it.trim() }
                         ?: listOf() // Use List<String> instead of Array<String>
+                    val googleMapLocation = binding.googleMapLink.text.toString()
 
                     val data = UserInfo(
                         name = storeName.text.toString(),
                         recyclable = recyclablesList,
                         photo = imageUrl,
-                        address = address
+                        address = address,
+                        googleMapLocation = googleMapLocation
                     )
 
                     binding.progressBar.visibility = View.VISIBLE
