@@ -159,7 +159,7 @@ class PromosFragment : Fragment() {
 
     private fun dropDown(root: View) {
         try {
-            val spinnerData = arrayOf("All", "Ongoing", "Upcoming", "Paused", "Passed")
+            val spinnerData = arrayOf("All", "Ongoing", "Upcoming", "Passed")
 
             val spinner: Spinner = root.findViewById(R.id.spinner)
             val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_dark, spinnerData)

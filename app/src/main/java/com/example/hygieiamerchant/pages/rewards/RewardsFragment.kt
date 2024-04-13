@@ -131,7 +131,7 @@ class RewardsFragment : Fragment() {
 
     private fun dropDown(root: View) {
         try {
-            val spinnerData = arrayOf("All", "Meal", "Snack", "Beverage", "Dessert")
+            val spinnerData = arrayOf("All", "Meal", "Snack", "Beverage", "Dessert","Others")
 
             val spinner: Spinner = root.findViewById(R.id.spinner)
             val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_dark, spinnerData)
