@@ -37,14 +37,14 @@ class RequestPickUpFragment : Fragment() {
     private lateinit var phone: EditText
     private lateinit var send: AppCompatButton
     private lateinit var cancel: AppCompatButton
-    private lateinit var address: Map<String, String>
+    private lateinit var address: String
     private lateinit var date: Date
     private lateinit var dialog: AlertDialog
     private var storeId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRequestPickUpBinding.inflate(inflater, container, false)
 
         initializeVariables()
@@ -59,6 +59,9 @@ class RequestPickUpFragment : Fragment() {
             showDatePickerDialog()
         }
         send.setOnClickListener {
+            Commons().log("REQUEST_MODEL", requestViewModel.action.value.toString())
+            binding.progressBar.visibility = View.VISIBLE
+            binding.send.visibility = View.INVISIBLE
             if (requestViewModel.action.value == "create") {
                 createRequest()
             } else {
@@ -84,6 +87,8 @@ class RequestPickUpFragment : Fragment() {
                         requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
                             if (request != null) {
                                 requestRepo.editRequest(request.id, data) { success ->
+                                    binding.progressBar.visibility = View.INVISIBLE
+                                    binding.send.visibility = View.VISIBLE
                                     if (success) {
                                         Commons().showAlertDialogWithCallback(this,
                                             "Success",
@@ -142,6 +147,8 @@ class RequestPickUpFragment : Fragment() {
             if (details != null) {
                 binding.storeName.text = getString(R.string.store, details.name)
                 storeId = userRepo.getCurrentUserId().toString()
+                address = details.address
+                binding.address.text = getString(R.string.address_placeholder, details.address)
             }
         }
 
@@ -169,9 +176,6 @@ class RequestPickUpFragment : Fragment() {
                             notes = notes.text.toString(),
                             phone = phone.text.toString()
                         )
-
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.send.visibility = View.INVISIBLE
 
                         requestRepo.addRequest(data) { success ->
                             binding.progressBar.visibility = View.GONE

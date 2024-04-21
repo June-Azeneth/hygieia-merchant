@@ -52,9 +52,9 @@ class RewardsAdapter(
         holder.name.text = currentItem.name
         holder.discountRate.text = context.getString(
             R.string.discountRate,
-            "${Commons().formatDecimalNumber(currentItem.discount)}%"
+            "Discount: ${Commons().formatDecimalNumber(currentItem.discount)}%"
         )
-        holder.ptsRequired.text = Commons().formatDecimalNumber(currentItem.pointsRequired)
+        holder.ptsRequired.text = context.getString(R.string.points_req, Commons().formatDecimalNumber(currentItem.pointsRequired))
         holder.discountedPrice.text = context.getString(
             R.string.discountedPrice,
             Commons().formatDecimalNumber(currentItem.discountedPrice)

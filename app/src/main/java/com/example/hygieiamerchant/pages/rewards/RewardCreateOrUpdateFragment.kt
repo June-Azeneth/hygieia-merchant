@@ -387,8 +387,16 @@ class RewardCreateOrUpdateFragment : Fragment() {
     }
 
     private fun setUpSpinner() {
-        spinnerData =
-            arrayOf("Select A Category", "Meal", "Snack", "Beverage", "Dessert", "Others")
+        spinnerData = arrayOf(
+            "Food and Beverages",
+            "Electronics",
+            "Clothing",
+            "Appliances",
+            "Household Necessities",
+            "Entertainment",
+            "Accessories",
+            "Others"
+        )
 
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_dark, spinnerData)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

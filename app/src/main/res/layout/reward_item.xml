@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/tiniest"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/text_tiny"
-    android:layout_marginBottom="@dimen/tiniest">
+    app:cardCornerRadius="@dimen/text_tiny">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,20 +15,22 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/photo"
             android:layout_width="120dp"
-            android:layout_height="130dp"
+            android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
             android:background="@color/lightGray"
-            app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/details"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/details"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="@dimen/small"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/photo"
@@ -40,37 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans_semibold"
-                android:text="Product Name"
                 android:textColor="@color/text_color"
                 android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/prod_name"
-                android:text="Discount:"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
 
             <TextView
                 android:id="@+id/discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/prod_name"
-                android:layout_marginStart="5dp"
-                android:layout_toRightOf="@id/text2"
                 android:fontFamily="@font/nunito_sans_semibold"
-                android:text="0%"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
-
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text2"
-                android:text="Discounted Price:"
                 android:textColor="@color/sub_text"
                 android:textSize="@dimen/text_tiny" />
 
@@ -78,20 +56,7 @@
                 android:id="@+id/disc_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/discount"
-                android:layout_marginStart="5dp"
-                android:layout_toRightOf="@id/text3"
                 android:fontFamily="@font/nunito_sans_semibold"
-                android:text="0"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
-
-            <TextView
-                android:id="@+id/text4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text3"
-                android:text="Points Required:"
                 android:textColor="@color/sub_text"
                 android:textSize="@dimen/text_tiny" />
 
@@ -99,59 +64,39 @@
                 android:id="@+id/points_required"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/disc_price"
-                android:layout_marginStart="5dp"
-                android:layout_toRightOf="@id/text4"
                 android:fontFamily="@font/nunito_sans_semibold"
-                android:text="0"
                 android:textColor="@color/sub_text"
                 android:textSize="@dimen/text_tiny" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/editItem"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="6dp"
-                android:textColor="@color/main_green"
-                android:background="@drawable/simple_button"
-                android:drawableStart="@drawable/edit_item"
-                android:paddingStart="8dp"
-                android:text="Edit"
-                android:textAllCaps="false" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/deleteItem"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="3dp"
-                android:layout_toEndOf="@id/editItem"
-                android:background="@drawable/danger_button"
-                android:paddingStart="3dp"
-                android:textColor="@color/red"
-                android:drawableStart="@drawable/delete"
-                android:text="Delete"
-                android:textAllCaps="false" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/edit_item"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/edit_btn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/main_green" />
 
-<!--            <com.google.android.material.imageview.ShapeableImageView-->
-<!--                android:id="@+id/deleteItem"-->
-<!--                android:layout_width="28dp"-->
-<!--                android:layout_height="28dp"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:src="@drawable/delete" />-->
-
-<!--            <com.google.android.material.imageview.ShapeableImageView-->
-<!--                android:id="@+id/editItem"-->
-<!--                android:layout_width="30dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_toLeftOf="@id/deleteItem"-->
-<!--                android:layout_marginEnd="@dimen/small"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:src="@drawable/edit_item" />-->
-        </RelativeLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/deleteItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/danger_button"
+                    android:drawableStart="@drawable/delete"
+                    android:paddingHorizontal="3dp"
+                    android:text="@string/delete_btn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

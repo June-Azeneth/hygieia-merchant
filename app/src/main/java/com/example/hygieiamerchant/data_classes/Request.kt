@@ -7,7 +7,7 @@ class Request(
     var storeId: String = "",
     var date: Date? = null,
     var notes: String = "",
-    val address: Map<*, *>? = null,
+    val address: String = "",
     var status: String = "",
     var phone: String = ""
 )

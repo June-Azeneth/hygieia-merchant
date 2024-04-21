@@ -40,7 +40,7 @@ class RequestRepo {
                             documentSnapshot.getString(STORE_ID) ?: "",
                             documentSnapshot.getTimestamp(DATE)?.toDate(),
                             documentSnapshot.getString(NOTES) ?: "",
-                            data?.get(ADDRESS) as? Map<*, *>?,
+                            documentSnapshot.getString(ADDRESS) ?: "",
                             documentSnapshot.getString(STATUS) ?: "",
                             documentSnapshot.getString(PHONE) ?: "",
                         )
