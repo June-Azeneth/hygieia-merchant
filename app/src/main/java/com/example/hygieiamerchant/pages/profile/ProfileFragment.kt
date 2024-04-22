@@ -84,15 +84,17 @@ class ProfileFragment : Fragment() {
             if (network) {
                 dashboardViewModel.fetchUserInfo()
                 dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
-                    storeName.text = details.name
-                    email.text = details.email
-                    address.text = details.address
-                    Glide.with(this)
-                        .load(details.photo)
-                        .into(profile)
+                    if (details != null) {
+                        storeName.text = details.name
+                        email.text = "Email: ${details.email}"
+                        address.text = "Address: ${details.address}"
+                        Glide.with(this)
+                            .load(details.photo)
+                            .into(profile)
 
-                    val recyclablesString = details.recyclable.joinToString(", ")
-                    binding.recyclables.text = "Recyclables: $recyclablesString"
+                        val recyclablesString = details.recyclable.joinToString(", ")
+                        binding.recyclables.text = "Recyclables: $recyclablesString"
+                    }
                 }
             } else {
                 showConnectivityDialog()

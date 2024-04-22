@@ -43,19 +43,21 @@ class MainActivity2 : AppCompatActivity() {
         //Set nav header details
         dashboardViewModel.fetchUserInfo()
         dashboardViewModel.userInfo.observe(this) { details ->
-            val view: android.view.View? = navView.getHeaderView(0)
-            val storeName: TextView = view?.findViewById(R.id.shopName) ?: TextView(this)
-            val storeEmail: TextView = view?.findViewById(R.id.shopEmail) ?: TextView(this)
-            val image: ShapeableImageView = view?.findViewById(R.id.profileImage) ?: ShapeableImageView(this)
+            if(details != null){
+                val view: android.view.View? = navView.getHeaderView(0)
+                val storeName: TextView = view?.findViewById(R.id.shopName) ?: TextView(this)
+                val storeEmail: TextView = view?.findViewById(R.id.shopEmail) ?: TextView(this)
+                val image: ShapeableImageView = view?.findViewById(R.id.profileImage) ?: ShapeableImageView(this)
 
-            storeName.text = details.name
-            storeEmail.text = details.email
-            Glide.with(this)
-                .load(details.photo)
-                .apply(RequestOptions.centerCropTransform())
-                .placeholder(R.drawable.placeholder_image)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(image)
+                storeName.text = details.name
+                storeEmail.text = details.email
+                Glide.with(this)
+                    .load(details.photo)
+                    .apply(RequestOptions.centerCropTransform())
+                    .placeholder(R.drawable.placeholder_image)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(image)
+            }
         }
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)

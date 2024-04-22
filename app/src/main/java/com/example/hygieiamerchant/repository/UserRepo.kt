@@ -91,7 +91,9 @@ class UserRepo {
                         "address" to data.address,
                         "recyclable" to data.recyclable,
                         "photo" to data.photo,
-                        "googleMapLocation" to data.googleMapLocation
+                        "googleMapLocation" to data.googleMapLocation,
+                        "phone" to data.phone,
+                        "owner" to data.owner
                     )
                     document.reference.update(updateData)
                         .addOnSuccessListener {
@@ -102,14 +104,12 @@ class UserRepo {
                             Log.e(logTAG, "Error updating profile: ${error.message}", error)
                         }
                 } else {
-                    // No document found with the given storeId
                     callback(false)
                     Log.e(logTAG, "No document found with storeId: $id")
                 }
             }
-            .addOnFailureListener { error ->
+            .addOnFailureListener {
                 callback(false)
-                Log.e(logTAG, "Error querying Firestore: ${error.message}", error)
             }
     }
 }

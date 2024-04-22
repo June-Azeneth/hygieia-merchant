@@ -38,6 +38,8 @@ class EditProfileFragment : Fragment() {
     private lateinit var storeName: TextInputEditText
     private lateinit var address: TextInputEditText
     private lateinit var googleMap: TextInputEditText
+    private lateinit var owner: TextInputEditText
+    private lateinit var phone: TextInputEditText
     private lateinit var recyclables: TextInputEditText
     private lateinit var cancel: AppCompatButton
     private lateinit var submit: AppCompatButton
@@ -90,6 +92,8 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun initializeVariables() {
+        phone = binding.phone
+        owner = binding.owner
         googleMap = binding.googleMapLink
         address = binding.address
         contentResolver = requireContext().contentResolver
@@ -115,12 +119,13 @@ class EditProfileFragment : Fragment() {
                 recyclables.setText(recyclablesString)
                 address.setText(user.address)
                 googleMap.setText(user.googleMapLocation)
+                owner.setText(user.owner)
+                phone.setText(user.phone)
 
                 Glide.with(this)
                     .load(user.photo)
                     .error(R.drawable.placeholder_image)
                     .into(profilePic)
-
             }
         }
     }
@@ -138,11 +143,15 @@ class EditProfileFragment : Fragment() {
             val recyclables = recyclables.text?.toString()?.trim()
             val recyclablesArray = recyclables?.split(",")?.map { it.trim() }?.toTypedArray()
             val link = googleMap.text.toString()
+            val phone = phone.text.toString()
+            val owner = owner.text.toString()
 
             if (user.name != updatedName ||
                 user.recyclable != recyclablesArray ||
                 user.address != address ||
-                user.googleMapLocation != link
+                user.googleMapLocation != link ||
+                user.phone != phone ||
+                user.owner != owner
             ) {
                 // Data has changed, proceed to update
                 if (image != null) {
@@ -163,9 +172,11 @@ class EditProfileFragment : Fragment() {
             Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
                 if (network) {
                     val address = address.text.toString()
+                    val phone = phone.text.toString()
+                    val owner = owner.text.toString()
                     val recyclables = recyclables.text?.toString()?.trim()
                     val recyclablesList = recyclables?.split(",")?.map { it.trim() }
-                        ?: listOf() // Use List<String> instead of Array<String>
+                        ?: listOf()
                     val googleMapLocation = binding.googleMapLink.text.toString()
 
                     val data = UserInfo(
@@ -173,7 +184,9 @@ class EditProfileFragment : Fragment() {
                         recyclable = recyclablesList,
                         photo = imageUrl,
                         address = address,
-                        googleMapLocation = googleMapLocation
+                        googleMapLocation = googleMapLocation,
+                        phone = phone,
+                        owner = owner
                     )
 
                     binding.progressBar.visibility = View.VISIBLE

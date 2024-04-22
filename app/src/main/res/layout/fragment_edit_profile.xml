@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     tools:context=".pages.profile.EditProfileFragment">
 
     <LinearLayout
@@ -24,6 +25,34 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/storeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/store"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Store Owner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/owner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tiny"
+                android:drawableStart="@drawable/store"
+                android:drawablePadding="@dimen/small" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiny"
@@ -103,8 +132,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/tiny"
-                android:maxLines="10"
-                android:gravity="start" />
+                android:gravity="start"
+                android:maxLines="10" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
