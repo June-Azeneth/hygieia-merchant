@@ -25,33 +25,31 @@ class RequestRepo {
 //        data class Error(val errorMessage: String) : RequestDetailsResult()
 //    }
 
-    fun getRequestDetails(storeId: String, callback: (Request?) -> Unit) {
+    fun getRequestDetails(storeId: String, callback: (List<Request>?) -> Unit) {
         fireStore.collection(COLLECTION)
             .whereEqualTo(STORE_ID, storeId)
             .whereIn(STATUS, listOf("pending", "active"))
             .get()
             .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
+                val requests = mutableListOf<Request>()
+                for (document in querySnapshot) {
                     try {
-                        val documentSnapshot = querySnapshot.documents[0] // Get the first document
-                        val data = documentSnapshot.data
                         val request = Request(
-                            documentSnapshot.id,
-                            documentSnapshot.getString(STORE_ID) ?: "",
-                            documentSnapshot.getTimestamp(DATE)?.toDate(),
-                            documentSnapshot.getString(NOTES) ?: "",
-                            documentSnapshot.getString(ADDRESS) ?: "",
-                            documentSnapshot.getString(STATUS) ?: "",
-                            documentSnapshot.getString(PHONE) ?: "",
+                            document.id,
+                            document.getString(STORE_ID) ?: "",
+                            document.getTimestamp(DATE)?.toDate(),
+                            document.getString(NOTES) ?: "",
+                            document.getString(ADDRESS) ?: "",
+                            document.getString(STATUS) ?: "",
+                            document.getString(PHONE) ?: "",
                         )
-                        callback(request)
-                    } catch (e: Exception) {
-                        Log.d("REQUESTS", "Error creating Request object: ${e.message}")
+                        requests.add(request)
+                    } catch (exception: Exception) {
+                        Log.d("REQUESTS", "Error retrieving request details: ${exception.message}")
                         callback(null)
                     }
-                } else {
-                    callback(null)
                 }
+                callback(requests)
             }
             .addOnFailureListener { exception ->
                 Log.d("REQUESTS", "Error retrieving request details: ${exception.message}")

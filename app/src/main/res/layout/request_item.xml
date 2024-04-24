@@ -3,49 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="7dp"
     app:cardCornerRadius="5dp"
+    android:id="@+id/item"
     android:orientation="vertical"
     android:padding="@dimen/tiny">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/details"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/small">
+        app:layout_constraintBottom_toTopOf="@+id/createRequest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        android:background="@color/white"
+        android:padding="@dimen/small"
+        app:layout_constraintVertical_bias="0.023"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:text="Date"
-            android:textColor="@color/sub_text"
-            android:textSize="@dimen/text_tiny"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/date"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/nunito_sans_regular"
-            android:text="Status"
-            android:textColor="@color/green"
-            android:textSize="@dimen/text_tiny"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date"
-            app:layout_goneMarginTop="@dimen/small" />
+            android:layout_marginTop="@dimen/tiniest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/delete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/delete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/actions"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/small"
+            app:layout_constraintBottom_toTopOf="@+id/createRequest"
+            app:layout_constraintTop_toBottomOf="@+id/details"
+            app:layout_constraintVertical_bias="0.031"
+            tools:layout_editor_absoluteX="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/small"
+                android:background="@drawable/danger_button"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:text="Cancel"
+                android:drawableStart="@drawable/delete"
+                android:textAllCaps="false"
+                android:paddingStart="@dimen/small"
+                android:textColor="@color/red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

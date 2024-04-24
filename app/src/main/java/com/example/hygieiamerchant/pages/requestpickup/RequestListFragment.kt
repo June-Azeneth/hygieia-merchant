@@ -9,14 +9,15 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
+import com.example.hygieiamerchant.data_classes.Request
 import com.example.hygieiamerchant.databinding.FragmentRequestListBinding
-import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.repository.RequestRepo
 import com.example.hygieiamerchant.repository.UserRepo
 import com.example.hygieiamerchant.utils.Commons
@@ -40,10 +41,10 @@ class RequestListFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var dialog: AlertDialog
     private lateinit var createRequest: AppCompatButton
-    private var requestExist: Boolean = true
     private var id: String = ""
-    private var status: String = ""
-    private val dashboardViewModel: DashboardViewModel = DashboardViewModel()
+    private lateinit var requestList: ArrayList<Request>
+    private lateinit var adapter: RequestsAdapter
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +56,8 @@ class RequestListFragment : Fragment() {
         observeNetwork()
         setUpRefreshListener()
         setUpOnClickListeners()
+        setUpRecyclerView()
+
         return binding.root
     }
 
@@ -111,36 +114,7 @@ class RequestListFragment : Fragment() {
     private fun setUpOnClickListeners() {
         createRequest.setOnClickListener {
             requestViewModel.setSelectedAction("create")
-            if (requestExist) {
-                Commons().showAlertDialog(
-                    requireContext(),
-                    "Oops!",
-                    "You have a pending/active request. Please wait for our response.",
-                    "Okay"
-                )
-            } else {
-                findNavController().navigate(R.id.action_nav_requests_to_requestPickUpFragment)
-            }
-        }
-
-        binding.cancel.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Confirm")
-                .setMessage("Are you sure you want to cancel this request?")
-                .setPositiveButton("Yes") { dialog, _ ->
-                    cancelRequest()
-                    dialog.dismiss()
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            val dialog = builder.create()
-            dialog.show()
-        }
-
-        binding.edit.setOnClickListener {
             findNavController().navigate(R.id.action_nav_requests_to_requestPickUpFragment)
-            requestViewModel.setSelectedAction("edit")
         }
     }
 
@@ -148,51 +122,20 @@ class RequestListFragment : Fragment() {
         requestViewModel.fetchAllRequests(userRepo.getCurrentUserId().toString())
         requestViewModel.requestDetails.observe(viewLifecycleOwner) { requests ->
             if (requests != null) {
-                val date = requests.date?.let { Commons().dateFormatMMMDDYYYY(it) }
-                val time = requests.date?.let { Commons().dateFormatHHMM(it) }
-
                 binding.loader.visibility = INVISIBLE
                 showMessage(false)
-                binding.details.visibility = VISIBLE
-                binding.actions.visibility = VISIBLE
-                binding.id.text = getString(R.string.request_id, requests.id)
-                binding.date.text = getString(R.string.date, date)
-                binding.status.text =
-                    getString(R.string.request_status, requests.status.uppercase())
-                requestExist = true
-                id = requests.id
-                status = requests.status
-
-                if (status == "active") {
-                    binding.time.text = getString(R.string.request_time, time)
-                    binding.status.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.main_green
-                        )
-                    )
+                requestList.clear()
+                requestList.addAll(requests)
+                adapter.notifyDataSetChanged()
+                if (requestList.isEmpty()) {
+                    showMessage(true)
                 } else {
-                    binding.time.text = ""
-                    binding.status.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.accent_orange
-                        )
-                    )
+                    showMessage(false)
                 }
-            } else {
-                requestExist = false
-                binding.loader.visibility = INVISIBLE
-                binding.actions.visibility = INVISIBLE
-                binding.details.visibility = INVISIBLE
-                showMessage(true)
             }
         }
 
-        dashboardViewModel.fetchUserInfo()
-        dashboardViewModel.userInfo.observe(viewLifecycleOwner) { user ->
-            binding.storeName.text = getString(R.string.request_store_name, user.name)
-        }
+
     }
 
     private fun showMessage(show: Boolean) {
@@ -219,11 +162,57 @@ class RequestListFragment : Fragment() {
             .setCancelable(true)
             .create()
         createRequest = binding.createRequest
+        recyclerView = binding.recyclerView
     }
 
     private fun setUpRefreshListener() {
         commons.setOnRefreshListener(swipeRefreshLayout) {
             observeNetwork()
         }
+    }
+
+    private fun setUpRecyclerView() {
+        try {
+            val recyclerView = binding.recyclerView
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.setHasFixedSize(true)
+
+            requestList = arrayListOf()
+            adapter = RequestsAdapter(
+                requestList,
+                object : RequestsAdapter.OnItemClickListener {
+                    override fun onItemClick(request: Request) {
+                        requestViewModel.setSelectedRequest(request)
+                        requestViewModel.setSelectedAction("edit")
+                        findNavController().navigate(R.id.action_nav_requests_to_requestPickUpFragment)
+                    }
+                },
+                object : RequestsAdapter.OnCancelClickListener {
+                    override fun onCancelClick(request: Request) {
+                        id = request.id
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setTitle("Cancel Request")
+                            .setMessage("Are you sure you want to cancel this request?")
+                            .setPositiveButton("Yes") { dialog, _ ->
+                                cancelRequest()
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    }
+                }
+            )
+            recyclerView.adapter = adapter
+        } catch (error: Exception) {
+            Commons().showToast("Error: $error", requireContext())
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

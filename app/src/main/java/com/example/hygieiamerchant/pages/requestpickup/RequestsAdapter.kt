@@ -4,25 +4,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Request
 import com.example.hygieiamerchant.utils.Commons
-import com.google.android.material.imageview.ShapeableImageView
 
 class RequestsAdapter(
     private val requestList: ArrayList<Request>,
     private val onItemClickListener: OnItemClickListener,
-    private val onDeleteClickListener: OnDeleteClickListener
+    private val onCancelClickListener: OnCancelClickListener
 ) : RecyclerView.Adapter<RequestsAdapter.MyViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(request: Request)
     }
 
-    interface OnDeleteClickListener {
-        fun onDeleteClick(request: Request)
+    interface OnCancelClickListener {
+        fun onCancelClick(request: Request)
     }
 
 
@@ -37,36 +38,30 @@ class RequestsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = requestList[position]
+        val context = holder.itemView.context
 
-        holder.setDate.text = currentItem.date?.let { Commons().dateFormatMMMDDYYYY(it) }
-        currentItem.status = currentItem.status.uppercase()
-        holder.status.text = currentItem.status
+        val date = currentItem.date?.let { Commons().dateFormatMMMDDYYYY(it) }
+        val time = currentItem.date?.let { Commons().dateFormatHHMM(it) }
 
-        when (currentItem.status) {
-            "pending" -> holder.status.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.accent_orange
-                )
-            )
+        holder.id.text = context.getString(R.string.request_id, currentItem.id)
+        holder.status.text = currentItem.status.uppercase()
+        holder.date.text = context.getString(R.string.request_date, date.toString())
 
-            "UPCOMING" -> holder.status.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.green
-                )
-            )
-
-            else -> holder.status.setTextColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.red
-                )
-            )
+        if (currentItem.status == "active") {
+            holder.status.setTextColor(ContextCompat.getColor(context, R.color.green))
+            holder.time.visibility = View.VISIBLE
+            holder.time.text = context.getString(R.string.request_time, time.toString())
+        } else {
+            holder.status.setTextColor(ContextCompat.getColor(context, R.color.accent_orange))
+            holder.time.visibility = View.GONE
         }
 
-        holder.deleteImage.setOnClickListener {
-            onDeleteClickListener.onDeleteClick(currentItem)
+        holder.item.setOnClickListener {
+            onItemClickListener.onItemClick(currentItem)
+        }
+
+        holder.cancel.setOnClickListener {
+            onCancelClickListener.onCancelClick(currentItem)
         }
     }
 
@@ -76,9 +71,11 @@ class RequestsAdapter(
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val setDate: TextView = itemView.findViewById(R.id.date)
-//        val address: TextView = itemView.findViewById(R.id.address)
+        val id: TextView = itemView.findViewById(R.id.id)
         val status: TextView = itemView.findViewById(R.id.status)
-        val deleteImage: ShapeableImageView = itemView.findViewById(R.id.delete)
+        val date: TextView = itemView.findViewById(R.id.date)
+        val time: TextView = itemView.findViewById(R.id.time)
+        val item: CardView = itemView.findViewById(R.id.item)
+        val cancel: AppCompatButton = itemView.findViewById(R.id.cancel)
     }
 }

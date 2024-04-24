@@ -84,7 +84,7 @@ class RequestPickUpFragment : Fragment() {
                             phone = phone.text.toString()
                         )
 
-                        requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
+                        requestViewModel.request.observe(viewLifecycleOwner) { request ->
                             if (request != null) {
                                 requestRepo.editRequest(request.id, data) { success ->
                                     binding.progressBar.visibility = View.INVISIBLE
@@ -153,7 +153,7 @@ class RequestPickUpFragment : Fragment() {
         }
 
         if (requestViewModel.action.value == "edit") {
-            requestViewModel.requestDetails.observe(viewLifecycleOwner) { request ->
+            requestViewModel.request.observe(viewLifecycleOwner) { request ->
                 if (request != null) {
                     date = request.date!!
                     notes.setText(request.notes)
