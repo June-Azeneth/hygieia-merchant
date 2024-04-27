@@ -26,6 +26,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var storeName: TextView
     private lateinit var storeAddress: TextView
+    private lateinit var id: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +48,7 @@ class DashboardFragment : Fragment() {
     private fun initializeVariables() {
         storeName = binding.shopName
         storeAddress = binding.address
+        id = binding.id
     }
 
     private fun setUpRefreshListener() {
@@ -318,6 +320,7 @@ class DashboardFragment : Fragment() {
     private fun observeDataChange() {
         dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
             if (details != null) {
+                id.text = getString(R.string.profile_id, details.storeId)
                 storeName.text = details.name
                 storeAddress.text = details.address
             } else {

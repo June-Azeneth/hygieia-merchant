@@ -156,4 +156,6 @@
     <string name="edit_btn">Edit</string>
     <string name="delete_btn">Delete</string>
     <string name="request_date">Date: %1$s</string>
+    <string name="prod_id">ID: %1$s</string>
+    <string name="profile_id">ID: %1$s</string>
 </resources>

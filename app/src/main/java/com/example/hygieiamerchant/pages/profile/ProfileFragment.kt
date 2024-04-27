@@ -29,6 +29,7 @@ class ProfileFragment : Fragment() {
     private lateinit var storeName: TextView
     private lateinit var address: TextView
     private lateinit var email: TextView
+    private lateinit var id: TextView
     private lateinit var editProfile: AppCompatButton
     private lateinit var changePass: AppCompatButton
     private lateinit var logout: AppCompatButton
@@ -60,6 +61,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initializeVariables() {
+        id = binding.id
         storeName = binding.storeName
         email = binding.email
         address = binding.address
@@ -85,6 +87,7 @@ class ProfileFragment : Fragment() {
                 dashboardViewModel.fetchUserInfo()
                 dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
                     if (details != null) {
+                        id.text = getString(R.string.profile_id, details.storeId)
                         storeName.text = details.name
                         email.text = "Email: ${details.email}"
                         address.text = "Address: ${details.address}"

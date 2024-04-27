@@ -1,7 +1,7 @@
 package com.example.hygieiamerchant.data_classes
 
 class UserInfo(
-    val id: String = "",
+    val storeId: String = "",
     val name: String = "",
     val address: String = "",
     val email: String = "",

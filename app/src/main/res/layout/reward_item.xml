@@ -45,6 +45,14 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/prod_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginBottom="@dimen/tiniest"
+                android:textColor="@color/gray" />
+
+            <TextView
                 android:id="@+id/discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

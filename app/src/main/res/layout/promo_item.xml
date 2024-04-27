@@ -16,7 +16,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/photo"
             android:layout_width="130dp"
-            android:layout_height="140dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:background="@drawable/placeholder_image"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,8 +27,8 @@
         <LinearLayout
             android:id="@+id/details"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/small"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/tiny"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,29 +45,31 @@
                 android:textSize="@dimen/text_small" />
 
             <TextView
+                android:id="@+id/promo_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginBottom="@dimen/tiniest"
+                android:textColor="@color/gray" />
+
+            <TextView
                 android:id="@+id/promoStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/points_required"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
+                android:textColor="@color/sub_text"/>
 
             <TextView
                 android:id="@+id/promoEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/points_required"
-                android:textColor="@color/sub_text"
-                android:textSize="@dimen/text_tiny" />
+                android:textColor="@color/sub_text"/>
 
             <TextView
                 android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/points_required"
                 android:layout_marginTop="@dimen/tiny"
-                android:fontFamily="@font/nunito_sans_bold"
-                android:textSize="@dimen/text_tiny" />
+                android:fontFamily="@font/nunito_sans_bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +84,7 @@
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/simple_button"
                     android:drawableStart="@drawable/edit_item"
-                    android:paddingStart="8dp"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/edit"
                     android:textAllCaps="false"
                     android:textColor="@color/main_green" />
@@ -94,7 +96,7 @@
                     android:layout_marginTop="3dp"
                     android:background="@drawable/danger_button"
                     android:drawableStart="@drawable/delete"
-                    android:paddingStart="3dp"
+                    android:paddingHorizontal="3dp"
                     android:text="@string/delete"
                     android:textAllCaps="false"
                     android:textColor="@color/red" />

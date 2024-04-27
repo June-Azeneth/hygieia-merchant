@@ -72,6 +72,7 @@ class PromoAdapter(
         holder.promoStart.text = context.getString(R.string.date_start_template, start)
         holder.promoEnd.text = context.getString(R.string.date_end_template, end)
         holder.status.text = currentItem.status.uppercase()
+        holder.id.text = context.getString(R.string.prod_id, currentItem.id)
 
         holder.editItem.setOnClickListener {
             onEditClickListener.onEditClick(currentItem)
@@ -88,6 +89,7 @@ class PromoAdapter(
         val promoStart: TextView = itemView.findViewById(R.id.promoStart)
         val promoEnd: TextView = itemView.findViewById(R.id.promoEnd)
         val status: TextView = itemView.findViewById(R.id.status)
+        val id: TextView = itemView.findViewById(R.id.promo_id)
         val deleteItem : AppCompatButton = itemView.findViewById(R.id.deleteItem)
         val editItem : AppCompatButton = itemView.findViewById(R.id.editItem)
     }

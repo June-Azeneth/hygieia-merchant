@@ -60,6 +60,8 @@ class RewardsAdapter(
             Commons().formatDecimalNumber(currentItem.discountedPrice)
         )
 
+        holder.id.text = context.getString(R.string.prod_id, currentItem.id)
+
         holder.deleteItem.setOnClickListener {
             onDeleteClickListener.onDeleteClick(currentItem)
         }
@@ -75,6 +77,7 @@ class RewardsAdapter(
         val discountRate: TextView = itemView.findViewById(R.id.discount)
         val discountedPrice: TextView = itemView.findViewById(R.id.disc_price)
         val ptsRequired: TextView = itemView.findViewById(R.id.points_required)
+        val id: TextView = itemView.findViewById(R.id.prod_id)
         val deleteItem : AppCompatButton = itemView.findViewById(R.id.deleteItem)
         val editItem : AppCompatButton = itemView.findViewById(R.id.editItem)
     }

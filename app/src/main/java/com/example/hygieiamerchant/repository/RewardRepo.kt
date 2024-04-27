@@ -183,8 +183,8 @@ class RewardRepo {
                     // Check if the transaction is not null and has a valid rewardId
                     if (transaction != null && !transaction.rewardId.isNullOrEmpty()) {
                         // Increment the count of items sold for the rewardId
-                        val count = itemsSoldPerReward.getOrDefault(transaction.product, 0)
-                        itemsSoldPerReward[transaction.product] = count + 1
+                        val count = itemsSoldPerReward.getOrDefault(transaction.rewardId, 0)
+                        itemsSoldPerReward[transaction.rewardId] = count + 1
                     }
                 }
 
@@ -214,8 +214,8 @@ class RewardRepo {
                     // Check if the transaction is not null and has a valid rewardId
                     if (transaction != null && !transaction.promoId.isNullOrEmpty()) {
                         // Increment the count of items sold for the rewardId
-                        val count = itemsSoldPerReward.getOrDefault(transaction.promoName, 0)
-                        itemsSoldPerReward[transaction.promoName] = count + 1
+                        val count = itemsSoldPerReward.getOrDefault(transaction.rewardId, 0)
+                        itemsSoldPerReward[transaction.promoId] = count + 1
                     }
                 }
 
