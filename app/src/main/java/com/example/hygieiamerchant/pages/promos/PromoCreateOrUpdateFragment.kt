@@ -387,7 +387,6 @@ class PromoCreateOrUpdateFragment : Fragment() {
 
             timestampStartDate = Date(it.first)
             timestampEndDate = Date(it.second)
-
         }
     }
 
@@ -408,12 +407,12 @@ class PromoCreateOrUpdateFragment : Fragment() {
         return "Unknown Title"
     }
 
-    private fun handleSelectedDates(start: String, end: String) {
-        // Do something with the selected start date and end date
-        // For example, you can display them in TextViews or use them in calculations
-        startDate.setText(start)
-        endDate.setText(end)
-    }
+//    private fun handleSelectedDates(start: String, end: String) {
+//        // Do something with the selected start date and end date
+//        // For example, you can display them in TextViews or use them in calculations
+//        startDate.setText(start)
+//        endDate.setText(end)
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

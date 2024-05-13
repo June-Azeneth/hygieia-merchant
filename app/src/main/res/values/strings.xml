@@ -158,4 +158,7 @@
     <string name="request_date">Date: %1$s</string>
     <string name="prod_id">ID: %1$s</string>
     <string name="profile_id">ID: %1$s</string>
+    <string name="transaction_details">Transaction Details</string>
+    <string name="due_0_0">Due: ₱0.0</string>
+    <string name="available_for_redemption">Available For Redemption</string>
 </resources>
