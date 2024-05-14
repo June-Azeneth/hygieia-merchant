@@ -119,9 +119,9 @@
     <string name="grant_points">Grant Points</string>
     <string name="id">Transaction ID: %1$s</string>
     <string name="customer">Customer: %1$s</string>
-    <string name="product">Product: %1$s</string>
-    <string name="sold_at">Sold at: ₱%1$s</string>
-    <string name="points_required_">Points Required: %1$s</string>
+    <string name="product">Product/s: %1$s</string>
+    <string name="sold_amount">Total Amount: ₱%1$s</string>
+    <string name="total_points_spent">Total Points Spent: %1$s</string>
     <string name="points_granted">Points granted: %1$s</string>
     <string name="redeem_offers">Redeem Offers</string>
     <string name="what_operation_would_you_like_to_perform">What operation would you like to perform?</string>
@@ -159,6 +159,11 @@
     <string name="prod_id">ID: %1$s</string>
     <string name="profile_id">ID: %1$s</string>
     <string name="transaction_details">Transaction Details</string>
-    <string name="due_0_0">Due: ₱0.0</string>
+    <string name="due_0_0">Total Price: ₱0.0</string>
+    <string name="points_due">Total Points: ₱0.0</string>
+    <string name="peso_sign">₱%1$s</string>
     <string name="available_for_redemption">Available For Redemption</string>
+    <string name="pe">₱%1$s</string>
+    <string name="pts">%1$s pts</string>
+    <string name="discountRate_">%1$f%</string>
 </resources>

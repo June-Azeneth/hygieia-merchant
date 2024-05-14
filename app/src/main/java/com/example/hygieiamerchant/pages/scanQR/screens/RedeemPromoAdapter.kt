@@ -26,6 +26,7 @@ class RedeemPromoAdapter(
 
     fun clearSelection() {
         selectedPosition = RecyclerView.NO_POSITION
+
         notifyDataSetChanged()
     }
 
@@ -64,7 +65,6 @@ class RedeemPromoAdapter(
         // Set background color based on the selected state
         if (selectedPosition == position) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_green))
-
         } else {
             holder.itemView.setBackgroundDrawable(
                 ContextCompat.getDrawable(

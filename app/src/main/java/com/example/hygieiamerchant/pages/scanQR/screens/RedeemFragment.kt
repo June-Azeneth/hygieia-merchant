@@ -36,14 +36,17 @@ class RedeemFragment : Fragment() {
     private var id: String = ""
     private var promoName: String = ""
     private var discount: Double = 0.0
+    private var total: Double = 0.0
+    private var totalPointsSpent: Double = 0.0
     private var discountedPrice: Double = 0.0
     private var pointsRequired: Double = 0.0
     private var product: String = ""
     private var option: String = "reward"
+    private lateinit var products: Map<String, Double>
+    private var isProductsSelected: Boolean = false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRedeemRewardBinding.inflate(inflater, container, false)
 
@@ -85,26 +88,22 @@ class RedeemFragment : Fragment() {
 
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.lightGray
+                    requireContext(), R.color.lightGray
                 )
             )
             binding.promo.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.text_color
+                    requireContext(), R.color.text_color
                 )
             )
             binding.reward.setBackgroundDrawable(
                 ContextCompat.getDrawable(
-                    requireContext(),
-                    R.color.sub_text
+                    requireContext(), R.color.sub_text
                 )
             )
             binding.reward.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
+                    requireContext(), R.color.white
                 )
             )
             binding.rewardsList.visibility = View.VISIBLE
@@ -115,26 +114,22 @@ class RedeemFragment : Fragment() {
 
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.sub_text
+                    requireContext(), R.color.sub_text
                 )
             )
             binding.promo.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
+                    requireContext(), R.color.white
                 )
             )
             binding.reward.setBackgroundDrawable(
                 ContextCompat.getDrawable(
-                    requireContext(),
-                    R.color.lightGray
+                    requireContext(), R.color.lightGray
                 )
             )
             binding.reward.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.text_color
+                    requireContext(), R.color.text_color
                 )
             )
             binding.rewardsList.visibility = View.GONE
@@ -149,44 +144,44 @@ class RedeemFragment : Fragment() {
                     addedOn = commons.getDateAndTime().toDate(),
                     customerId = customerId,
                     storeId = userRepo.getCurrentUserId().toString(),
-                    rewardId = id,
-                    total = discountedPrice,
-                    discount = discount,
-                    pointsRequired = pointsRequired,
-                    product = product
+                    total = total,
+                    totalPointsSpent = totalPointsSpent,
                 )
 
-                scanQrCodeViewModel.createRewardTransaction(data) { (success, message) ->
+                val selectedRewards = recyclerViewRewardAdapter.getSelectedItems()
+                val redeemedRewardsData = hashMapOf<String, Any>()
+
+                selectedRewards.forEachIndexed { index, reward ->
+                    redeemedRewardsData["product${index + 1}"] = hashMapOf(
+                        "name" to reward.name,
+                        "discount" to reward.discount,
+                        "discountedPrice" to reward.discountedPrice,
+                        "pointsRequired" to reward.pointsRequired
+                    )
+                }
+
+                scanQrCodeViewModel.createRewardTransaction(
+                    data, redeemedRewardsData
+                ) { (success, message) ->
+                    commons.showLoader(
+                        requireContext(), LayoutInflater.from(requireContext()), false
+                    )
                     if (success) {
-                        commons.showLoader(
-                            requireContext(),
-                            LayoutInflater.from(requireContext()),
-                            false
-                        )
-                        commons.showAlertDialogWithCallback(
-                            this,
+                        commons.showAlertDialogWithCallback(this,
                             "Success",
                             message,
                             "Okay",
                             positiveButtonCallback = {
                                 scanQrCodeViewModel.setSelectedAction("success")
-                            }
-                        )
+                            })
                     } else {
-                        commons.showAlertDialogWithCallback(
-                            this,
+                        commons.showAlertDialogWithCallback(this,
                             "Failed",
                             message,
                             "Okay",
                             positiveButtonCallback = {
                                 //DO NOTHING
-                            }
-                        )
-                        commons.showLoader(
-                            requireContext(),
-                            LayoutInflater.from(requireContext()),
-                            false
-                        )
+                            })
                     }
                 }
             } else {
@@ -205,33 +200,25 @@ class RedeemFragment : Fragment() {
                 scanQrCodeViewModel.createPromoTransaction(data) { (success, message) ->
                     if (success) {
                         commons.showLoader(
-                            requireContext(),
-                            LayoutInflater.from(requireContext()),
-                            false
+                            requireContext(), LayoutInflater.from(requireContext()), false
                         )
-                        commons.showAlertDialogWithCallback(
-                            this,
+                        commons.showAlertDialogWithCallback(this,
                             "Success",
                             message,
                             "Okay",
                             positiveButtonCallback = {
                                 scanQrCodeViewModel.setSelectedAction("success")
-                            }
-                        )
+                            })
                     } else {
-                        commons.showAlertDialogWithCallback(
-                            this,
+                        commons.showAlertDialogWithCallback(this,
                             "Failed",
                             message,
                             "Okay",
                             positiveButtonCallback = {
                                 //DO NOTHING
-                            }
-                        )
+                            })
                         commons.showLoader(
-                            requireContext(),
-                            LayoutInflater.from(requireContext()),
-                            false
+                            requireContext(), LayoutInflater.from(requireContext()), false
                         )
                     }
                 }
@@ -240,22 +227,18 @@ class RedeemFragment : Fragment() {
     }
 
     private fun validate(): Boolean {
-        if (id.isEmpty()) {
-            commons.showAlertDialogWithCallback(
-                this,
+        if (isProductsSelected) {
+            commons.showAlertDialogWithCallback(this,
                 "Oops!",
                 "Please select an item first",
                 "Okay",
                 positiveButtonCallback = {
                     //PASS NOTHING HERE
-                }
-            )
+                })
             return false
         } else {
             commons.showLoader(
-                requireContext(),
-                LayoutInflater.from(requireContext()),
-                true
+                requireContext(), LayoutInflater.from(requireContext()), true
             )
             return true
         }
@@ -268,19 +251,25 @@ class RedeemFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         rewardList = arrayListOf()
-        recyclerViewRewardAdapter = RedeemRewardAdapter(
-            rewardList,
-            object : RedeemRewardAdapter.OnItemClickListener {
+        recyclerViewRewardAdapter =
+            RedeemRewardAdapter(rewardList, object : RedeemRewardAdapter.OnItemClickListener {
                 override fun onItemClick(item: Reward) {
-                    id = item.id
-                    discount = item.discount
-                    discountedPrice = item.discountedPrice
-                    pointsRequired = item.pointsRequired
-                    product = item.name
-                    binding.duePrice.text = "Due: ₱${item.discountedPrice}"
+                    val selectedRewards = recyclerViewRewardAdapter.getSelectedItems()
+                    isProductsSelected = selectedRewards.isEmpty()
+
+                    var totalAmountDue = 0.0
+                    var totalPoints = 0.0
+                    for (reward in selectedRewards) {
+                        totalAmountDue += reward.discountedPrice
+                        totalPoints += reward.pointsRequired
+                    }
+
+                    total = totalAmountDue
+                    totalPointsSpent = totalPoints
+                    binding.duePrice.text = "Total Price: ₱${totalAmountDue}"
+                    binding.duePoints.text = "Total Points: ₱${totalPoints}"
                 }
-            }
-        )
+            })
         recyclerView.adapter = recyclerViewRewardAdapter
         rewardsViewModel.fetchAllRewards("All")
 
@@ -289,9 +278,8 @@ class RedeemFragment : Fragment() {
         promoListRecyclerView.setHasFixedSize(true)
 
         promoList = arrayListOf()
-        recyclerViewPromoAdapter = RedeemPromoAdapter(
-            promoList,
-            object : RedeemPromoAdapter.OnItemClickListener {
+        recyclerViewPromoAdapter =
+            RedeemPromoAdapter(promoList, object : RedeemPromoAdapter.OnItemClickListener {
                 override fun onItemClick(item: Promo) {
                     id = item.id
                     discount = item.discountRate
@@ -300,9 +288,9 @@ class RedeemFragment : Fragment() {
                     product = item.product
                     promoName = item.promoName
                     binding.duePrice.text = "Due: ₱${item.discountedPrice}"
+                    binding.duePoints.text = "Total Points: ₱${pointsRequired}"
                 }
-            }
-        )
+            })
         promoListRecyclerView.adapter = recyclerViewPromoAdapter
         promosViewModel.fetchOngoingPromos()
     }

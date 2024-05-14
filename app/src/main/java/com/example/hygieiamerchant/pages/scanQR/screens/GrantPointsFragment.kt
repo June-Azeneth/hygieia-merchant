@@ -51,7 +51,6 @@ class GrantPointsFragment : Fragment() {
                 customerId = customerId,
                 storeId = userRepo.getCurrentUserId().toString(),
                 pointsGranted = binding.quantity.text.toString().toDouble(),
-                rewardId = ""
             )
 
             scanQrCodeViewModel.createGrantTransaction(data) { (success, message) ->

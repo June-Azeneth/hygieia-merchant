@@ -1,5 +1,6 @@
 package com.example.hygieiamerchant.repository
 
+import com.example.hygieiamerchant.data_classes.RedeemedRewards
 import com.example.hygieiamerchant.data_classes.Transaction
 import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +27,7 @@ class TransactionRepo {
         private const val REWARD_ID = "rewardId"
         private const val STORE_ID = "storeId"
         private const val TOTAL = "total"
+        private const val TOTAL_POINTS = "pointsSpent"
         private const val PRODUCT = "product"
         private const val PROMO_ID = "promoId"
         private const val PROMO_NAME = "promoName"
@@ -84,10 +86,10 @@ class TransactionRepo {
                                 document.getDouble(POINTS_REQUIRED) ?: 0.0,
                                 document.getDouble(POINTS_GRANTED) ?: 0.0,
                                 document.getDouble(TOTAL) ?: 0.0,
-                                document.getString(PRODUCT) ?: "",
                                 document.getString(PROMO_NAME) ?: "",
-
-                            )
+                                document.getString(PRODUCT) ?: "",
+                                document.getDouble(TOTAL_POINTS) ?: 0.0
+                                )
                             transactionList.add(transaction)
                         } catch (error: Error) {
                             Commons().log(logTAG, "${error.message}")
@@ -97,6 +99,26 @@ class TransactionRepo {
                 } catch (e: Exception) {
                     null
                 }
+            }
+        }
+    }
+
+    suspend fun getTransactionProducts(transactionId: String): List<RedeemedRewards>? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val fireStore = FirebaseFirestore.getInstance()
+                val productsRef = fireStore.collection("transaction").document(transactionId)
+                    .collection("products")
+
+                val querySnapshot = productsRef.get().await()
+                val productsList = mutableListOf<RedeemedRewards>()
+                for (document in querySnapshot) {
+                    val productData = document.toObject(RedeemedRewards::class.java)
+                    productsList.add(productData)
+                }
+                productsList
+            } catch (e: Exception) {
+                null
             }
         }
     }
@@ -156,11 +178,12 @@ class TransactionRepo {
             }
 
             val docRef = fireStore.collection("transaction")
-            val data = mapOf(
+            val transactionData = mapOf(
                 ADDED_ON to data.addedOn,
                 CUSTOMER_ID to data.customerId,
                 STORE_ID to data.storeId,
                 TYPE to "redeem",
+                PRODUCT to data.product,
                 POINTS_REQUIRED to data.pointsRequired,
                 PROMO_ID to data.promoId,
                 PROMO_NAME to data.promoName,
@@ -169,7 +192,7 @@ class TransactionRepo {
                 TOTAL to data.total
             )
 
-            docRef.add(data)
+            docRef.add(transactionData)
                 .addOnSuccessListener {
                     callback(Pair(true, message))
                 }
@@ -182,13 +205,14 @@ class TransactionRepo {
     }
 
     suspend fun createRewardTransaction(
-        data: (Transaction),
+        data: Transaction,
+        productsData: Map<String, Any>,
         callback: (Pair<Boolean, String>) -> Unit
     ) {
         try {
             val (success, message) = updateCustomerBalance(
                 data.customerId,
-                data.pointsRequired,
+                data.totalPointsSpent,
                 0.0,
                 "redeem"
             )
@@ -198,20 +222,28 @@ class TransactionRepo {
                 return
             }
 
-            val docRef = fireStore.collection("transaction")
-            val data = mapOf(
+            val batch = fireStore.batch()
+
+            // Add transaction data
+            val transactionRef = fireStore.collection("transaction").document()
+            val transactionData = mapOf(
                 ADDED_ON to data.addedOn,
                 CUSTOMER_ID to data.customerId,
                 STORE_ID to data.storeId,
                 TYPE to "redeem",
-                POINTS_REQUIRED to data.pointsRequired,
-                REWARD_ID to data.rewardId,
-                PRODUCT to data.product,
-                DISCOUNT to data.discount,
+                POINTS_REQUIRED to data.totalPointsSpent,
                 TOTAL to data.total
             )
+            batch.set(transactionRef, transactionData)
 
-            docRef.add(data)
+            // Add redeemed products to sub collection
+            val redeemedProductsRef = transactionRef.collection("products")
+            productsData.forEach { (productName, productDetails) ->
+                redeemedProductsRef.document(productName).set(productDetails)
+            }
+
+            // Commit batched writes
+            batch.commit()
                 .addOnSuccessListener {
                     callback(Pair(true, message))
                 }
@@ -230,7 +262,7 @@ class TransactionRepo {
         try {
             val (success, message) = updateCustomerBalance(
                 data.customerId,
-                data.pointsRequired,
+                0.0,
                 data.pointsGranted,
                 "grant"
             )

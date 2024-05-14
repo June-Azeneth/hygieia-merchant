@@ -15,4 +15,5 @@ class Reward(
     var storeId: String = "",
     var addedOn: Timestamp? = null,
     var updatedOn: Timestamp? = null,
+    var isSelected : Boolean = false
 )

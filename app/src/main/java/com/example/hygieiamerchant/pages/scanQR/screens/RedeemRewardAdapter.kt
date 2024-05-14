@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.data_classes.Reward
+import com.example.hygieiamerchant.utils.Commons
 
 class RedeemRewardAdapter(
     private val rewardList: ArrayList<Reward>,
@@ -17,6 +18,8 @@ class RedeemRewardAdapter(
 ) : RecyclerView.Adapter<RedeemRewardAdapter.MyViewHolder>() {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
+    private val selectedItemsMap: MutableMap<String, Reward> =
+        mutableMapOf() // Map to store selected items
 
     interface OnItemClickListener {
         fun onItemClick(item: Reward)
@@ -46,7 +49,7 @@ class RedeemRewardAdapter(
         holder.discount.text = "${currentItem.discount}%"
         holder.points.text = "${currentItem.pointsRequired}pts"
 
-        val textColor = if (selectedPosition == position) {
+        val textColor = if (currentItem.isSelected) {
             ContextCompat.getColor(context, android.R.color.white)
         } else {
             // Use your default text color here
@@ -57,18 +60,40 @@ class RedeemRewardAdapter(
         holder.discount.setTextColor(textColor)
         holder.points.setTextColor(textColor)
 
-        // Set background color based on the selected state
-        if (selectedPosition == position) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_green))
-
+        if (currentItem.isSelected) {
+            holder.itemView.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.item_holder_selected
+                )
+            )
         } else {
-            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.item_holder))
+            holder.itemView.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.item_holder
+                )
+            )
         }
 
         holder.item.setOnClickListener {
+            if (selectedItemsMap.size == 3 && !currentItem.isSelected) {
+                // Maximum number of rewards reached, show message
+                Commons().showToast("Maximum number of items reached", context)
+                return@setOnClickListener
+            }
+
             // Update selected position and notify data set changed to trigger UI update
             selectedPosition = holder.adapterPosition
             notifyDataSetChanged()
+
+            // Toggle isSelected and update the selected items map
+            currentItem.isSelected = !currentItem.isSelected
+            if (currentItem.isSelected) {
+                selectedItemsMap[currentItem.id] = currentItem
+            } else {
+                selectedItemsMap.remove(currentItem.id)
+            }
 
             // Perform other item click operations here
             onItemClickListener.onItemClick(currentItem)
@@ -78,7 +103,12 @@ class RedeemRewardAdapter(
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.rewardName)
         val discount: TextView = itemView.findViewById(R.id.rewardDiscount)
-        val points : TextView = itemView.findViewById(R.id.points)
+        val points: TextView = itemView.findViewById(R.id.points)
         val item: ConstraintLayout = itemView.findViewById(R.id.item)
+    }
+
+    // Method to get the list of selected items
+    fun getSelectedItems(): List<Reward> {
+        return selectedItemsMap.values.toList()
     }
 }

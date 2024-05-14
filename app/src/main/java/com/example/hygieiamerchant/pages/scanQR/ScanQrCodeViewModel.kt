@@ -48,10 +48,11 @@ class ScanQrCodeViewModel : ViewModel() {
 
     fun createRewardTransaction(
         data: Transaction,
+        productsData: Map<String, Any>,
         callback: (Pair<Boolean, String>) -> Unit
     ) {
         viewModelScope.launch {
-            transactionRepo.createRewardTransaction(data) { (success, message) ->
+            transactionRepo.createRewardTransaction(data, productsData) { (success, message) ->
                 if (success) {
                     callback(Pair(true, message))
                 } else {
