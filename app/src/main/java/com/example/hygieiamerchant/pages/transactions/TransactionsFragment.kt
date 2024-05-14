@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +16,10 @@ import com.example.hygieiamerchant.data_classes.Transaction
 import com.example.hygieiamerchant.databinding.FragmentTransactionsBinding
 import com.example.hygieiamerchant.utils.Commons
 import com.example.hygieiamerchant.utils.NetworkManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
+import java.util.Date
 
 class TransactionsFragment : Fragment() {
     private val logTag = "TRANSACTIONS"
@@ -30,6 +33,8 @@ class TransactionsFragment : Fragment() {
     private lateinit var imgMessage: ShapeableImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var dialog: AlertDialog
+    private var startDate: Date? = null
+    private var endDate: Date? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,10 +51,69 @@ class TransactionsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpRefreshListener(){
-        commons.setOnRefreshListener(binding.swipeRefreshLayout){
+    private fun setUpRefreshListener() {
+        commons.setOnRefreshListener(binding.swipeRefreshLayout) {
+            Commons().log("TRANSACTIONS",transactionList.size.toString())
             observeNetwork()
+            binding.filterByDate.text = "Filter by date"
         }
+
+        binding.filterByDate.setOnClickListener {
+            showDateRangePickerDialog()
+        }
+    }
+
+    private fun showDateRangePickerDialog() {
+        val datePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTheme(R.style.ThemeMaterialCalendar)
+            .setSelection(Pair(null, null))
+            .build()
+
+        datePicker.show(childFragmentManager, "DatePicker")
+        datePicker.addOnPositiveButtonClickListener { dateSelection ->
+            startDate = Date(dateSelection.first ?: 0)
+            endDate = Date(dateSelection.second ?: 0)
+
+            // Update the text of the filterByDate button to show the selected date range
+            binding.filterByDate.text = getString(
+                R.string.date_range_transactions,
+                Commons().dateFormatMMMDDYYYY(dateSelection.first),
+                Commons().dateFormatMMMDDYYYY(dateSelection.second)
+            )
+
+            // Filter transactions based on the selected store and date range
+            filterTransactions(startDate, endDate)
+        }
+    }
+
+    private fun filterTransactions(startDate: Date?, endDate: Date?) {
+        val filteredTransactions = if (startDate == null && endDate == null) {
+                transactionList
+        } else {
+            transactionList.filter { transaction ->
+                filterByDateRange(transaction, startDate, endDate)
+            }
+        }
+        if (filteredTransactions.isEmpty()) {
+            showNoDataMessage(true)
+        } else {
+            showNoDataMessage(false)
+        }
+        recyclerViewAdapter.notifyDataSetChanged()
+        showNoDataMessage(filteredTransactions.isEmpty())
+    }
+
+    private fun filterByDateRange(
+        transaction: Transaction,
+        startDate: Date?,
+        endDate: Date?
+    ): Boolean {
+        // If either start date or end date is null, return true to include the transaction
+        if (startDate == null || endDate == null) {
+            return true
+        }
+        // If both start date and end date are provided, check if the transaction date is within the range
+        return transaction.addedOn!! in startDate..endDate
     }
 
     private fun observeNetwork() {
@@ -92,8 +156,10 @@ class TransactionsFragment : Fragment() {
 
     private fun showNoDataMessage(show: Boolean) {
         if (show) {
+            recyclerView.visibility = View.GONE
             imgMessage.visibility = View.VISIBLE
         } else {
+            recyclerView.visibility = View.VISIBLE
             imgMessage.visibility = View.INVISIBLE
         }
     }
@@ -111,6 +177,7 @@ class TransactionsFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         try {
+            transactionsViewModel.fetchAllTransactions()
             val recyclerView = binding.recyclerView
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView.setHasFixedSize(true)
@@ -128,7 +195,6 @@ class TransactionsFragment : Fragment() {
 
             recyclerView.adapter = recyclerViewAdapter
             binding.progressBar.visibility = View.VISIBLE
-            transactionsViewModel.fetchAllTransactions()
         } catch (error: Exception) {
             commons.log(logTag, error.toString())
         }

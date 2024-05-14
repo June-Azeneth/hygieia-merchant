@@ -165,5 +165,6 @@
     <string name="available_for_redemption">Available For Redemption</string>
     <string name="pe">₱%1$s</string>
     <string name="pts">%1$s pts</string>
+    <string name="date_range_transactions">%1$s to %2$s</string>
     <string name="discountRate_">%1$f%</string>
 </resources>
