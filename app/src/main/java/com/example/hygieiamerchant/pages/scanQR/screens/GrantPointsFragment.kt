@@ -35,7 +35,14 @@ class GrantPointsFragment : Fragment() {
 
     private fun setUpOnClickListeners() {
         binding.submitForm.setOnClickListener {
-            createTransaction()
+            var points = binding.quantity.text.toString().toDouble()
+            if (points > 30) {
+                Commons().showAlertDialog(requireContext(), "Too high!","The amount of points should not exceed 30.", "Okay")
+            } else if(points <= 0){
+                Commons().showAlertDialog(requireContext(), "Too low!","Amount of points should be greater than zero.", "Okay")
+            }else {
+                createTransaction()
+            }
         }
 
         binding.cancel.setOnClickListener {

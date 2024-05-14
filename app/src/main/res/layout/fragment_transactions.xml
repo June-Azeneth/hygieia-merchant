@@ -46,7 +46,7 @@
             android:layout_width="@dimen/XXL"
             android:layout_height="@dimen/XXL"
             android:layout_centerInParent="true"
-            android:src="@drawable/no_data"
+            android:src="@drawable/no_transactions"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,22 +63,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filterByDate"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/storesNearMe"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/main_green"
-            app:tint="@android:color/white"
-            android:clickable="true"
-            android:elevation="@dimen/tiniest"
-            android:src="@drawable/download"
-            app:fabSize="normal"
-            android:layout_margin="@dimen/small"
-            android:contentDescription="Download transactions"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:focusable="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

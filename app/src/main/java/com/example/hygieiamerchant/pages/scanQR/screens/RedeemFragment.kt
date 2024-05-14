@@ -42,8 +42,7 @@ class RedeemFragment : Fragment() {
     private var pointsRequired: Double = 0.0
     private var product: String = ""
     private var option: String = "reward"
-    private lateinit var products: Map<String, Double>
-    private var isProductsSelected: Boolean = false
+    private var isSelectedProductsEmpty: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -83,8 +82,10 @@ class RedeemFragment : Fragment() {
 
     private fun changeTabs(tab: String) {
         if (tab == "reward") {
-            binding.duePrice.text = "Due: ₱0.0"
             recyclerViewRewardAdapter.clearSelection()
+            isSelectedProductsEmpty = true
+            discountedPrice = 0.0
+            totalPointsSpent = 0.0
 
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
@@ -109,9 +110,9 @@ class RedeemFragment : Fragment() {
             binding.rewardsList.visibility = View.VISIBLE
             binding.promoList.visibility = View.GONE
         } else {
-            binding.duePrice.text = "Due: ₱0.0"
             recyclerViewPromoAdapter.clearSelection()
-
+            discountedPrice = 0.0
+            totalPointsSpent = 0.0
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(), R.color.sub_text
@@ -227,7 +228,7 @@ class RedeemFragment : Fragment() {
     }
 
     private fun validate(): Boolean {
-        if (isProductsSelected) {
+        return if (isSelectedProductsEmpty) {
             commons.showAlertDialogWithCallback(this,
                 "Oops!",
                 "Please select an item first",
@@ -235,12 +236,12 @@ class RedeemFragment : Fragment() {
                 positiveButtonCallback = {
                     //PASS NOTHING HERE
                 })
-            return false
+            false
         } else {
             commons.showLoader(
                 requireContext(), LayoutInflater.from(requireContext()), true
             )
-            return true
+            true
         }
     }
 
@@ -255,7 +256,8 @@ class RedeemFragment : Fragment() {
             RedeemRewardAdapter(rewardList, object : RedeemRewardAdapter.OnItemClickListener {
                 override fun onItemClick(item: Reward) {
                     val selectedRewards = recyclerViewRewardAdapter.getSelectedItems()
-                    isProductsSelected = selectedRewards.isEmpty()
+                    isSelectedProductsEmpty = selectedRewards.isEmpty()
+                    Commons().log("SWITCH", isSelectedProductsEmpty.toString())
 
                     var totalAmountDue = 0.0
                     var totalPoints = 0.0
@@ -287,7 +289,7 @@ class RedeemFragment : Fragment() {
                     pointsRequired = item.pointsRequired
                     product = item.product
                     promoName = item.promoName
-                    binding.duePrice.text = "Due: ₱${item.discountedPrice}"
+                    binding.duePrice.text = "Total Price: ₱${item.discountedPrice}"
                     binding.duePoints.text = "Total Points: ₱${pointsRequired}"
                 }
             })

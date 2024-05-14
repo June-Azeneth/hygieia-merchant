@@ -19,6 +19,8 @@ import com.example.hygieiamerchant.utils.NetworkManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
+import java.io.File
+import java.io.FileOutputStream
 import java.util.Date
 
 class TransactionsFragment : Fragment() {

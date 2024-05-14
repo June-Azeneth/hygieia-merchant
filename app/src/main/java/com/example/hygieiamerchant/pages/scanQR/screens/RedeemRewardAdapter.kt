@@ -26,7 +26,8 @@ class RedeemRewardAdapter(
     }
 
     fun clearSelection() {
-        selectedPosition = RecyclerView.NO_POSITION
+        rewardList.forEach { it.isSelected = false }
+        selectedItemsMap.clear()
         notifyDataSetChanged()
     }
 
