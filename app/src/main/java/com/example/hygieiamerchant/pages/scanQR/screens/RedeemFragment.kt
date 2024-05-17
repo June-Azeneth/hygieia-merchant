@@ -81,11 +81,14 @@ class RedeemFragment : Fragment() {
     }
 
     private fun changeTabs(tab: String) {
+        binding.duePrice.text = "Total Price: ₱0.0"
+        binding.duePoints.text = "Total Points: ₱0.0"
         if (tab == "reward") {
             recyclerViewRewardAdapter.clearSelection()
             isSelectedProductsEmpty = true
-            discountedPrice = 0.0
-            totalPointsSpent = 0.0
+            product = ""
+
+            Commons().log("TABS", discountedPrice.toString())
 
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
@@ -111,8 +114,8 @@ class RedeemFragment : Fragment() {
             binding.promoList.visibility = View.GONE
         } else {
             recyclerViewPromoAdapter.clearSelection()
-            discountedPrice = 0.0
-            totalPointsSpent = 0.0
+            product = ""
+
             binding.promo.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(), R.color.sub_text
@@ -228,21 +231,40 @@ class RedeemFragment : Fragment() {
     }
 
     private fun validate(): Boolean {
-        return if (isSelectedProductsEmpty) {
-            commons.showAlertDialogWithCallback(this,
-                "Oops!",
-                "Please select an item first",
-                "Okay",
-                positiveButtonCallback = {
-                    //PASS NOTHING HERE
-                })
-            false
-        } else {
-            commons.showLoader(
-                requireContext(), LayoutInflater.from(requireContext()), true
-            )
-            true
+        if(option == "reward"){
+            return if (isSelectedProductsEmpty) {
+                commons.showAlertDialogWithCallback(this,
+                    "Oops!",
+                    "Please select an item first",
+                    "Okay",
+                    positiveButtonCallback = {
+                        //PASS NOTHING HERE
+                    })
+                false
+            } else {
+                commons.showLoader(
+                    requireContext(), LayoutInflater.from(requireContext()), true
+                )
+                true
+            }
+        }else{
+            return if(product.isEmpty()){
+                commons.showAlertDialogWithCallback(this,
+                    "Oops!",
+                    "Please select an item first",
+                    "Okay",
+                    positiveButtonCallback = {
+                        //PASS NOTHING HERE
+                    })
+                false
+            } else {
+                commons.showLoader(
+                    requireContext(), LayoutInflater.from(requireContext()), true
+                )
+                true
+            }
         }
+
     }
 
     @SuppressLint("SetTextI18n")

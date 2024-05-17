@@ -3,7 +3,6 @@ package com.example.hygieiamerchant.utils
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
-import com.example.hygieiamerchant.repository.UserRepo
-import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.storage
 import java.util.Date
 import java.util.Locale
 
@@ -230,5 +225,24 @@ class Commons {
     fun validateEmail(email: String): Boolean {
         val emailRegex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,})+$")
         return emailRegex.matches(email)
+    }
+
+//    fun validatePhoneNumber(phone: Int): Boolean {
+//        val phoneRegex = Regex("")
+//        return phoneRegex.matches(phone.toString())
+//    }
+
+    fun validateGoogleMapLink(link: String): Boolean {
+        val mapLinkRegex = Regex("^https://maps\\.app\\.goo\\.gl/\\S+$")
+        return mapLinkRegex.matches(link)
+    }
+
+    fun validateCoordinates(
+        latitude: String,
+        longitude: String
+    ): Boolean {
+        val latitudeRegex = Regex("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)$")
+        val longitudeRegex = Regex("^[-+]?((1[0-7]\\d(\\.\\d+)?)|180(\\.0+)?)$")
+        return latitudeRegex.matches(latitude) && longitudeRegex.matches(longitude)
     }
 }

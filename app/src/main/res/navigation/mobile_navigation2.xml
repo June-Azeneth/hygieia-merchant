@@ -9,7 +9,20 @@
         android:id="@+id/nav_dashboard"
         android:name="com.example.hygieiamerchant.pages.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_dashboard_to_nav_rewards"
+            app:destination="@id/nav_rewards" />
+        <action
+            android:id="@+id/action_nav_dashboard_to_nav_promos"
+            app:destination="@id/nav_promos" />
+        <action
+            android:id="@+id/action_nav_dashboard_to_nav_transactions"
+            app:destination="@id/nav_transactions" />
+        <action
+            android:id="@+id/action_nav_dashboard_to_operationOptionsFragment"
+            app:destination="@id/operationOptionsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_scan_qr_code"

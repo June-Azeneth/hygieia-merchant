@@ -102,7 +102,7 @@ class RewardsFragment : Fragment() {
     private fun observeRewardDetails() {
         rewardsViewModel.rewardDetails.observe(viewLifecycleOwner) { rewards ->
             val imgMessage: ShapeableImageView = binding.imageMessage
-            imgMessage.setImageResource(R.drawable.no_data)
+            imgMessage.setImageResource(R.drawable.no_rewards)
 
             if (rewards != null) {
                 clearRewardList()

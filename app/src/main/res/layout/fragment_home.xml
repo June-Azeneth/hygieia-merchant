@@ -92,25 +92,25 @@
 
         <!--        </LinearLayout>-->
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:text="Reward Items Sold"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_regular"
-            app:layout_constraintTop_toBottomOf="@+id/id"
-            app:layout_goneMarginTop="@dimen/medium" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:fontFamily="@font/nunito_sans_semibold"-->
+<!--            android:text="Reward Items Sold"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            android:textSize="@dimen/text_regular"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/id"-->
+<!--            app:layout_goneMarginTop="@dimen/medium" />-->
 
-        <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:stretchColumns="*"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+<!--        <TableLayout-->
+<!--            android:id="@+id/tableLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:stretchColumns="*"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
         <TextView
             android:id="@+id/textView4"
@@ -121,7 +121,7 @@
             android:text="Promos Redeemed"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_regular"
-            app:layout_constraintTop_toBottomOf="@id/tableLayout" />
+            app:layout_constraintTop_toBottomOf="@id/id" />
 
         <TableLayout
             android:id="@+id/active_promos"
@@ -129,6 +129,73 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:stretchColumns="*"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"></TableLayout>
+            app:layout_constraintBottom_toTopOf="@id/optionsCont"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/optionsCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/active_promos">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/rewards"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:text="Rewards"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@color/main_green"
+                app:layout_constraintEnd_toStartOf="@id/promos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/transactions"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:text="Transactions"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/tiniest"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/tiniest"
+                android:background="@color/main_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rewards"
+                app:layout_constraintTop_toBottomOf="@+id/rewards" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/scanQr"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:text="Scan QR Code"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/tiniest"
+                android:layout_marginEnd="@dimen/tiniest"
+                android:background="@color/secondary_green"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@+id/promos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rewards" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/promos"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:text="Promos"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:layout_marginStart="@dimen/tiniest"
+                android:background="@color/secondary_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rewards"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

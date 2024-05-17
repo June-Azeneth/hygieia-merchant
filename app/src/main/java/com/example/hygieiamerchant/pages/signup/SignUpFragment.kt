@@ -47,6 +47,8 @@ class SignUpFragment : Fragment() {
     private lateinit var storeEmail: TextInputEditText
     private lateinit var storeOwner: TextInputEditText
     private lateinit var phone: TextInputEditText
+    private lateinit var latitude: TextInputEditText
+    private lateinit var longitude: TextInputEditText
     private lateinit var googleMapLocation: TextInputEditText
     private lateinit var address: TextInputEditText
 
@@ -158,6 +160,8 @@ class SignUpFragment : Fragment() {
 //        cityString = city.text.toString()
         phone = binding.phoneEditText
         googleMapLocation = binding.googleMapLink
+        latitude = binding.latitude
+        longitude = binding.longitude
         address = binding.address
     }
 
@@ -273,8 +277,16 @@ class SignUpFragment : Fragment() {
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
         val address = binding.address.text.toString()
+        val lat = latitude.text.toString().toDouble()
+        val long = longitude.text.toString().toDouble()
 
         uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
+
+            val coordinates = hashMapOf(
+                "latitude" to lat,
+                "longitude" to long
+            )
+
             val data = hashMapOf(
                 "name" to storeName,
                 "email" to storeEmail,
@@ -286,7 +298,8 @@ class SignUpFragment : Fragment() {
                 "idType" to selectedIdType,
                 "status" to "pending",
                 "phone" to phone.text.toString(),
-                "googleMapLocation" to location
+                "googleMapLocation" to location,
+                "coordinates" to coordinates
             )
 
             fireStore.collection("store").add(data).addOnSuccessListener {
@@ -334,13 +347,11 @@ class SignUpFragment : Fragment() {
         val validIdBack = back.text.toString()
         val phone = phone.text.toString()
         val location = googleMapLocation.text.toString()
-
-        //        val barangay = barangay.text.toString()
-//        val city = city.text.toString()
-//        val province = province.text.toString()
+        val lat = latitude.text.toString()
+        val long = longitude.text.toString()
 
         //validate that all the necessary details are provided
-        if (storeName.isBlank() || storeEmail.isBlank() || location.isEmpty() || storeOwner.isBlank() || phone.isEmpty() || address.isEmpty() || validIdFront.contentEquals(
+        if (storeName.isBlank() || storeEmail.isBlank() || location.isEmpty() || lat.isBlank() || long.isBlank() || storeOwner.isBlank() || phone.isEmpty() || address.isEmpty() || validIdFront.contentEquals(
                 "Upload Front of ID"
             ) || validIdBack.contentEquals("Upload Back of ID")
         ) {
@@ -349,9 +360,12 @@ class SignUpFragment : Fragment() {
         } else if (!common.validateEmail(storeEmail)) {
             common.showToast("Email is not valid", requireContext())
             return false
-//        }else if(selectedLguId.isEmpty() || selectedLguId.contentEquals("")){
-//            common.showToast("Please Select a Local Government Unit", requireContext())
-//            return false
+        }else if(!common.validateGoogleMapLink(location)) {
+            common.showToast("Google Map link format incorrect", requireContext())
+            return false
+        }else if(!common.validateCoordinates(lat, long)){
+            common.showToast("Coordinates format incorrect", requireContext())
+            return false
         } else if (selectedIdType == "Select ID" || selectedIdType.isEmpty()) {
             common.showToast("Please select a valid ID type", requireContext())
             return false

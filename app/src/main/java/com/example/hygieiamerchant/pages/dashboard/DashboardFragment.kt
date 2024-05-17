@@ -9,6 +9,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentHomeBinding
 import com.example.hygieiamerchant.repository.RewardRepo
@@ -41,6 +42,7 @@ class DashboardFragment : Fragment() {
         setUpRefreshListener()
         setUpRewardTable()
         setUpPromoTable()
+        setUpOnClickListeners()
 
         return binding.root
     }
@@ -59,136 +61,154 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    private fun setUpOnClickListeners(){
+        binding.rewards.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_dashboard_to_nav_rewards)
+        }
+
+        binding.promos.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_dashboard_to_nav_promos)
+        }
+
+        binding.scanQr.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_dashboard_to_operationOptionsFragment)
+        }
+
+        binding.transactions.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_dashboard_to_nav_transactions)
+        }
+    }
+
     private fun setUpRewardTable() {
-        rewardsRepo.calculateItemsSoldPerReward(object : RewardRepo.ItemsSoldCallback {
-            override fun onItemsSoldPerReward(itemsSoldPerReward: Map<String, Int>) {
-                val tableLayout = binding.tableLayout
-
-                // Clear existing rows if any
-                tableLayout.removeAllViews()
-
-                // Add header row
-                val headerRow = TableRow(requireContext())
-                headerRow.layoutParams = TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT
-                )
-
-                // Create TextViews for header
-                val productHeaderTextView = TextView(requireContext())
-                productHeaderTextView.layoutParams = TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-                productHeaderTextView.text = "Product"
-                productHeaderTextView.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.white
-                    )
-                )
-                productHeaderTextView.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.accent_orange
-                    )
-                )
-                productHeaderTextView.setPadding(0, 16, 0, 16)
-                productHeaderTextView.gravity = Gravity.CENTER
-                headerRow.addView(productHeaderTextView)
-
-                val itemsSoldHeaderTextView = TextView(requireContext())
-                itemsSoldHeaderTextView.layoutParams = TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
-                itemsSoldHeaderTextView.text = "Items Sold"
-                itemsSoldHeaderTextView.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.white
-                    )
-                )
-                itemsSoldHeaderTextView.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.accent_orange
-                    )
-                )
-                itemsSoldHeaderTextView.setPadding(0, 16, 0, 16)
-                itemsSoldHeaderTextView.gravity = Gravity.CENTER
-                headerRow.addView(itemsSoldHeaderTextView)
-
-                // Add header row to the tableLayout
-                tableLayout.addView(headerRow)
-
-                // Create a new row for each reward and count
-                for ((product, count) in itemsSoldPerReward) {
-                    val row = TableRow(requireContext())
-                    row.layoutParams = TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT
-                    )
-
-                    // Create TextViews for reward and count
-                    val rewardTextView = TextView(requireContext())
-                    rewardTextView.layoutParams = TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                    rewardTextView.text = product
-                    rewardTextView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.text_color
-                        )
-                    )
-                    rewardTextView.setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.white
-                        )
-                    )
-                    rewardTextView.setPadding(5, 6, 0, 6)
-                    rewardTextView.gravity = Gravity.START
-                    row.addView(rewardTextView)
-
-                    val countTextView = TextView(requireContext())
-                    countTextView.layoutParams = TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                    countTextView.text = count.toString()
-                    countTextView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.text_color
-                        )
-                    )
-                    countTextView.gravity = Gravity.START
-                    countTextView.setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.white
-                        )
-                    )
-                    countTextView.setPadding(5, 6, 0, 6)
-                    row.addView(countTextView)
-
-                    // Add the row to the tableLayout
-                    tableLayout.addView(row)
-                }
-            }
-        })
+//        rewardsRepo.calculateItemsSoldPerReward(object : RewardRepo.ItemsSoldCallback {
+//            override fun onItemsSoldPerReward(itemsSoldPerReward: Map<String, Int>) {
+//                val tableLayout = binding.tableLayout
+//
+//                // Clear existing rows if any
+//                tableLayout.removeAllViews()
+//
+//                // Add header row
+//                val headerRow = TableRow(requireContext())
+//                headerRow.layoutParams = TableRow.LayoutParams(
+//                    TableRow.LayoutParams.MATCH_PARENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT
+//                )
+//
+//                // Create TextViews for header
+//                val productHeaderTextView = TextView(requireContext())
+//                productHeaderTextView.layoutParams = TableRow.LayoutParams(
+//                    TableRow.LayoutParams.MATCH_PARENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    1f
+//                )
+//                productHeaderTextView.text = "Product"
+//                productHeaderTextView.setTextColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.white
+//                    )
+//                )
+//                productHeaderTextView.setBackgroundColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.accent_orange
+//                    )
+//                )
+//                productHeaderTextView.setPadding(0, 16, 0, 16)
+//                productHeaderTextView.gravity = Gravity.CENTER
+//                headerRow.addView(productHeaderTextView)
+//
+//                val itemsSoldHeaderTextView = TextView(requireContext())
+//                itemsSoldHeaderTextView.layoutParams = TableRow.LayoutParams(
+//                    TableRow.LayoutParams.MATCH_PARENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    1f
+//                )
+//                itemsSoldHeaderTextView.text = "Items Sold"
+//                itemsSoldHeaderTextView.setTextColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.white
+//                    )
+//                )
+//                itemsSoldHeaderTextView.setBackgroundColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.accent_orange
+//                    )
+//                )
+//                itemsSoldHeaderTextView.setPadding(0, 16, 0, 16)
+//                itemsSoldHeaderTextView.gravity = Gravity.CENTER
+//                headerRow.addView(itemsSoldHeaderTextView)
+//
+//                // Add header row to the tableLayout
+//                tableLayout.addView(headerRow)
+//
+//                // Create a new row for each reward and count
+//                for ((product, count) in itemsSoldPerReward) {
+//                    val row = TableRow(requireContext())
+//                    row.layoutParams = TableRow.LayoutParams(
+//                        TableRow.LayoutParams.MATCH_PARENT,
+//                        TableRow.LayoutParams.WRAP_CONTENT
+//                    )
+//
+//                    // Create TextViews for reward and count
+//                    val rewardTextView = TextView(requireContext())
+//                    rewardTextView.layoutParams = TableRow.LayoutParams(
+//                        TableRow.LayoutParams.MATCH_PARENT,
+//                        TableRow.LayoutParams.WRAP_CONTENT,
+//                        1f
+//                    )
+//                    rewardTextView.text = product
+//                    rewardTextView.setTextColor(
+//                        ContextCompat.getColor(
+//                            requireContext(),
+//                            R.color.text_color
+//                        )
+//                    )
+//                    rewardTextView.setBackgroundColor(
+//                        ContextCompat.getColor(
+//                            requireContext(),
+//                            R.color.white
+//                        )
+//                    )
+//                    rewardTextView.setPadding(5, 6, 0, 6)
+//                    rewardTextView.gravity = Gravity.START
+//                    row.addView(rewardTextView)
+//
+//                    val countTextView = TextView(requireContext())
+//                    countTextView.layoutParams = TableRow.LayoutParams(
+//                        TableRow.LayoutParams.MATCH_PARENT,
+//                        TableRow.LayoutParams.WRAP_CONTENT,
+//                        1f
+//                    )
+//                    countTextView.text = count.toString()
+//                    countTextView.setTextColor(
+//                        ContextCompat.getColor(
+//                            requireContext(),
+//                            R.color.text_color
+//                        )
+//                    )
+//                    countTextView.gravity = Gravity.START
+//                    countTextView.setBackgroundColor(
+//                        ContextCompat.getColor(
+//                            requireContext(),
+//                            R.color.white
+//                        )
+//                    )
+//                    countTextView.setPadding(5, 6, 0, 6)
+//                    row.addView(countTextView)
+//
+//                    // Add the row to the tableLayout
+//                    tableLayout.addView(row)
+//                }
+//            }
+//        })
     }
 
     private fun setUpPromoTable() {
         rewardsRepo.calculateItemsSoldPerPromo(object : RewardRepo.PromosSoldCallback {
-            override fun onItemsSoldPerPromo(itemsSoldPerReward: Map<String, Int>) {
+            override fun onItemsSoldPerPromo(promosSoldPerReward: Map<String, Int>) {
                 val tableLayout = binding.activePromos
 
                 // Clear existing rows if any
@@ -252,7 +272,7 @@ class DashboardFragment : Fragment() {
                 tableLayout.addView(headerRow)
 
                 // Create a new row for each reward and count
-                for ((product, count) in itemsSoldPerReward) {
+                for ((product, count) in promosSoldPerReward) {
                     val row = TableRow(requireContext())
                     row.layoutParams = TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,

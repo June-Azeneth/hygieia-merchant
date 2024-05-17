@@ -85,8 +85,8 @@ class PromosFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun observePromoDetails() {
         promosViewModel.promoDetails.observe(viewLifecycleOwner) { promo ->
-            var imgMessage: ShapeableImageView = binding.imageMessage
-            imgMessage.setImageResource(R.drawable.no_data)
+            val imgMessage: ShapeableImageView = binding.imageMessage
+            imgMessage.setImageResource(R.drawable.no_promos)
             if (promo != null) {
                 clearRewardList()
                 promoList.addAll(promo)
