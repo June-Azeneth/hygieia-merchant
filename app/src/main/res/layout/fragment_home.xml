@@ -143,58 +143,110 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/active_promos">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.cardview.widget.CardView
                 android:id="@+id/rewards"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:text="Rewards"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:background="@color/main_green"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/main_green"
                 app:layout_constraintEnd_toStartOf="@id/promos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/regular"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/discount"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rewards"
+                    android:layout_marginTop="64dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/transactions"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:text="Transactions"
-                android:textAllCaps="false"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/main_green"
                 android:layout_marginTop="@dimen/tiniest"
-                android:textColor="@color/white"
                 android:layout_marginStart="@dimen/tiniest"
                 android:background="@color/main_green"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/rewards"
-                app:layout_constraintTop_toBottomOf="@+id/rewards" />
+                app:layout_constraintTop_toBottomOf="@+id/rewards" >
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/regular"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/history"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recent Transactions"
+                    android:layout_marginTop="64dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.cardview.widget.CardView
                 android:id="@+id/scanQr"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:text="Scan QR Code"
-                android:textColor="@color/white"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/secondary_green"
                 android:layout_marginTop="@dimen/tiniest"
                 android:layout_marginEnd="@dimen/tiniest"
                 android:background="@color/secondary_green"
-                android:textAllCaps="false"
                 app:layout_constraintEnd_toStartOf="@+id/promos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rewards" />
+                app:layout_constraintTop_toBottomOf="@+id/rewards" >
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/regular"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/qr_code"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Scan QR Code"
+                    android:layout_marginTop="64dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
+            </androidx.cardview.widget.CardView>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.cardview.widget.CardView
                 android:id="@+id/promos"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:text="Promos"
-                android:textColor="@color/white"
-                android:textAllCaps="false"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/secondary_green"
                 android:layout_marginStart="@dimen/tiniest"
                 android:background="@color/secondary_green"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/rewards"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/regular"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/reward"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Promos"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="64dp"
+                    android:gravity="center"/>
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
