@@ -114,6 +114,23 @@
             android:paddingEnd="@dimen/small"
             android:gravity="start|center_vertical"
             />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/contactUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact Us"
+            android:layout_marginHorizontal="@dimen/small"
+            android:background="@drawable/simple_button"
+            android:textAllCaps="false"
+            android:layout_marginTop="@dimen/small"
+            android:drawableStart="@drawable/password"
+            android:paddingStart="@dimen/small"
+            android:drawablePadding="@dimen/small"
+            android:drawableEnd="@drawable/next"
+            android:paddingEnd="@dimen/small"
+            android:gravity="start|center_vertical"
+            />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/logout"
             android:layout_width="match_parent"

@@ -16,6 +16,7 @@ import com.example.hygieiamerchant.MainActivity
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentProfileBinding
 import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
+import com.example.hygieiamerchant.pages.transactions.TransactionDetailsDialog
 import com.example.hygieiamerchant.utils.Commons
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
@@ -29,6 +30,7 @@ class ProfileFragment : Fragment() {
     private lateinit var storeName: TextView
     private lateinit var address: TextView
     private lateinit var email: TextView
+    private lateinit var emailReset : String
     private lateinit var id: TextView
     private lateinit var editProfile: AppCompatButton
     private lateinit var changePass: AppCompatButton
@@ -52,11 +54,16 @@ class ProfileFragment : Fragment() {
         }
 
         changePass.setOnClickListener {
-            resetPassword(email.text.toString())
+            resetPassword(emailReset)
         }
 
         logout.setOnClickListener {
             logout()
+        }
+
+        binding.contactUs.setOnClickListener {
+            val dialog = ContactUs(requireContext())
+            dialog.show()
         }
     }
 
@@ -87,6 +94,7 @@ class ProfileFragment : Fragment() {
                 dashboardViewModel.fetchUserInfo()
                 dashboardViewModel.userInfo.observe(viewLifecycleOwner) { details ->
                     if (details != null) {
+                        emailReset = details.email
                         id.text = getString(R.string.profile_id, details.storeId)
                         storeName.text = details.name
                         email.text = "Email: ${details.email}"
@@ -113,6 +121,7 @@ class ProfileFragment : Fragment() {
     private fun resetPassword(email: String) {
         Commons().observeNetwork(requireContext(), viewLifecycleOwner) { network ->
             if (network) {
+                Commons().log("RESET PASS", email)
                 auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Commons().showAlertDialogWithCallback(this,

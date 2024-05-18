@@ -122,6 +122,13 @@ class EditProfileFragment : Fragment() {
                 owner.setText(user.owner)
                 phone.setText(user.phone)
 
+                user.coordinates?.let{ coordinates ->
+                    val latitude = coordinates["latitude"] ?: 0.0
+                    val longitude = coordinates["longitude"] ?: 0.0
+                    binding.latitude.setText(latitude.toString())
+                    binding.longitude.setText(longitude.toString())
+                }
+
                 Glide.with(this)
                     .load(user.photo)
                     .error(R.drawable.placeholder_image)
@@ -145,6 +152,8 @@ class EditProfileFragment : Fragment() {
             val link = googleMap.text.toString()
             val phone = phone.text.toString()
             val owner = owner.text.toString()
+            val lat = binding.latitude.toString()
+            val long = binding.latitude.toString()
 
             if (user.name != updatedName ||
                 user.recyclable != recyclablesArray ||
@@ -179,6 +188,14 @@ class EditProfileFragment : Fragment() {
                         ?: listOf()
                     val googleMapLocation = binding.googleMapLink.text.toString()
 
+                    val lat = binding.latitude.text.toString().toDouble()
+                    val long = binding.longitude.text.toString().toDouble()
+
+                    val coordinates = hashMapOf(
+                        "latitude" to lat,
+                        "longitude" to long
+                    )
+
                     val data = UserInfo(
                         name = storeName.text.toString(),
                         recyclable = recyclablesList,
@@ -186,7 +203,8 @@ class EditProfileFragment : Fragment() {
                         address = address,
                         googleMapLocation = googleMapLocation,
                         phone = phone,
-                        owner = owner
+                        owner = owner,
+                        coordinates = coordinates
                     )
 
                     binding.progressBar.visibility = View.VISIBLE
@@ -244,11 +262,22 @@ class EditProfileFragment : Fragment() {
     private fun validateFields(callback: (Boolean) -> Unit) {
         val storeName = storeName.text.toString()
         val address = address.text.toString()
+        val owner = binding.owner.text.toString()
+        val phone = binding.phone.text.toString()
+        val location = binding.googleMapLink.text.toString()
+        val lat = binding.latitude.text.toString()
+        val long = binding.longitude.text.toString()
 
-        if (storeName.isEmpty() || address.isEmpty()) {
+        if (storeName.isEmpty() || address.isEmpty() || owner.isEmpty() || phone.isEmpty() || location.isEmpty() || lat.isEmpty() || long.isEmpty()) {
             Commons().showToast("Please fill in all the required fields.", requireContext())
             callback(false)
-        } else {
+        }else if(!Commons().validateGoogleMapLink(location)) {
+            Commons().showToast("Google Map link format incorrect", requireContext())
+            callback(false)
+        }else if(!Commons().validateCoordinates(lat, long)){
+            Commons().showToast("Coordinates format incorrect", requireContext())
+            callback(false)
+        }else{
             callback(true)
         }
     }

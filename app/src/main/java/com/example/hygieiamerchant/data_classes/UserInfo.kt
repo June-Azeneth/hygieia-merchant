@@ -11,5 +11,6 @@ class UserInfo(
     val photo: String = "",
     val googleMapLocation: String = "",
     val phone: String = "",
-    val owner: String = ""
+    val owner: String = "",
+    var coordinates: Map<String, Double>? = null
 )

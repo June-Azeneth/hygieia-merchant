@@ -93,7 +93,8 @@ class UserRepo {
                         "photo" to data.photo,
                         "googleMapLocation" to data.googleMapLocation,
                         "phone" to data.phone,
-                        "owner" to data.owner
+                        "owner" to data.owner,
+                        "coordinates" to data.coordinates
                     )
                     document.reference.update(updateData)
                         .addOnSuccessListener {
