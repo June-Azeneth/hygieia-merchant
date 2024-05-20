@@ -65,6 +65,11 @@ class ProfileFragment : Fragment() {
             val dialog = ContactUs(requireContext())
             dialog.show()
         }
+
+        binding.schedule.setOnClickListener {
+            dashboardViewModel.setFromPage("profile")
+            findNavController().navigate(R.id.action_nav_profile_to_editScehduleFragment)
+        }
     }
 
     private fun initializeVariables() {

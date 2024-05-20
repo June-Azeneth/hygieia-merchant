@@ -92,25 +92,25 @@
 
         <!--        </LinearLayout>-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:fontFamily="@font/nunito_sans_semibold"-->
-<!--            android:text="Reward Items Sold"-->
-<!--            android:textColor="@color/text_color"-->
-<!--            android:textSize="@dimen/text_regular"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/id"-->
-<!--            app:layout_goneMarginTop="@dimen/medium" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView3"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:fontFamily="@font/nunito_sans_semibold"-->
+        <!--            android:text="Reward Items Sold"-->
+        <!--            android:textColor="@color/text_color"-->
+        <!--            android:textSize="@dimen/text_regular"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/id"-->
+        <!--            app:layout_goneMarginTop="@dimen/medium" />-->
 
-<!--        <TableLayout-->
-<!--            android:id="@+id/tableLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:stretchColumns="*"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+        <!--        <TableLayout-->
+        <!--            android:id="@+id/tableLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerInParent="true"-->
+        <!--            android:stretchColumns="*"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
         <TextView
             android:id="@+id/textView4"
@@ -119,12 +119,14 @@
             android:layout_marginTop="@dimen/small"
             android:fontFamily="@font/nunito_sans_semibold"
             android:text="Promos Redeemed"
+            android:visibility="gone"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_regular"
             app:layout_constraintTop_toBottomOf="@id/id" />
 
         <TableLayout
             android:id="@+id/active_promos"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -132,6 +132,7 @@
     <string name="sold_an_item">Sold an Item</string>
     <string name="promo">Promo: %1$s</string>
     <string name="requests">Requests</string>
+    <string name="ads">Manage Ads</string>
     <string name="loading_">Loading....</string>
     <string name="address_">Address: %1$s</string>
     <string name="store">Store: %1$s</string>
@@ -152,7 +153,7 @@
     <string name="request_time">Time: %1$s</string>
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="create_account">Create Account</string>
-    <string name="google_map_location">Google Map location</string>
+    <string name="google_map_location">Google Map location (optional)</string>
     <string name="edit_btn">Edit</string>
     <string name="delete_btn">Delete</string>
     <string name="request_date">Date: %1$s</string>
@@ -167,4 +168,6 @@
     <string name="pts">%1$s pts</string>
     <string name="date_range_transactions">%1$s to %2$s</string>
     <string name="discountRate_">%1$f%</string>
+    <string name="uh_oh_no_qr_code_scanning_allowed_on">Uh Oh! No QR Code Scanning allowed on %1$ss!</string>
+    <string name="from_to_duration_ads">From %1$s to %2$s</string>
 </resources>

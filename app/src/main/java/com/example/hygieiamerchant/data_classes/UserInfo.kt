@@ -12,5 +12,6 @@ class UserInfo(
     val googleMapLocation: String = "",
     val phone: String = "",
     val owner: String = "",
-    var coordinates: Map<String, Double>? = null
+    var coordinates: Map<String, Double>? = null,
+    var days: List<String> = listOf()
 )

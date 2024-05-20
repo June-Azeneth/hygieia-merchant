@@ -33,15 +33,15 @@ class TransactionsAdapter(
         val currentItem = transactionList[position]
         val context = holder.itemView.context
 
-        if(currentItem.type == "redeem"){
+        if (currentItem.type == "redeem") {
             holder.type.text = context.getString(R.string.sold_an_item)
-        }
-        else{
+        } else {
             holder.type.text = context.getString(R.string.grant_points)
         }
 
-        holder.date.text = currentItem.addedOn?.let { Commons().dateFormatMMMDDYYYY(it) }
+        holder.product.text = currentItem.customerName
 
+        holder.date.text = currentItem.addedOn?.let { Commons().dateFormatMMMDDYYYY(it) }
         holder.view.setOnClickListener {
             onItemClickListener.onItemClick(currentItem)
         }
@@ -50,6 +50,7 @@ class TransactionsAdapter(
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val type: TextView = itemView.findViewById(R.id.transactionType)
         val date: TextView = itemView.findViewById(R.id.dateOfTransaction)
+        val product: TextView = itemView.findViewById(R.id.product)
         val view: AppCompatButton = itemView.findViewById(R.id.view)
     }
 }

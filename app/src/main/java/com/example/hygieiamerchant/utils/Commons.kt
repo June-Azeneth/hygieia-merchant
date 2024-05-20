@@ -3,10 +3,12 @@ package com.example.hygieiamerchant.utils
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -14,6 +16,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.hygieiamerchant.R
 import com.google.firebase.Timestamp
+import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 
@@ -111,6 +114,11 @@ class Commons {
         return Timestamp(Date(currentDateTime.time))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDay() : String{
+        return LocalDate.now().toString()
+    }
+
     fun dateFormatHHMM(date: Date): String {
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         return dateFormat.format(date)
@@ -125,6 +133,11 @@ class Commons {
     fun dateFormatMMMDDYYYY(date: Date): String {
         val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
         return dateFormat.format(date)
+    }
+
+    fun dateFormatMMMDDYYYY(timestamp: Timestamp): String {
+        val dateFormat = SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault())
+        return dateFormat.format(timestamp)
     }
 
 //    fun dateFormatMMMDDYYYY(calendar: Calendar): String {

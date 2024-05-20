@@ -4,6 +4,7 @@ package com.example.hygieiamerchant.repository
 import android.util.Log
 import com.example.hygieiamerchant.data_classes.Customer
 import com.example.hygieiamerchant.data_classes.UserInfo
+import com.example.hygieiamerchant.utils.Commons
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -112,5 +113,36 @@ class UserRepo {
             .addOnFailureListener {
                 callback(false)
             }
+    }
+
+    fun updateSched(days: List<String?>, callback: (Boolean) -> Unit) {
+        val userId = getCurrentUserId()
+        if (userId != null) {
+            val docRef = fireStore.collection("store")
+                .whereEqualTo("storeId", userId)
+                .limit(1)
+
+            docRef.get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val document = documents.documents[0]
+                        document.reference.update("days", days.filterNotNull())
+                            .addOnSuccessListener {
+                                callback(true)
+                            }
+                            .addOnFailureListener { error ->
+                                Commons().log(logTAG, error.message.toString())
+                                callback(false)
+                            }
+                    } else {
+                        callback(false)
+                    }
+                }
+                .addOnFailureListener { error ->
+                    callback(false)
+                }
+        } else {
+            callback(false)
+        }
     }
 }

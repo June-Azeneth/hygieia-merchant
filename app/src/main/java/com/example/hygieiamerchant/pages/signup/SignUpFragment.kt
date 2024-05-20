@@ -277,15 +277,15 @@ class SignUpFragment : Fragment() {
         val storeEmail = storeEmail.text.toString()
         val storeOwner = storeOwner.text.toString()
         val address = binding.address.text.toString()
-        val lat = latitude.text.toString().toDouble()
-        val long = longitude.text.toString().toDouble()
+//        val lat = latitude.text.toString().toDouble()
+//        val long = longitude.text.toString().toDouble()
 
         uploadImageToFirebaseStorage(imageUriFront, imageUriBack) { frontUrl, backUrl ->
 
-            val coordinates = hashMapOf(
-                "latitude" to lat,
-                "longitude" to long
-            )
+//            val coordinates = hashMapOf(
+//                "latitude" to lat,
+//                "longitude" to long
+//            )
 
             val data = hashMapOf(
                 "name" to storeName,
@@ -298,8 +298,7 @@ class SignUpFragment : Fragment() {
                 "idType" to selectedIdType,
                 "status" to "pending",
                 "phone" to phone.text.toString(),
-                "googleMapLocation" to location,
-                "coordinates" to coordinates
+                "googleMapLocation" to location
             )
 
             fireStore.collection("store").add(data).addOnSuccessListener {
@@ -346,12 +345,12 @@ class SignUpFragment : Fragment() {
         val validIdFront = front.text.toString()
         val validIdBack = back.text.toString()
         val phone = phone.text.toString()
-        val location = googleMapLocation.text.toString()
-        val lat = latitude.text.toString()
-        val long = longitude.text.toString()
+//        val location = googleMapLocation.text.toString()
+//        val lat = latitude.text.toString()
+//        val long = longitude.text.toString()
 
         //validate that all the necessary details are provided
-        if (storeName.isBlank() || storeEmail.isBlank() || location.isEmpty() || lat.isBlank() || long.isBlank() || storeOwner.isBlank() || phone.isEmpty() || address.isEmpty() || validIdFront.contentEquals(
+        if (storeName.isBlank() || storeEmail.isBlank() || storeOwner.isBlank() || phone.isEmpty() || address.isEmpty() || validIdFront.contentEquals(
                 "Upload Front of ID"
             ) || validIdBack.contentEquals("Upload Back of ID")
         ) {
@@ -360,12 +359,12 @@ class SignUpFragment : Fragment() {
         } else if (!common.validateEmail(storeEmail)) {
             common.showToast("Email is not valid", requireContext())
             return false
-        }else if(!common.validateGoogleMapLink(location)) {
-            common.showToast("Google Map link format incorrect", requireContext())
-            return false
-        }else if(!common.validateCoordinates(lat, long)){
-            common.showToast("Coordinates format incorrect", requireContext())
-            return false
+//        }else if(!common.validateGoogleMapLink(location)) {
+//            common.showToast("Google Map link format incorrect", requireContext())
+//            return false
+//        }else if(!common.validateCoordinates(lat, long)){
+//            common.showToast("Coordinates format incorrect", requireContext())
+//            return false
         } else if (selectedIdType == "Select ID" || selectedIdType.isEmpty()) {
             common.showToast("Please select a valid ID type", requireContext())
             return false

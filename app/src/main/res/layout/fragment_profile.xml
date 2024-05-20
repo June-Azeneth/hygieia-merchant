@@ -5,147 +5,236 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/sub_text"
     tools:context=".pages.profile.ProfileFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_color"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:paddingHorizontal="@dimen/regular"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:gravity="center_vertical"
-            android:background="@color/sub_text">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/profile"
-                android:src="@drawable/placeholder_image"
-                android:layout_width="120dp"
-                android:scaleType="centerCrop"
-                android:layout_height="120dp"/>
-
-            <TextView
-                android:id="@+id/storeName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_bold"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/small"
-                android:textSize="@dimen/text_regular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="@dimen/small"
+                android:background="@color/sub_text"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/storeName" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profile"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center_horizontal"
+                    app:shapeAppearanceOverlay="@style/Circle"
+                    android:src="@drawable/placeholder_image" />
 
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address" />
+                <TextView
+                    android:id="@+id/storeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small"
+                    android:fontFamily="@font/nunito_sans_bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_regular"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/recyclables"
-                android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:layout_marginBottom="@dimen/small"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address" />
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
 
-            <TextView
-                android:id="@+id/id"
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/storeName" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
+                <TextView
+                    android:id="@+id/recyclables"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/tiny"
+                    android:text="Set your bio..."
+                    android:textColor="@color/white"
+                    android:layout_margin="@dimen/small"
+                    android:background="@color/text_color"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Bio"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/warning_button"
+                    android:textColor="@color/white"
+                    android:paddingHorizontal="@dimen/regular"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@drawable/options_background"
+                android:paddingHorizontal="@dimen/small"
                 android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address" />
+                android:paddingBottom="@dimen/regular"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/regular"
+                    android:paddingHorizontal="@dimen/tiny"
+                    android:text="Manage Account" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/tiny"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/edit_item"
+                    android:drawableEnd="@drawable/next"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Edit Profile"
+                    android:textAllCaps="false" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/edit_calendar"
+                    android:drawableEnd="@drawable/next"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Change QR Code Scanning Schedule"
+                    android:textAllCaps="false" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/changePass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/password"
+                    android:drawableEnd="@drawable/next"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Change Password"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/regular"
+                    android:paddingHorizontal="@dimen/tiny"
+                    android:text="Support" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/contactUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/message"
+                    android:drawableEnd="@drawable/next"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Contact Us"
+                    android:textAllCaps="false" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/FAQs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@drawable/simple_button"
+                    android:drawableStart="@drawable/contact_support"
+                    android:drawableEnd="@drawable/next"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Frequenty Asked Questions"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/regular"
+                    android:paddingHorizontal="@dimen/tiny"
+                    android:text="Session" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:background="@drawable/danger_button"
+                    android:drawableStart="@drawable/logout"
+                    android:drawablePadding="@dimen/small"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="@dimen/small"
+                    android:paddingEnd="@dimen/small"
+                    android:text="Logout"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red" />
+            </LinearLayout>
         </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:layout_marginHorizontal="@dimen/small"
-            android:background="@drawable/simple_button"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/regular"
-            android:drawableStart="@drawable/edit_item"
-            android:paddingStart="@dimen/small"
-            android:drawablePadding="@dimen/small"
-            android:drawableEnd="@drawable/next"
-            android:paddingEnd="@dimen/small"
-            android:gravity="start|center_vertical"
-            />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/changePass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change Password"
-            android:layout_marginHorizontal="@dimen/small"
-            android:background="@drawable/simple_button"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/small"
-            android:drawableStart="@drawable/password"
-            android:paddingStart="@dimen/small"
-            android:drawablePadding="@dimen/small"
-            android:drawableEnd="@drawable/next"
-            android:paddingEnd="@dimen/small"
-            android:gravity="start|center_vertical"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/contactUs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact Us"
-            android:layout_marginHorizontal="@dimen/small"
-            android:background="@drawable/simple_button"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/small"
-            android:drawableStart="@drawable/password"
-            android:paddingStart="@dimen/small"
-            android:drawablePadding="@dimen/small"
-            android:drawableEnd="@drawable/next"
-            android:paddingEnd="@dimen/small"
-            android:gravity="start|center_vertical"
-            />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_marginHorizontal="@dimen/small"
-            android:background="@drawable/simple_button"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/small"
-            android:drawableStart="@drawable/logout"
-            android:paddingStart="@dimen/small"
-            android:drawablePadding="@dimen/small"
-            android:drawableEnd="@drawable/next"
-            android:paddingEnd="@dimen/small"
-            android:gravity="start|center_vertical"
-            />
-    </LinearLayout>
+    </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

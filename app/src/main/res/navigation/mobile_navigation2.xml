@@ -28,7 +28,11 @@
         android:id="@+id/nav_scan_qr_code"
         android:name="com.example.hygieiamerchant.pages.scanQR.ScanQRCodeFragment"
         android:label="@string/scan_qr_code"
-        tools:layout="@layout/fragment_scan_q_r_code" />
+        tools:layout="@layout/fragment_scan_q_r_code" >
+        <action
+            android:id="@+id/action_nav_scan_qr_code_to_editScehduleFragment"
+            app:destination="@id/editScehduleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_promos"
         android:name="com.example.hygieiamerchant.pages.promos.PromosFragment"
@@ -55,6 +59,9 @@
         <action
             android:id="@+id/action_nav_profile_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_nav_profile_to_editScehduleFragment"
+            app:destination="@id/editScehduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRewardFragment"
@@ -152,4 +159,30 @@
             android:id="@+id/action_announcementDetailsFragment_to_nav_announcement"
             app:destination="@id/nav_announcement" />
     </fragment>
+    <fragment
+        android:id="@+id/editScehduleFragment"
+        android:name="com.example.hygieiamerchant.pages.profile.EditScheduleFragment"
+        android:label="Edit Schedule"
+        tools:layout="@layout/fragment_edit_scehdule" >
+        <action
+            android:id="@+id/action_editScehduleFragment_to_nav_profile"
+            app:destination="@id/nav_profile" />
+        <action
+            android:id="@+id/action_editScehduleFragment_to_nav_scan_qr_code"
+            app:destination="@id/nav_scan_qr_code" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_ads"
+        android:name="com.example.hygieiamerchant.pages.ads_manager.AdsManagerFragment"
+        android:label="Ads Manager"
+        tools:layout="@layout/fragment_ads_manager" >
+        <action
+            android:id="@+id/action_nav_ads_to_advertisementDetailsFormFragment"
+            app:destination="@id/advertisementDetailsFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/advertisementDetailsFormFragment"
+        android:name="com.example.hygieiamerchant.pages.ads_manager.AdvertisementDetailsFormFragment"
+        android:label="Ads Details"
+        tools:layout="@layout/fragment_advertisement_details_form" />
 </navigation>

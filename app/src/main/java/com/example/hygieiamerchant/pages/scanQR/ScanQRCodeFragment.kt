@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.hygieiamerchant.R
 import com.example.hygieiamerchant.databinding.FragmentScanQRCodeBinding
+import com.example.hygieiamerchant.pages.dashboard.DashboardViewModel
 import com.example.hygieiamerchant.pages.scanQR.screens.GrantPointsFragment
 import com.example.hygieiamerchant.pages.scanQR.screens.OperationOptionsFragment
 import com.example.hygieiamerchant.pages.scanQR.screens.RedeemFragment

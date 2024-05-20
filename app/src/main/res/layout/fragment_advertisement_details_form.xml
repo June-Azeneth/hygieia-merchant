@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:padding="@dimen/regular"
+    android:orientation="vertical"
+    tools:context=".pages.ads_manager.AdvertisementDetailsFormFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/regular"
+        android:text="Please provide the following details" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/poster"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="150dp"
+        android:background="@drawable/dotted_container"/>
+
+    <TextView
+        android:id="@+id/selectImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select image"
+        android:layout_marginTop="@dimen/tiny"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:gravity="end"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/setDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/simple_button"
+        android:text="Select ads duration"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/edit_calendar"
+        android:paddingHorizontal="@dimen/small"
+        android:drawablePadding="@dimen/small"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/regular"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/createAd"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button"/>
+
+</LinearLayout>

@@ -36,7 +36,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/storeNameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
@@ -76,7 +76,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/storeEmailLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiniest"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
@@ -96,7 +96,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiniest"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
@@ -220,7 +220,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/googleMapLinkLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiniest"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
@@ -241,12 +241,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/regular"
-                android:text="Coordinates" />
+                android:text="Coordinates (Optional)" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/latLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiniest"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"
@@ -267,7 +267,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/longLayout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tiniest"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/main_green"

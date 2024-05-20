@@ -188,8 +188,13 @@ class EditProfileFragment : Fragment() {
                         ?: listOf()
                     val googleMapLocation = binding.googleMapLink.text.toString()
 
-                    val lat = binding.latitude.text.toString().toDouble()
-                    val long = binding.longitude.text.toString().toDouble()
+
+                    var lat = 0.0
+                    var long = 0.0
+                    if(binding.latitude.text.toString().isNotEmpty() || binding.longitude.text.toString().isNotEmpty()){
+                        lat = binding.latitude.text.toString().toDouble()
+                        long = binding.longitude.text.toString().toDouble()
+                    }
 
                     val coordinates = hashMapOf(
                         "latitude" to lat,
@@ -268,15 +273,15 @@ class EditProfileFragment : Fragment() {
         val lat = binding.latitude.text.toString()
         val long = binding.longitude.text.toString()
 
-        if (storeName.isEmpty() || address.isEmpty() || owner.isEmpty() || phone.isEmpty() || location.isEmpty() || lat.isEmpty() || long.isEmpty()) {
+        if (storeName.isEmpty() || address.isEmpty() || owner.isEmpty() || phone.isEmpty()) {
             Commons().showToast("Please fill in all the required fields.", requireContext())
             callback(false)
-        }else if(!Commons().validateGoogleMapLink(location)) {
-            Commons().showToast("Google Map link format incorrect", requireContext())
-            callback(false)
-        }else if(!Commons().validateCoordinates(lat, long)){
-            Commons().showToast("Coordinates format incorrect", requireContext())
-            callback(false)
+//        }else if(!Commons().validateGoogleMapLink(location)) {
+//            Commons().showToast("Google Map link format incorrect", requireContext())
+//            callback(false)
+//        }else if(!Commons().validateCoordinates(lat, long)){
+//            Commons().showToast("Coordinates format incorrect", requireContext())
+//            callback(false)
         }else{
             callback(true)
         }
