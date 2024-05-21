@@ -33,6 +33,7 @@ class AdsManagerFragment : Fragment() {
         _binding = FragmentAdsManagerBinding.inflate(inflater, container, false)
 
         binding.createAd.setOnClickListener {
+            adsViewModel.setAction("create")
             findNavController().navigate(R.id.action_nav_ads_to_advertisementDetailsFormFragment)
         }
 
@@ -64,6 +65,7 @@ class AdsManagerFragment : Fragment() {
                     override fun onEditClick(ad: Ads) {
                         adsViewModel.setAction("update")
                         adsViewModel.fetchAllAds(ad.id)
+                        adsViewModel.setSelectedAd(ad)
                         findNavController().navigate(R.id.action_nav_ads_to_advertisementDetailsFormFragment)
                     }
                 },
@@ -73,9 +75,15 @@ class AdsManagerFragment : Fragment() {
                         builder.setTitle("Delete Advertisement")
                             .setMessage("Are you sure you want to delete this advertisement?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                adsRepo.deleteAd(ad.id)
-                                adsViewModel.fetchAllAds(userRepo.getCurrentUserId().toString())
-                                dialog.dismiss()
+                                adsRepo.deleteAd(ad.id){success->
+                                    if(success){
+                                        adsViewModel.fetchAllAds(userRepo.getCurrentUserId().toString())
+                                        Commons().showToast("Advertisement successfully deleted!", requireContext())
+                                        dialog.dismiss()
+                                    }else{
+                                        Commons().showToast("An error occurred. Please try again later.", requireContext())
+                                    }
+                                }
                             }
                             .setNegativeButton("Cancel") { dialog, _ ->
                                 dialog.dismiss()

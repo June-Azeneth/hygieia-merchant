@@ -184,5 +184,10 @@
         android:id="@+id/advertisementDetailsFormFragment"
         android:name="com.example.hygieiamerchant.pages.ads_manager.AdvertisementDetailsFormFragment"
         android:label="Ads Details"
-        tools:layout="@layout/fragment_advertisement_details_form" />
+        tools:layout="@layout/fragment_advertisement_details_form" >
+
+        <action
+            android:id="@+id/action_advertisementDetailsFormFragment_to_nav_ads"
+            app:destination="@id/nav_ads" />
+    </fragment>
 </navigation>

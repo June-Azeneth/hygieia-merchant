@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:id="@+id/item"
+    android:layout_marginBottom="@dimen/tiny"
     app:cardCornerRadius="5dp"
-    android:layout_height="80dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,14 +22,28 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/tiny"
+            android:layout_marginHorizontal="@dimen/small"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            app:layout_constraintBottom_toTopOf="@id/duration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Title here"
+            app:layout_constraintStart_toEndOf="@+id/poster" />
+
+        <TextView
             android:id="@+id/duration"
             android:layout_width="0dp"
             android:layout_marginHorizontal="@dimen/small"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/status"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
             android:text="May 23 to May 30"
+            android:layout_marginBottom="@dimen/small"
             app:layout_constraintStart_toEndOf="@+id/poster" />
 
         <TextView
@@ -37,9 +52,22 @@
             android:layout_height="wrap_content"
             android:text="Ongoing"
             android:layout_marginHorizontal="@dimen/small"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/poster"
             app:layout_constraintTop_toBottomOf="@id/duration" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/delete"
+            android:layout_width="@dimen/XL"
+            android:layout_height="30dp"
+            android:background="@drawable/danger_button"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/red"
+            android:layout_marginBottom="@dimen/tiny"
+            app:layout_constraintTop_toBottomOf="@id/status"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/small"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

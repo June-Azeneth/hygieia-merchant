@@ -16,6 +16,9 @@ class AdsViewModel : ViewModel() {
     private val _selectedAdId = MutableLiveData<String>()
     val selectedAdId: LiveData<String> get() = _selectedAdId
 
+    private val _selectedAd = MutableLiveData<Ads>()
+    val selectedAd : LiveData<Ads> get() = _selectedAd
+
     private val _action = MutableLiveData<String>()
     val action: LiveData<String> get() = _action
 
@@ -34,5 +37,13 @@ class AdsViewModel : ViewModel() {
 
     fun setAction(action: String) {
         _action.value = action
+    }
+
+    fun setSelectedAd(ad: Ads) {
+        _selectedAd.value = ad
+    }
+
+    fun clearSelectedAd(){
+        _selectedAd.postValue(null)
     }
 }
