@@ -108,6 +108,7 @@ class AdvertisementDetailsFormFragment : Fragment() {
             binding.createAd.text = "Update"
             adsViewModel.selectedAd.observe(viewLifecycleOwner) { ad ->
                 if (ad != null) {
+                    binding.details.setText(ad.details)
                     startDate = ad.startDate
                     endDate = ad.endDate
                     binding.title.setText(ad.title)
@@ -119,6 +120,7 @@ class AdvertisementDetailsFormFragment : Fragment() {
 
                     imgUrl = ad.poster
                     id = ad.id
+                    binding.details.setText(ad.details)
                     Glide.with(this).load(ad.poster).into(binding.poster)
                 }
             }
@@ -150,6 +152,7 @@ class AdvertisementDetailsFormFragment : Fragment() {
                 imgUri?.let {
                     uploadImage(it) { img ->
                         val data = Ads(
+                            details = binding.details.text.toString(),
                             title = binding.title.text.toString(),
                             startDate = startDate,
                             endDate = endDate,
@@ -189,6 +192,7 @@ class AdvertisementDetailsFormFragment : Fragment() {
             if (validateFields()) {
                 if (imgUri == null) {
                     val data = Ads(
+                        details = binding.details.text.toString(),
                         title = binding.title.text.toString(),
                         startDate = startDate,
                         endDate = endDate,
@@ -196,7 +200,6 @@ class AdvertisementDetailsFormFragment : Fragment() {
                     )
 
                     adsRepo.updateAd(id, data) { success ->
-                        Commons().log("ADS REPO", "EDIT DETAILS ONLY")
                         showLoader(false)
                         if (success) {
                             // Handle success
@@ -224,7 +227,6 @@ class AdvertisementDetailsFormFragment : Fragment() {
                             )
 
                             adsRepo.updateAd(id, data) { success ->
-                                Commons().log("ADS REPO", "EDIT IMAGE")
                                 showLoader(false)
                                 if (success) {
                                     // Handle success

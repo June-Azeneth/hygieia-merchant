@@ -10,5 +10,6 @@ class Ads(
     var poster: String = "",
     var storeId: String = "",
     var status: String = "",
-    var title: String = ""
+    var title: String = "",
+    var details : String = ""
 )

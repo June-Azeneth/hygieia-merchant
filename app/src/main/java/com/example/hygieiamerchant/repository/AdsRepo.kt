@@ -14,6 +14,7 @@ class AdsRepo {
         private const val POSTER = "poster"
         private const val STORE_ID = "storeId"
         private const val TITLE = "title"
+        private const val DETAILS = "details"
         private const val IS_DELETED = "isDeleted"
     }
 
@@ -45,6 +46,7 @@ class AdsRepo {
                             document.getString(STORE_ID) ?: "",
                             status,
                             document.getString(TITLE) ?: "",
+                            document.getString(DETAILS) ?: "",
                         )
                         ads.add(ad)
                     } catch (exception: Exception) {
@@ -65,6 +67,7 @@ class AdsRepo {
         Commons().log("ADS REPO", id)
         val docRef = fireStore.collection(COLLECTION).document(id)
         val updateData = mapOf(
+            "details" to data.details,
             "title" to data.title,
             "startDate" to data.startDate,
             "endDate" to data.endDate,
@@ -96,6 +99,7 @@ class AdsRepo {
     fun createAd(data: Ads, callback: (Boolean) -> Unit) {
         val docRef = fireStore.collection(COLLECTION)
         val addData = mapOf(
+            "details" to data.details,
             "storeId" to userRepo.getCurrentUserId(),
             "title" to data.title,
             "startDate" to data.startDate,
